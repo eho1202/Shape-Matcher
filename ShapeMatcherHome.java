@@ -12,7 +12,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	 * The home panel. Loads the design and holds the JButtons for each option.
 	 */
 	public mainPanel pnlHome;
-	
+
 	//Home screen options
 	/**
 	 * When pressed, the Shape Matcher game begins.
@@ -36,6 +36,11 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	public JButton btnQuit;
 
 	/**
+	 * Opens dialog to exit program
+	 */
+	public JOptionPane optionQuit;
+
+	/**
 	 * Font that the Jbutton in Home menu uses
 	 */
 	Font f1 = new Font("Nunito",Font.PLAIN,27);
@@ -53,7 +58,13 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		} else if (evt.getSource() == btnHelp) {
 			System.out.println("Help button pressed");
 		} else if (evt.getSource() == btnQuit) {
-			System.exit(0); //0, by convention, indicates a normal termination
+			int response = optionQuit.showConfirmDialog(null,"Are you sure you want to quit game?","Quit Game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+
+			if (response == JOptionPane.YES_OPTION) {
+				System.exit(0); //0, by convention, indicates a normal termination
+			} else {
+				return; // closes dialog box and returns to homepage
+			}
 		}
 	}
 	/**
@@ -106,13 +117,13 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 			btnQuit.setBackground((Color.WHITE));
 		}
 	}
-	
+
 	public ShapeMatcherHome() {
 		//Home panel setup
 		this.pnlHome = new mainPanel();
 		this.pnlHome.setPreferredSize(new Dimension(1280, 720));
 		this.pnlHome.setLayout(null);
-		
+
 		//Play button setup
 		this.btnPlay = new JButton();
 		this.btnPlay.setSize(130, 50);
@@ -124,7 +135,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnPlay.setBackground(Color.WHITE);
 		this.btnPlay.addActionListener(this);
 		this.btnPlay.addMouseListener(this);
-		
+
 		//High scores button setup
 		this.btnHighScores = new JButton();
 		this.btnHighScores.setSize(240, 50);
@@ -135,7 +146,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnHighScores.setBorder(BorderFactory.createEmptyBorder());
 		this.btnHighScores.addActionListener(this);
 		this.btnHighScores.addMouseListener(this);
-		
+
 		//Settings button setup
 		this.btnSettings = new JButton();
 		this.btnSettings.setSize(180, 50);
@@ -146,7 +157,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnSettings.setBorder(BorderFactory.createEmptyBorder());
 		this.btnSettings.addActionListener(this);
 		this.btnSettings.addMouseListener(this);
-		
+
 		//Help button setup
 		this.btnHelp = new JButton();
 		this.btnHelp.setSize(120, 50);
@@ -157,7 +168,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnHelp.setBorder(BorderFactory.createEmptyBorder());
 		this.btnHelp.addActionListener(this);
 		this.btnHelp.addMouseListener(this);
-		
+
 		//Quit button setup
 		this.btnQuit = new JButton();
 		this.btnQuit.setSize(120, 40);
@@ -168,14 +179,14 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnQuit.setBorder(BorderFactory.createEmptyBorder());
 		this.btnQuit.addActionListener(this);
 		this.btnQuit.addMouseListener(this);
-		
+
 		//Adding all of the buttons to the home panel
 		this.pnlHome.add(btnPlay);
 		this.pnlHome.add(btnHighScores);
 		this.pnlHome.add(btnSettings);
 		this.pnlHome.add(btnHelp);
 		this.pnlHome.add(btnQuit);
-		
+
 		//JFrame setup
 		this.frmHome = new JFrame("Shape Matcher");
 		this.frmHome.setResizable(false);
