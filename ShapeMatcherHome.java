@@ -39,7 +39,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	 * Font that the Jbutton in Home menu uses
 	 */
 	Font f1 = new Font("Nunito",Font.PLAIN,27);
-	
+
 	/**
 	 * Contains the logic that occurs when each button on the home panel is pressed.
 	 */
@@ -56,19 +56,27 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 			System.exit(0); //0, by convention, indicates a normal termination
 		}
 	}
-
+	/**
+	 * Created for MouseListener.
+	 */
 	public void mouseClicked(MouseEvent evt) {
 
 	}
-
+	/**
+	 * Created for MouseListener.
+	 */
 	public void mousePressed(MouseEvent evt) {
 
 	}
-
+	/**
+	 * Created for MouseListener.
+	 */
 	public void mouseReleased(MouseEvent evt) {
 
 	}
-
+	/**
+	 * Created for MouseListener.
+	 */
 	public void mouseEntered(MouseEvent evt) {
 		if (evt.getSource() == btnPlay) {
 			btnPlay.setBackground(Color.LIGHT_GRAY);
@@ -82,7 +90,9 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 			btnQuit.setBackground((Color.LIGHT_GRAY));
 		}
 	}
-
+	/**
+	 * Created for MouseListener.
+	 */
 	public void mouseExited(MouseEvent evt) {
 		if (evt.getSource() == btnPlay) {
 			btnPlay.setBackground(Color.WHITE);
