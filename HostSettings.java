@@ -20,10 +20,6 @@ public class HostSettings implements ActionListener, MouseListener{
 	 */
 	JLabel warning = new JLabel("Please enter a value higher than 1000");
 	/**
-	 * The label for the time slider, so the user sees the values in seconds while the slider values are in miliseconds
-	 */
-	JLabel time = new JLabel("0.5                 1                 1.5                  2                  2.5");
-	/**
 	 * Text field for user to change their name. The default is "Player 1".
 	 */
 	JTextField Plyr = new JTextField("Player 1"); 
@@ -38,7 +34,7 @@ public class HostSettings implements ActionListener, MouseListener{
 	/**
 	 * Slider to adjust the time a card stays flipped over. The values are in miliseconds. Default is 1000 miliseconds.
 	 */
-	JSlider slide = new JSlider(JSlider.HORIZONTAL,500,2500,1000);
+	JSlider slide = new JSlider(JSlider.HORIZONTAL,1,3,1);
 	/**
 	 * String array for the different game modes available.
 	 */
@@ -130,7 +126,7 @@ public class HostSettings implements ActionListener, MouseListener{
 			
 			intGameMode = mode.getSelectedIndex();
 			intBoardSize = board.getSelectedIndex();
-			intTime = slide.getValue();
+			intTime = slide.getValue()*1000;
 			
 			if (blnCont){
 				//write settings to a file
@@ -191,11 +187,6 @@ public class HostSettings implements ActionListener, MouseListener{
 		HSetPanel.add(warning);
 		warning.setVisible(false);
 		
-		//label for time instead of paint labels so viewers see slider values in seconds instead of miliseconds
-		time.setSize(new Dimension(500,50));
-		time.setLocation(510,535);
-		HSetPanel.add(time);
-		
 		//set text field size and location
 		//Player name text field
 		Plyr.setSize(new Dimension(250,50));
@@ -227,11 +218,11 @@ public class HostSettings implements ActionListener, MouseListener{
 		HSetPanel.add(board);
 		
 		//slider for time
-		slide.setSize(new Dimension(270,30));
+		slide.setSize(new Dimension(270,50));
 		slide.setLocation(510,520);
-		slide.setMajorTickSpacing(500);
+		slide.setMajorTickSpacing(1);
 		slide.setPaintTicks(true);
-		//slide.setPaintLabels(true);
+		slide.setPaintLabels(true);
 		HSetPanel.add(slide);
 		
 		frame.setResizable(false);
