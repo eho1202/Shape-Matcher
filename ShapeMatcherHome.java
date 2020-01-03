@@ -41,10 +41,20 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	public JOptionPane optionQuit;
 
 	/**
-	 * Font that the Jbutton in Home menu uses
+	 * Font that the JButton in the home menu uses
 	 */
-	Font f1 = new Font("Nunito",Font.PLAIN,27);
+	Font f1 = new Font("Nunito", Font.PLAIN, 27);
 
+	/**
+	 * (Preferred) host settings page
+	 */
+	HostSettings hs = new HostSettings();
+	
+	/**
+	 * Player settings page
+	 */
+	PlayerSettings ps = new PlayerSettings();
+	
 	/**
 	 * Contains the logic that occurs when each button on the home panel is pressed.
 	 */
@@ -54,7 +64,9 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		} else if (evt.getSource() == btnHighScores) {
 			System.out.println("High scores button pressed");
 		} else if (evt.getSource() == btnSettings) {
-			System.out.println("Settings button pressed");
+			frmHome.setContentPane(hs.HSetPanel);
+			frmHome.pack();
+			frmHome.setVisible(true);
 		} else if (evt.getSource() == btnHelp) {
 			System.out.println("Help button pressed");
 		} else if (evt.getSource() == btnQuit) {
@@ -128,8 +140,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnPlay = new JButton();
 		this.btnPlay.setSize(130, 50);
 		this.btnPlay.setLocation(580, 355);
-		this.btnPlay.setText("Play");
-		this.btnPlay.setFont(f1);
 		this.btnPlay.setBackground(Color.WHITE);
 		this.btnPlay.setBorder(BorderFactory.createEmptyBorder()); //Creates a borderless, transparent button
 		this.btnPlay.setBackground(Color.WHITE);
@@ -140,8 +150,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnHighScores = new JButton();
 		this.btnHighScores.setSize(240, 50);
 		this.btnHighScores.setLocation(520, 425);
-		this.btnHighScores.setText("High Scores");
-		this.btnHighScores.setFont(f1);
 		this.btnHighScores.setBackground(Color.WHITE);
 		this.btnHighScores.setBorder(BorderFactory.createEmptyBorder());
 		this.btnHighScores.addActionListener(this);
@@ -151,8 +159,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnSettings = new JButton();
 		this.btnSettings.setSize(180, 50);
 		this.btnSettings.setLocation(550, 490);
-		this.btnSettings.setText("Settings");
-		this.btnSettings.setFont(f1);
 		this.btnSettings.setBackground(Color.WHITE);
 		this.btnSettings.setBorder(BorderFactory.createEmptyBorder());
 		this.btnSettings.addActionListener(this);
@@ -162,8 +168,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnHelp = new JButton();
 		this.btnHelp.setSize(120, 50);
 		this.btnHelp.setLocation(580, 555);
-		this.btnHelp.setText("Help");
-		this.btnHelp.setFont(f1);
 		this.btnHelp.setBackground(Color.WHITE);
 		this.btnHelp.setBorder(BorderFactory.createEmptyBorder());
 		this.btnHelp.addActionListener(this);
@@ -173,8 +177,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnQuit = new JButton();
 		this.btnQuit.setSize(120, 40);
 		this.btnQuit.setLocation(580, 628);
-		this.btnQuit.setText("Quit");
-		this.btnQuit.setFont(f1);
 		this.btnQuit.setBackground(Color.WHITE);
 		this.btnQuit.setBorder(BorderFactory.createEmptyBorder());
 		this.btnQuit.addActionListener(this);
