@@ -139,11 +139,11 @@ public class PlayerSettings implements MouseListener{
 		HIP.setLocation(510,600);
 		PlyrSetPanel.add(HIP);
 		
-		PlyrSetFrame.setResizable(false);
+		/*PlyrSetFrame.setResizable(false);
 		PlyrSetFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		PlyrSetFrame.setContentPane(PlyrSetPanel);
 		PlyrSetFrame.pack();
-		PlyrSetFrame.setVisible(true);
+		PlyrSetFrame.setVisible(true);*/
 	}
 	
 	//Main
