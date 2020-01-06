@@ -74,7 +74,7 @@ public class HostSettings implements ActionListener, MouseListener{
 	/**
 	 * Integer variable to keep track of the time a card spends flipped over.
 	 */
-	int intTime = 1000;
+	int intTime = 1;
 	/**
 	 * Integer variable to keep track of the game mode.
 	 */
