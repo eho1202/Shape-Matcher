@@ -36,6 +36,14 @@ public class PlayerSettings implements MouseListener{
 	 */
 	JLabel start = new JLabel(new ImageIcon("Start.png"));
 	/**
+	 * The label to ask user to enter numbers only.
+	 */
+	JLabel warning = new JLabel("Please enter numbers only");
+	/**
+	 * The label to ask user to enter numbers only.
+	 */
+	JLabel warning1 = new JLabel("Please enter numbers only");
+	/**
 	 * String variable for the player name.
 	 */
 	String strPlayer2;
@@ -44,9 +52,9 @@ public class PlayerSettings implements MouseListener{
 	 */
 	int intP2Port;
 	/**
-	 * String variable for the ip address entered.
+	 * Integer variable for the ip address entered.
 	 */
-	String strP2IP;
+	int intP2IP;
 	/**
 	 * Opens a file to write to.
 	 */
@@ -70,20 +78,35 @@ public class PlayerSettings implements MouseListener{
 		}else if(evt.getSource() == start){
 			//load settings info into variables
 			strPlayer2 = Plyr2.getText();
-			intP2Port = Integer.parseInt(HPort.getText());
-			strP2IP = HIP.getText();
-			
-			//load info onto a file
 			try{
-				PlyrSet = new FileWriter("Player_Settings.txt");
-				PlyrWrite = new PrintWriter(PlyrSet);
-				PlyrWrite.println(strPlayer2+"\n"+intP2Port+"\n"+strP2IP);
-				PlyrSet.close();
-				PlyrWrite.close();
-			}catch(IOException e){
+				intP2Port = Integer.parseInt(HPort.getText());
+				blnCheck=true;
+			}catch(NumberFormatException e){
+				warning.setVisible(true);
+				blnCheck=false;
 			}
-			 
-			PlyrSetPanel.setVisible(blnCheck);
+			
+			try{
+				intP2IP = Integer.parseInt(HIP.getText());
+				blnCheck=true;
+			}catch(NumberFormatException e){
+				warning1.setVisible(true);
+				blnCheck=false;
+			}
+			
+			if(blnCheck){
+				//load info onto a file
+				try{
+					PlyrSet = new FileWriter("Player_Settings.txt");
+					PlyrWrite = new PrintWriter(PlyrSet);
+					PlyrWrite.println(strPlayer2+"\n"+intP2Port+"\n"+strP2IP);
+					PlyrSet.close();
+					PlyrWrite.close();
+				}catch(IOException e){
+				}
+
+				PlyrSetPanel.setVisible(false);
+			}
 		}
 	}
 	/**
@@ -123,6 +146,16 @@ public class PlayerSettings implements MouseListener{
 		start.addMouseListener(this);
 		PlyrSetPanel.add(start);
 		
+		warning.setSize(new Dimension(300,50));
+		warning.setLocation(510,440);
+		warning.setVisible(false);
+		PlyrSetPanel.add(warning);
+		
+		warning1.setSize(new Dimension(300,50));
+		warning1.setLocation(510,640);
+		warning1.setVisible(false);
+		PlyrSetPanel.add(warning1);
+		
 		//set text fields' size and location
 		//Player name
 		Plyr2.setSize(new Dimension(250,50));
@@ -139,11 +172,11 @@ public class PlayerSettings implements MouseListener{
 		HIP.setLocation(510,600);
 		PlyrSetPanel.add(HIP);
 		
-		PlyrSetFrame.setResizable(false);
+		/*PlyrSetFrame.setResizable(false);
 		PlyrSetFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		PlyrSetFrame.setContentPane(PlyrSetPanel);
 		PlyrSetFrame.pack();
-		PlyrSetFrame.setVisible(true);
+		PlyrSetFrame.setVisible(true);*/
 	}
 	
 	//Main

@@ -227,15 +227,17 @@ public class HostSettings implements ActionListener, MouseListener{
 		slide.setSize(new Dimension(270,50));
 		slide.setLocation(510,520);
 		slide.setMajorTickSpacing(1);
-		slide.setPaintTicks(true);
+		slide.setPaintTicks(true); 
 		slide.setPaintLabels(true);
 		HSetPanel.add(slide);
 		
-		frame.setResizable(false);
+		/*frame.setResizable(false);
 		frame.setContentPane(HSetPanel);
 		frame.pack();
 		//frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
 	}
 	/*public static void main(String[] args){
 		new HostSettings(null);
