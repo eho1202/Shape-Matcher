@@ -182,8 +182,8 @@ public class HighScores implements MouseListener{
 		hard.setLocation(920,140);
 		hsPanel.add(hard);
 		
-		home.setSize(new Dimension(300,100));
-		home.setLocation(1000,650);
+		home.setSize(new Dimension(320,65));
+		home.setLocation(925,640);
 		home.addMouseListener(this);
 		hsPanel.add(home);
 		
