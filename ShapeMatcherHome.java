@@ -53,7 +53,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	/**
 	 * Player settings page
 	 */
-	PlayerSettings ps = new PlayerSettings();
+	PreGameSettings pgs = new PreGameSettings(this);
 
 	/**
 	 * Help page
@@ -66,6 +66,9 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == btnPlay) {
 			System.out.println("Play button pressed");
+			frmHome.setContentPane(pgs.pnlPre);
+			frmHome.pack();
+			frmHome.setVisible(true);
 		} else if (evt.getSource() == btnHighScores) {
 			System.out.println("High scores button pressed");
 		} else if (evt.getSource() == btnSettings) {
