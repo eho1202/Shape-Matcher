@@ -44,18 +44,16 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	 * Font that the JButton in the home menu uses
 	 */
 	Font f1 = new Font("Nunito", Font.PLAIN, 27);
-	
-	HostSettings hs = new HostSettings(this);
 
 	/**
-	 * (Preferred) host settings page
+	 * Preferred host settings page
 	 */
-	HostSettings hs = new HostSettings();
+	HostSettings hs = new HostSettings(this);
 	
 	/**
-	 * Player settings page
+	 * Pregame settings page
 	 */
-	PlayerSettings ps = new PlayerSettings();
+	PreGameSettings pgs = new PreGameSettings(this);
 	
 	/**
 	 * Contains the logic that occurs when each button on the home panel is pressed.
@@ -63,6 +61,9 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == btnPlay) {
 			System.out.println("Play button pressed");
+			frmHome.setContentPane(pgs.pnlPre);
+			frmHome.pack();
+			frmHome.setVisible(true);
 		} else if (evt.getSource() == btnHighScores) {
 			System.out.println("High scores button pressed");
 		} else if (evt.getSource() == btnSettings) {
@@ -199,7 +200,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.frmHome.pack();
 		this.frmHome.setVisible(true);
 		this.frmHome.setLocationRelativeTo(null); //causes frmHome to centre on screen
-		this.frmHome.setResizable(false);
 	}
 
 	public static void main(String[] args) {
