@@ -22,7 +22,7 @@ public class HostSettings implements ActionListener, MouseListener{
 	/**
 	 * Text field for user to change their name. The default is "Player 1".
 	 */
-	JTextField Plyr = new JTextField("Player 1"); 
+	JTextField Plyr = new JTextField("Player 1");
 	/**
 	 * Text field for user to change the port number. The default is 3112.
 	 */
@@ -55,6 +55,11 @@ public class HostSettings implements ActionListener, MouseListener{
 	 * The frame for the settings.
 	 */
 	JFrame frame = new JFrame();
+	/**
+	 * Font to make everything more uniform
+	 */
+	Font f1 = new Font("Nunito", Font.PLAIN, 18);
+
 	/**
 	 * The panel for the host settings.
 	 */
@@ -108,7 +113,7 @@ public class HostSettings implements ActionListener, MouseListener{
 	/**
 	 * Changes panel based on selection of "button". If the "start" button is selected, then all the game settings are loaded into their respective variables and writen to the file. 
 	 */
-	public void mouseClicked (MouseEvent evt){		
+	public void mouseClicked (MouseEvent evt){
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			smh.frmHome.setContentPane(smh.pnlHome);
@@ -160,6 +165,11 @@ public class HostSettings implements ActionListener, MouseListener{
 	 * Created for MouseListener.
 	 */
 	public void mouseEntered (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		} else if (evt.getSource() == start) {
+			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		}
 	}
 	/**
 	 * Created for MouseListener.
@@ -197,17 +207,23 @@ public class HostSettings implements ActionListener, MouseListener{
 		//Player name text field
 		Plyr.setSize(new Dimension(250,50));
 		Plyr.setLocation(560,210);
+		Plyr.setHorizontalAlignment(SwingConstants.CENTER);
+		Plyr.setFont(f1);
 		HSetPanel.add(Plyr);
 		
 		//port number
 		Port.setSize(new Dimension(250,50));
 		Port.setLocation(930,210);
+		Port.setHorizontalAlignment(SwingConstants.CENTER);
+		Port.setFont(f1);
 		HSetPanel.add(Port);
 		
 		//show computer ip address
 		IP = new JTextField(ssm.getMyAddress());
 		IP.setSize(new Dimension(250,50));
 		IP.setLocation(930,520);
+		IP.setHorizontalAlignment(SwingConstants.CENTER);
+		IP.setFont(f1);
 		IP.setEnabled(false);
 		HSetPanel.add(IP);
 		
@@ -215,12 +231,14 @@ public class HostSettings implements ActionListener, MouseListener{
 		mode.setSize(new Dimension(250,50));
 		mode.setLocation(50,520);
 		mode.setSelectedIndex(0);
+		mode.setFont(f1);
 		HSetPanel.add(mode);
 		
 		//Combo box for board size
 		board.setSize(new Dimension(250,50));
 		board.setLocation(50,210);
 		board.setSelectedIndex(0);
+		board.setFont(f1);
 		HSetPanel.add(board);
 		
 		//slider for time
@@ -229,6 +247,7 @@ public class HostSettings implements ActionListener, MouseListener{
 		slide.setMajorTickSpacing(1);
 		slide.setPaintTicks(true); 
 		slide.setPaintLabels(true);
+		slide.setFont(f1);
 		HSetPanel.add(slide);
 		
 		/*frame.setResizable(false);

@@ -99,7 +99,7 @@ public class PlayerSettings implements MouseListener{
 				try{
 					PlyrSet = new FileWriter("Player_Settings.txt");
 					PlyrWrite = new PrintWriter(PlyrSet);
-					PlyrWrite.println(strPlayer2+"\n"+intP2Port+"\n"+strP2IP);
+					PlyrWrite.println(strPlayer2+"\n"+intP2Port+"\n"+intP2IP);
 					PlyrSet.close();
 					PlyrWrite.close();
 				}catch(IOException e){
