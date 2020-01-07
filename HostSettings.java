@@ -96,6 +96,8 @@ public class HostSettings implements ActionListener, MouseListener{
 	 */
 	PrintWriter filewrite;
 	
+	ShapeMatcherHome smh;
+	
 	//Methods
 	/**
 	 * Method created for the supersocketmaster object.
@@ -109,7 +111,9 @@ public class HostSettings implements ActionListener, MouseListener{
 	public void mouseClicked (MouseEvent evt){		
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
-			HSetPanel.setVisible(false);
+			smh.frmHome.setContentPane(smh.pnlHome);
+			smh.frmHome.pack();
+			smh.frmHome.setVisible(true);
 		} else if (evt.getSource()==start){
 			//Load all settings into variables
 			strPlayer1 = Plyr.getText();
@@ -164,7 +168,9 @@ public class HostSettings implements ActionListener, MouseListener{
 	}
 
 	//Constructor
-	public HostSettings (){
+	public HostSettings (ShapeMatcherHome smh){
+		this.smh = smh;
+		
 		//Panel dimensions and layout null
 		HSetPanel.setPreferredSize(new Dimension(1280,720));
 		HSetPanel.setLayout(null);
@@ -228,10 +234,10 @@ public class HostSettings implements ActionListener, MouseListener{
 		frame.setResizable(false);
 		frame.setContentPane(HSetPanel);
 		frame.pack();
-		frame.setVisible(true);
+		//frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	public static void main(String[] args){
-		new HostSettings();
-	}
+	/*public static void main(String[] args){
+		new HostSettings(null);
+	}*/
 }

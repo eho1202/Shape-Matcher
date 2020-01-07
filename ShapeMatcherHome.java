@@ -43,7 +43,9 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	/**
 	 * Font that the Jbutton in Home menu uses
 	 */
-	Font f1 = new Font("Nunito",Font.PLAIN,27);
+	Font f1 = new Font("Nunito", Font.PLAIN, 27);
+	
+	HostSettings hs = new HostSettings(this);
 
 	/**
 	 * Contains the logic that occurs when each button on the home panel is pressed.
@@ -55,10 +57,13 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 			System.out.println("High scores button pressed");
 		} else if (evt.getSource() == btnSettings) {
 			System.out.println("Settings button pressed");
+			frmHome.setContentPane(hs.HSetPanel);
+			frmHome.pack();
+			frmHome.setVisible(true);
 		} else if (evt.getSource() == btnHelp) {
 			System.out.println("Help button pressed");
 		} else if (evt.getSource() == btnQuit) {
-			int response = optionQuit.showConfirmDialog(null,"Are you sure you want to quit game?","Quit Game",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+			int response = optionQuit.showConfirmDialog(null, "Are you sure you want to quit game?", "Quit Game", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 
 			if (response == JOptionPane.YES_OPTION) {
 				System.exit(0); //0, by convention, indicates a normal termination
@@ -71,7 +76,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	 * Created for MouseListener.
 	 */
 	public void mouseClicked(MouseEvent evt) {
-
 	}
 	/**
 	 * Created for MouseListener.
@@ -194,7 +198,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.frmHome.setContentPane(pnlHome);
 		this.frmHome.pack();
 		this.frmHome.setVisible(true);
-		this.frmHome.setLocationRelativeTo(null); // causes frmHome to centre on screen
+		this.frmHome.setLocationRelativeTo(null); //causes frmHome to centre on screen
 		this.frmHome.setResizable(false);
 	}
 
