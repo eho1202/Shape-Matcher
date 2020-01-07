@@ -19,6 +19,7 @@ public class HostSettingsPanel extends JPanel{
 		try{
 			image = ImageIO.read(getClass().getResource("Host Settings.png"));
 		}catch(IOException e){
+			System.out.println("Error loading host settings image");
 		}
 	}
 

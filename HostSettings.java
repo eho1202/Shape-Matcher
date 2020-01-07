@@ -101,6 +101,9 @@ public class HostSettings implements ActionListener, MouseListener{
 	 */
 	PrintWriter filewrite;
 	
+	/**
+	 * Main menu. This page appears when the "Settings" button on the main menu is pressed.
+	 */
 	ShapeMatcherHome smh;
 	
 	//Methods

@@ -19,6 +19,7 @@ public class PlayerSettingsPanel extends JPanel{
 		try{
 			image = ImageIO.read(getClass().getResource("Player Settings.png"));
 		}catch(IOException e){
+			System.out.println("Error loading player settings image");
 		}
 	}
 
