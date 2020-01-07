@@ -35,6 +35,10 @@ public class HighScores implements MouseListener{
 	 * Load the font for the text.
 	 */
 	Font f1 = new Font("Nunito",Font.PLAIN,27);
+	/**
+	 * Main menu. This page appears when the "Settings" button on the main menu is pressed.
+	 */
+	ShapeMatcherHome smh;
 	
 	//Methods
 	/**
@@ -42,7 +46,9 @@ public class HighScores implements MouseListener{
 	 */
 	public void mouseClicked (MouseEvent evt){
 		if(evt.getSource()==home){
-			hsPanel.setVisible(false);
+			smh.frmHome.setContentPane(smh.pnlHome);
+			smh.frmHome.pack();
+			smh.frmHome.setVisible(true);
 		}
 	}
 	
@@ -60,6 +66,9 @@ public class HighScores implements MouseListener{
 	 * Created for MouseListener.
 	 */
 	public void mouseEntered (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		} 
 	}
 	/**
 	 * Created for MouseListener.
@@ -147,7 +156,9 @@ public class HighScores implements MouseListener{
 	}
 	
 	//Constructor
-	public HighScores (){
+	public HighScores (ShapeMatcherHome smh){
+		this.smh = smh;
+		
 		//High score panel dimensions and layout null
 		hsPanel.setPreferredSize(new Dimension(1280,720));
 		hsPanel.setLayout(null);
@@ -176,16 +187,20 @@ public class HighScores implements MouseListener{
 		home.addMouseListener(this);
 		hsPanel.add(home);
 		
+		/*
 		frame.setResizable(false);
 		frame.setContentPane(hsPanel);
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		*/
 	}
 	
 	//Main
+	/*
 	public static void main (String[] args){
 		new HighScores();
 	}
+	*/
 }
 
