@@ -61,6 +61,11 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	Help help = new Help(this);
 	
 	/**
+	 * High Scores page
+	 */
+	 HighScores highscores = new HighScores(this);
+	
+	/**
 	 * Contains the logic that occurs when each button on the home panel is pressed.
 	 */
 	public void actionPerformed(ActionEvent evt) {
@@ -71,6 +76,9 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 			frmHome.setVisible(true);
 		} else if (evt.getSource() == btnHighScores) {
 			System.out.println("High scores button pressed");
+			frmHome.setContentPane(highscores.hsPanel);
+			frmHome.pack();
+			frmHome.setVisible(true);
 		} else if (evt.getSource() == btnSettings) {
 			System.out.println("Settings button pressed");
 			frmHome.setContentPane(hs.HSetPanel);
