@@ -52,9 +52,9 @@ public class PlayerSettings implements MouseListener{
 	 */
 	int intP2Port;
 	/**
-	 * Integer variable for the ip address entered.
+	 * String variable for the ip address entered.
 	 */
-	int intP2IP;
+	String strP2IP;
 	/**
 	 * Opens a file to write to.
 	 */
@@ -67,6 +67,26 @@ public class PlayerSettings implements MouseListener{
 	 * Boolean variable to control whether or not the panel continues to the game screen or not.
 	 */
 	Boolean blnCheck = true;
+	/**
+	 * Integer variable to keep track of the number of periods in the variable, strP2IP.
+	 */
+	int intDot;
+	/**
+	 * String variable to keep track of each substring in the variable, strP2IP.
+	 */
+	String strSub;
+	/**
+	 * Integer variable to keep track of substring index.
+	 */
+	int intI;
+	/**
+	 * Integer variable to keep track of the string's length.
+	 */
+	int intLength;
+	/**
+	 * Integer variable to see if periods were right after one another in the variable, strP2IP.
+	 */
+	int intRept;
 	   
 	//Methods
 	/**
@@ -86,12 +106,26 @@ public class PlayerSettings implements MouseListener{
 				blnCheck=false;
 			}
 			
-			try{
-				intP2IP = Integer.parseInt(HIP.getText());
-				blnCheck=true;
-			}catch(NumberFormatException e){
+			intDot = 0;
+			intI = 1;
+			intRept = 0;
+			strP2IP = HIP.getText();
+			intLength = strP2IP.length();
+			for(int i=0; i<intLength;i++){
+				strSub = strP2IP.substring(i,i+1);
+				if(strSub.equals(".")){
+					intDot++;
+					intRept++;
+				}else{
+					intRept=0;
+				}
+			}
+			
+			if(intDot!=3||intRept!=0){
 				warning1.setVisible(true);
 				blnCheck=false;
+			}else{
+				warning1.setVisible(false);
 			}
 			
 			if(blnCheck){
@@ -99,7 +133,7 @@ public class PlayerSettings implements MouseListener{
 				try{
 					PlyrSet = new FileWriter("Player_Settings.txt");
 					PlyrWrite = new PrintWriter(PlyrSet);
-					PlyrWrite.println(strPlayer2+"\n"+intP2Port+"\n"+intP2IP);
+					PlyrWrite.println(strPlayer2+"\n"+intP2Port+"\n"+strP2IP);
 					PlyrSet.close();
 					PlyrWrite.close();
 				}catch(IOException e){
