@@ -7,7 +7,7 @@ import java.awt.event.*;
 import javax.swing.event.*;
 import javax.swing.ImageIcon.*;
 
-public class CreateOrJoinPanel extends JPanel implements ActionListener {
+public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseListener {
 	BufferedImage image;
 	public JButton btnCreate;
 	public JButton btnJoin;
@@ -38,6 +38,32 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener {
 		}
 	}
 
+	public void mouseClicked(MouseEvent evt) {
+
+	}
+
+	public void mousePressed(MouseEvent evt) {
+
+	}
+
+	public void mouseReleased(MouseEvent evt) {
+
+	}
+
+	public void mouseEntered(MouseEvent evt) {
+		if (evt.getSource() == btnBack) {
+			btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		} else if (evt.getSource() == btnCreate) {
+			btnCreate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		} else if (evt.getSource() == btnJoin) {
+			btnJoin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		}
+	}
+
+	public void mouseExited(MouseEvent evt) {
+
+	}
+
 	public CreateOrJoinPanel(ShapeMatcherHome smh) {
 		this.smh = smh;
 		
@@ -59,6 +85,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener {
 		this.btnCreate.setBorder(BorderFactory.createEmptyBorder()); //Creates a borderless, transparent button
 		this.btnCreate.setBackground(Color.WHITE);
 		this.btnCreate.addActionListener(this);
+		this.btnCreate.addMouseListener(this);
 		
 		//Join server button setup
 		this.btnJoin = new JButton();
@@ -68,6 +95,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener {
 		this.btnJoin.setBorder(BorderFactory.createEmptyBorder());
 		this.btnJoin.setBackground(Color.WHITE);
 		this.btnJoin.addActionListener(this);
+		this.btnJoin.addMouseListener(this);
 		
 		//Back to main menu button setup
 		this.btnBack = new JButton();
@@ -77,6 +105,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener {
 		this.btnBack.setBorder(BorderFactory.createEmptyBorder());
 		this.btnBack.setBackground(Color.WHITE);
 		this.btnBack.addActionListener(this);
+		this.btnBack.addMouseListener(this);
 		
 		//Adding all of the buttons to the panel
 		add(btnCreate);

@@ -39,15 +39,10 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
 	}
-	/**
-	 * Method created for the supersocketmaster object.
-	 */
+
 	public void actionPerformed (ActionEvent evt){
 	}
-	
-	/**
-	 * Changes panel based on selection of "button". If the "start" button is selected, then all the game settings are loaded into their respective variables and writen to the file. 
-	 */
+
 	public void mouseClicked (MouseEvent evt){		
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
@@ -87,105 +82,104 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 			}
 		}
 	}
-	/**
-	 * Created for MouseListener.
-	 */
+
 	public void mousePressed (MouseEvent evt){	
 	}
-	/**
-	 * Created for MouseListener.
-	 */
+
 	public void mouseReleased (MouseEvent evt){	
 	}
-	/**
-	 * Created for MouseListener.
-	 */
+
 	public void mouseEntered (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		} else if (evt.getSource() == start) {
+			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		}
 	}
-	/**
-	 * Created for MouseListener.
-	 */
+
 	public void mouseExited (MouseEvent evt){
 	}
 
 	//Constructor
-	public HostSettingsPanel (ShapeMatcherHome smh){
-		
-		try{
+	public HostSettingsPanel (ShapeMatcherHome smh) {
+
+		try {
 			image = ImageIO.read(getClass().getResource("Host Settings.png"));
-		}catch(IOException e){
+		} catch (IOException e) {
 			System.out.println("Error loading host settings image");
 		}
-		
+
 		this.smh = smh;
-		
+
 		//Panel dimensions and layout null
-		setPreferredSize(new Dimension(1280,720));
+		setPreferredSize(new Dimension(1280, 720));
 		setLayout(null);
-		
+
 		ssm = new SuperSocketMaster(intPort, this); //initialize supersocketmaster (do this earlier on full program). Place here temporarily
-		
+
 		//set labels' size and location
-		home.setSize(new Dimension(500,50));
-		home.setLocation(-55,50);
+		home.setSize(new Dimension(500, 50));
+		home.setLocation(-55, 50);
 		home.addMouseListener(this);
 		add(home);
-		
-		start.setSize(new Dimension(200,50));
-		start.setLocation(1080,670);
+
+		start.setSize(new Dimension(200, 50));
+		start.setLocation(1080, 670);
 		start.addMouseListener(this);
 		add(start);
-		
+
 		warning.setFont(f1);
-		warning.setSize(new Dimension(300,50));
-		warning.setLocation(930,265);
+		warning.setSize(new Dimension(300, 50));
+		warning.setLocation(930, 265);
 		add(warning);
 		warning.setVisible(false);
-		
+
 		//set text field size and location
 		//Player name text field
 		Plyr.setFont(f1);
-		Plyr.setSize(new Dimension(250,50));
-		Plyr.setLocation(560,210);
+		Plyr.setSize(new Dimension(250, 50));
+		Plyr.setLocation(560, 210);
 		Plyr.setHorizontalAlignment(SwingConstants.CENTER);
 		add(Plyr);
-		
+
 		//port number
 		Port.setFont(f1);
-		Port.setSize(new Dimension(250,50));
-		Port.setLocation(930,210);
+		Port.setSize(new Dimension(250, 50));
+		Port.setLocation(930, 210);
 		Port.setHorizontalAlignment(SwingConstants.CENTER);
 		add(Port);
-		
+
 		//show computer ip address
 		IP = new JTextField(ssm.getMyAddress());
 		IP.setFont(f1);
-		IP.setSize(new Dimension(250,50));
-		IP.setLocation(930,520);
+		IP.setSize(new Dimension(250, 50));
+		IP.setLocation(930, 520);
 		IP.setEnabled(false);
 		add(IP);
-		
+
 		//combo box for Game mode
 		mode.setFont(f1);
-		mode.setSize(new Dimension(250,50));
-		mode.setLocation(50,520);
+		mode.setSize(new Dimension(250, 50));
+		mode.setLocation(50, 520);
 		mode.setSelectedIndex(0);
 		add(mode);
-		
+
 		//Combo box for board size
 		board.setFont(f1);
-		board.setSize(new Dimension(250,50));
-		board.setLocation(50,210);
+		board.setSize(new Dimension(250, 50));
+		board.setLocation(50, 210);
 		board.setSelectedIndex(0);
 		add(board);
-		
+
 		//slider for time
 		slide.setFont(f1);
-		slide.setSize(new Dimension(270,50));
-		slide.setLocation(510,520);
+		slide.setSize(new Dimension(270, 50));
+		slide.setLocation(510, 520);
 		slide.setMajorTickSpacing(1);
-		slide.setPaintTicks(true); 
+		slide.setPaintTicks(true);
 		slide.setPaintLabels(true);
 		add(slide);
+
 	}
+
 }
