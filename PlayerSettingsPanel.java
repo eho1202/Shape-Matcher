@@ -23,14 +23,8 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	 * The text field for the host's IP address.
 	 */
 	JTextField HIP = new JTextField();
-	/**
-	 * The label for the "Back to Main Menu" button.
-	 */
-	JLabel home = new JLabel(new ImageIcon("BacktoMain.png"));
-	/**
-	 * The label for the "Start" button.
-	 */
-	JLabel start = new JLabel(new ImageIcon("Start.png"));
+	JButton home = new JButton();
+	JButton start = new JButton();
 	/**
 	 * The label to ask user to enter numbers only.
 	 */
@@ -68,6 +62,7 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	int intLength;
 	int intRept;
 	Font f1 = new Font("Nunito", Font.PLAIN, 18);
+	Board brd;
 	
 	//Methods
 	/**
@@ -125,8 +120,11 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 					PlyrWrite.close();
 				}catch(IOException e){
 				}
-
 				setVisible(false);
+				brd = new Board(strPlayer2);
+				smh.frmHome.setContentPane(brd);
+				smh.frmHome.pack();
+				smh.frmHome.setVisible(true);
 			}
 		}
 	}
@@ -164,17 +162,24 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 		setPreferredSize(new Dimension(1280,720));
 		setLayout(null);
 		
-		//set labels' size and location
-		home.setSize(new Dimension(500,50));
-		home.setLocation(-55,50);
+		//set buttons size and location
+		home.setSize(new Dimension(291, 50));
+		home.setLocation(33, 30);
+		home.setOpaque(false);
+		home.setContentAreaFilled(false);
+		home.setBorderPainted(false);
 		home.addMouseListener(this);
 		add(home);
 		
-		start.setSize(new Dimension(200,50));
-		start.setLocation(1080,670);
+		start.setSize(new Dimension(85, 40));
+		start.setLocation(1160, 650);
+		start.setOpaque(false);
+		start.setContentAreaFilled(false);
+		start.setBorderPainted(false);
 		start.addMouseListener(this);
 		add(start);
 		
+		//set labels' size and location
 		warning.setFont(f1);
 		warning.setSize(new Dimension(300,50));
 		warning.setLocation(510,440);
