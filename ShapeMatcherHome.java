@@ -48,6 +48,8 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	CreateOrJoinPanel pnlCreateOrJoin = new CreateOrJoinPanel(this);
 	HostSettingsPanel pnlHS = new HostSettingsPanel(this);
 	PlayerSettingsPanel pnlPS = new PlayerSettingsPanel(this);
+	HelpPanel pnlHelp = new HelpPanel(this);
+	InfoPanel pnlInfo = new InfoPanel(this);
 	
 	/**
 	 * Contains the logic that occurs when each button on the home panel is pressed.
@@ -64,6 +66,10 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 			System.out.println("Settings button pressed");
 		} else if (evt.getSource() == btnHelp) {
 			System.out.println("Help button pressed");
+			frmHome.setContentPane(pnlHelp);
+			frmHome.setTitle("Help");
+			frmHome.pack();
+			frmHome.setVisible(true);
 		} else if (evt.getSource() == btnQuit) {
 			int response = optionQuit.showConfirmDialog(null, "Are you sure you want to quit game?", "Quit Game", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 
