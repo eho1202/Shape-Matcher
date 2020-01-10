@@ -20,31 +20,64 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	JTextField talk = new JTextField();
 	int intptx;
 	int intpty;
-	int intx =20;
-	int inty =20;
+	int intx;
+	int inty;
 	int intwidth =75;
 	int intheight =112;
 	int intarcWidth = 22;
-	int intarcHeight = 22; 
+	int intarcHeight = 22;
+	FileReader file;
+	BufferedReader fileread; 
+	String strBoard;
+	int intBoard;
+	String strPlyrName;
 	
 	//Methods
 	public void paintComponent (Graphics g){
-		super.paintComponent(g);
-		intx=100;
-		inty=100;
-		for(int i = 0; i<4;i++){
-			for(int j =0; j<4;j++){
-				g.drawRoundRect(intx,inty,intwidth,intheight,intarcWidth,intarcHeight);
-				inty +=132;
+		//load board info from host settings file
+			file = new FileReader("Host_Settings.txt");
+			fileread = new BufferedReader(file);
+			//check for the board size
+			try{
+				strBoard = fileread.readLine();
+				if (strBoard.equals("0")){
+					intBoard = 4;
+				}else if (strBoard.equals("1")){
+					intBoard = 6;
+				}else if (strBoard.equals("2")){
+					intBoard = 8;
+				}
+				
+				file.close();
+				fileread.close();
+				
+				super.paintComponent(g);
+				intx=80;
+				inty=100;
+				
+				//loop to draw the board
+				for(int i = 0; i<intBoard;i++){
+					for(int j =0; j<4;j++){
+						g.drawRoundRect(intx,inty,intwidth,intheight,intarcWidth,intarcHeight);
+						inty +=132;
+					}
+					intx += 95;
+					inty = 100;
+				}
+			}catch(IOException e){
 			}
-			intx += 95;
-			inty = 100;
+		}catch(FileNotFoundException e){
 		}
 	}
 	
 	public void actionPerformed(ActionEvent evt){
+		//repaint board at 60 fps
 		if(evt.getSource()==theTimer){
 			repaint();
+		} else if(evt.getSource()==talk){
+			//append chat messages sent to the text area and set text field to blank
+			textArea.append(strPlyrName+": "+talk.getText()+"\n");
+			talk.setText("");	
 		}
 	}
 
@@ -53,37 +86,37 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			intx = evt.getX();
 			inty = evt.getY();
 			//checks if a card has been clicked
-			if (intx>100&&intx<175&&inty>100&&inty<212){
+			if (intx>80&&intx<155&&inty>100&&inty<212){
 				System.out.println("Card 1");
-			}else if(intx>195&&intx<270&&inty>100&&inty<212){
+			}else if(intx>175&&intx<250&&inty>100&&inty<212){
 				System.out.println("Card 2");
-			}else if(intx>290&&intx<365&&inty>100&&inty<212){
+			}else if(intx>270&&intx<345&&inty>100&&inty<212){
 				System.out.println("Card 3");
-			}else if(intx>385&&intx<460&&inty>100&&inty<212){
+			}else if(intx>365&&intx<440&&inty>100&&inty<212){
 				System.out.println("Card 4");
-			}else if(intx>100&&intx<175&&inty>232&&inty<344){
+			}else if(intx>80&&intx<155&&inty>232&&inty<344){
 				System.out.println("Card 5");
-			}else if(intx>195&&intx<270&&inty>232&&inty<344){
+			}else if(intx>175&&intx<250&&inty>232&&inty<344){
 				System.out.println("Card 6");
-			}else if(intx>290&&intx<365&&inty>232&&inty<344){
+			}else if(intx>270&&intx<345&&inty>232&&inty<344){
 				System.out.println("Card 7");
-			}else if(intx>385&&intx<460&&inty>232&&inty<344){
+			}else if(intx>365&&intx<440&&inty>232&&inty<344){
 				System.out.println("Card 8");
-			}else if(intx>100&&intx<175&&inty>364&&inty<476){
+			}else if(intx>80&&intx<155&&inty>364&&inty<476){
 				System.out.println("Card 9");
-			}else if(intx>195&&intx<270&&inty>364&&inty<476){
+			}else if(intx>175&&intx<250&&inty>364&&inty<476){
 				System.out.println("Card 10");    
-			}else if(intx>290&&intx<365&&inty>364&&inty<476){
+			}else if(intx>270&&intx<345&&inty>364&&inty<476){
 				System.out.println("Card 11");
-			}else if(intx>385&&intx<460&&inty>364&&inty<476){
+			}else if(intx>365&&intx<440&&inty>364&&inty<476){
 				System.out.println("Card 12");
-			}else if(intx>100&&intx<175&&inty>496&&inty<608){
+			}else if(intx>80&&intx<155&&inty>496&&inty<608){
 				System.out.println("Card 13");
-			}else if(intx>195&&intx<270&&inty>496&&inty<608){
+			}else if(intx>175&&intx<250&&inty>496&&inty<608){
 				System.out.println("Card 14");
-			}else if(intx>290&&intx<365&&inty>496&&inty<608){
+			}else if(intx>270&&intx<345&&inty>496&&inty<608){
 				System.out.println("Card 15");
-			}else if(intx>385&&intx<460&&inty>496&&inty<608){
+			}else if(intx>365&&intx<440&&inty>496&&inty<608){
 				System.out.println("Card 16");
 			}
 		}
@@ -106,10 +139,12 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	}
 	
 	//Constructor
-	public Board (){
+	public Board (String strName){
 		setLayout(null);
 		setPreferredSize(new Dimension(1280,720));
 		addMouseListener(this);
+		
+		strPlyrName = strName;//set player name to what was listed in the settings
 		
 		//set label szie, font, location	
 		playerturn.setFont(f1);
@@ -132,7 +167,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		player2.setLocation(900,230);
 		add(player2);
 		
-		//chat text field
+		//chat text field scroll pane
+		textArea.setEditable(false);
 		scroll.setFont(f4);
 		scroll.setSize(new Dimension(300,300));
 		scroll.setLocation(900,300);
@@ -142,18 +178,22 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		talk.setFont(f4);
 		talk.setSize(new Dimension(300,30));
 		talk.setLocation(900,620);
+		talk.addActionListener(this);
 		add(talk);
 		
 		theTimer.start();
 		
+		/*
 		theframe.setResizable(false);
 		theframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theframe.setContentPane(this);
 		theframe.pack();
 		theframe.setVisible(true);
+		*/
 	}
-	
+	/*
 	public static void main (String[] args){
 		new Board();
 	}
+	*/
 }
