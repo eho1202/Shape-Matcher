@@ -22,6 +22,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	JComboBox mode = new JComboBox<String>(modes);
 	String[] boards = {"Easy 4x4", "Medium 6x4", "Hard 8x4"};
 	JComboBox board = new JComboBox<String>(boards);
+	Font f1 = new Font("Nunito", Font.PLAIN, 18);
 	SuperSocketMaster ssm;
 	int intPort = 3112;
 	String strPlayer1;
@@ -135,6 +136,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		start.addMouseListener(this);
 		add(start);
 		
+		warning.setFont(f1);
 		warning.setSize(new Dimension(300,50));
 		warning.setLocation(930,265);
 		add(warning);
@@ -142,35 +144,43 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		
 		//set text field size and location
 		//Player name text field
+		Plyr.setFont(f1);
 		Plyr.setSize(new Dimension(250,50));
 		Plyr.setLocation(560,210);
+		Plyr.setHorizontalAlignment(SwingConstants.CENTER);
 		add(Plyr);
 		
 		//port number
+		Port.setFont(f1);
 		Port.setSize(new Dimension(250,50));
 		Port.setLocation(930,210);
+		Port.setHorizontalAlignment(SwingConstants.CENTER);
 		add(Port);
 		
 		//show computer ip address
 		IP = new JTextField(ssm.getMyAddress());
+		IP.setFont(f1);
 		IP.setSize(new Dimension(250,50));
 		IP.setLocation(930,520);
 		IP.setEnabled(false);
 		add(IP);
 		
 		//combo box for Game mode
+		mode.setFont(f1);
 		mode.setSize(new Dimension(250,50));
 		mode.setLocation(50,520);
 		mode.setSelectedIndex(0);
 		add(mode);
 		
 		//Combo box for board size
+		board.setFont(f1);
 		board.setSize(new Dimension(250,50));
 		board.setLocation(50,210);
 		board.setSelectedIndex(0);
 		add(board);
 		
 		//slider for time
+		slide.setFont(f1);
 		slide.setSize(new Dimension(270,50));
 		slide.setLocation(510,520);
 		slide.setMajorTickSpacing(1);
