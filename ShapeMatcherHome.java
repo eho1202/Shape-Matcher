@@ -50,6 +50,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	PlayerSettingsPanel pnlPS = new PlayerSettingsPanel(this);
 	HelpPanel pnlHelp = new HelpPanel(this);
 	InfoPanel pnlInfo = new InfoPanel(this);
+	HowToPlayPanel pnlHow = new HowToPlayPanel(this);
 	
 	/**
 	 * Contains the logic that occurs when each button on the home panel is pressed.
@@ -102,32 +103,22 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	 */
 	public void mouseEntered(MouseEvent evt) {
 		if (evt.getSource() == btnPlay) {
-			btnPlay.setBackground(Color.LIGHT_GRAY);
+			btnPlay.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		} else if (evt.getSource() == btnHighScores) {
-			btnHighScores.setBackground((Color.LIGHT_GRAY));
+			btnHighScores.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		} else if (evt.getSource() == btnSettings) {
-			btnSettings.setBackground((Color.LIGHT_GRAY));
+			btnSettings.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		} else if (evt.getSource() == btnHelp) {
-			btnHelp.setBackground((Color.LIGHT_GRAY));
+			btnHelp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		} else if (evt.getSource() == btnQuit) {
-			btnQuit.setBackground((Color.LIGHT_GRAY));
+			btnQuit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 	}
 	/**
 	 * Created for MouseListener.
 	 */
 	public void mouseExited(MouseEvent evt) {
-		if (evt.getSource() == btnPlay) {
-			btnPlay.setBackground(Color.WHITE);
-		} else if (evt.getSource() == btnHighScores) {
-			btnHighScores.setBackground((Color.WHITE));
-		} else if (evt.getSource() == btnSettings) {
-			btnSettings.setBackground((Color.WHITE));
-		} else if (evt.getSource() == btnHelp) {
-			btnHelp.setBackground((Color.WHITE));
-		} else if (evt.getSource() == btnQuit) {
-			btnQuit.setBackground((Color.WHITE));
-		}
+
 	}
 
 	public ShapeMatcherHome() {

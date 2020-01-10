@@ -38,6 +38,10 @@ public class HelpPanel extends JPanel implements MouseListener{
         } else if (evt.getSource() == btnHow) {
             // go to how to play
             btnHow.setCursor(Cursor.getDefaultCursor());
+            smh.frmHome.setContentPane(smh.pnlHow);
+            smh.frmHome.setTitle("How to Play");
+            smh.frmHome.pack();
+            smh.frmHome.setVisible(true);
         }
 
     }
