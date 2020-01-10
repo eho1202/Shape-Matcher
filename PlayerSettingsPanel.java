@@ -38,7 +38,7 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	/**
 	 * The label to ask user to enter numbers only.
 	 */
-	JLabel warning1 = new JLabel("Please enter numbers only");
+	JLabel warning1 = new JLabel("Please enter an IP address");
 	/**
 	 * String variable for the player name.
 	 */
@@ -47,10 +47,8 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	 * Integer variable for the port number entered.
 	 */
 	int intP2Port;
-	/**
-	 * Integer variable for the ip address entered.
-	 */
-	int intP2IP;
+	
+	String strP2IP;
 	/**
 	 * Opens a file to write to.
 	 */
@@ -64,7 +62,13 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	 */
 	Boolean blnCheck = true;
 	ShapeMatcherHome smh;
-	   
+	int intDot;
+	String strSub;
+	int intI;
+	int intLength;
+	int intRept;
+	Font f1 = new Font("Nunito", Font.PLAIN, 18);
+	
 	//Methods
 	/**
 	 * Changes panel based on the "button" selection.
@@ -89,20 +93,34 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 				blnCheck=false;
 			}
 			
-			try{
-				intP2IP = Integer.parseInt(HIP.getText());
-				blnCheck=true;
-			}catch(NumberFormatException e){
+			intDot = 0;
+			intI = 1;
+			intRept = 0;
+			strP2IP = HIP.getText();
+			intLength = strP2IP.length();
+			for(int i=0; i<intLength;i++){
+				strSub = strP2IP.substring(i,i+1);
+				if(strSub.equals(".")){
+					intDot++;
+					intRept++;
+				}else{
+					intRept=0;
+				}
+			}
+			
+			if(intDot!=3||intRept!=0){
 				warning1.setVisible(true);
 				blnCheck=false;
-			}
+			}else{
+				warning1.setVisible(false);
+			} 
 			
 			if(blnCheck){
 				//load info onto a file
 				try{
 					PlyrSet = new FileWriter("Player_Settings.txt");
 					PlyrWrite = new PrintWriter(PlyrSet);
-					PlyrWrite.println(strPlayer2+"\n"+intP2Port+"\n"+intP2IP);
+					PlyrWrite.println(strPlayer2+"\n"+intP2Port+"\n"+strP2IP);
 					PlyrSet.close();
 					PlyrWrite.close();
 				}catch(IOException e){
@@ -157,11 +175,13 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 		start.addMouseListener(this);
 		add(start);
 		
+		warning.setFont(f1);
 		warning.setSize(new Dimension(300,50));
 		warning.setLocation(510,440);
 		warning.setVisible(false);
 		add(warning);
 		
+		warning1.setFont(f1);
 		warning1.setSize(new Dimension(300,50));
 		warning1.setLocation(510,640);
 		warning1.setVisible(false);
@@ -169,16 +189,19 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 		
 		//set text fields' size and location
 		//Player name
+		Plyr2.setFont(f1);
 		Plyr2.setSize(new Dimension(250,50));
 		Plyr2.setLocation(590,190);
 		add(Plyr2);
 		
 		//Port number
+		HPort.setFont(f1);
 		HPort.setSize(new Dimension(250,50));
 		HPort.setLocation(510,400);
 		add(HPort);
 		
 		//IP address
+		HIP.setFont(f1);
 		HIP.setSize(new Dimension(250,50));
 		HIP.setLocation(510,600);
 		add(HIP);
