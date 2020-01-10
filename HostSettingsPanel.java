@@ -11,8 +11,8 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	
 	//Properties
 	BufferedImage image;
-	JLabel home = new JLabel(new ImageIcon("BacktoMain.png"));
-	JLabel start = new JLabel(new ImageIcon("Start.png"));
+	JButton home = new JButton();
+	JButton start = new JButton();
 	JLabel warning = new JLabel("Please enter a value higher than 1000");
 	JTextField Plyr = new JTextField("Player 1"); 
 	JTextField Port = new JTextField("3112");
@@ -33,6 +33,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	FileWriter files;
 	PrintWriter filewrite;
 	ShapeMatcherHome smh;
+	Board brd;
 	
 	//Methods
 	public void paintComponent (Graphics g){
@@ -79,6 +80,10 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 				}catch(IOException e){
 				}
 				setVisible(false);
+				brd  = new Board(strPlayer1);
+				smh.frmHome.setContentPane(brd);
+				smh.frmHome.pack();
+				smh.frmHome.setVisible(true);
 			}
 		}
 	}
@@ -116,18 +121,25 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		setLayout(null);
 
 		ssm = new SuperSocketMaster(intPort, this); //initialize supersocketmaster (do this earlier on full program). Place here temporarily
-
-		//set labels' size and location
-		home.setSize(new Dimension(500, 50));
-		home.setLocation(-55, 50);
+		
+		//set buttons size and location
+		home.setSize(new Dimension(291, 50));
+		home.setLocation(33, 30);
+		home.setOpaque(false);
+		home.setContentAreaFilled(false);
+		home.setBorderPainted(false);
 		home.addMouseListener(this);
 		add(home);
-
-		start.setSize(new Dimension(200, 50));
-		start.setLocation(1080, 670);
+		
+		start.setSize(new Dimension(85, 40));
+		start.setLocation(1160, 650);
+		start.setOpaque(false);
+		start.setContentAreaFilled(false);
+		start.setBorderPainted(false);
 		start.addMouseListener(this);
 		add(start);
-
+		
+		//set label size and location
 		warning.setFont(f1);
 		warning.setSize(new Dimension(300, 50));
 		warning.setLocation(930, 265);
