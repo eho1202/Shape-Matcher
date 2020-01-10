@@ -81,7 +81,9 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 		this.btnCreate = new JButton();
 		this.btnCreate.setSize(320, 80);
 		this.btnCreate.setLocation(140, 320);
-		this.btnCreate.setBackground(Color.WHITE);
+		this.btnCreate.setOpaque(false);
+		this.btnCreate.setContentAreaFilled(false);
+		this.btnCreate.setBorderPainted(false);
 		this.btnCreate.setBorder(BorderFactory.createEmptyBorder()); //Creates a borderless, transparent button
 		this.btnCreate.setBackground(Color.WHITE);
 		this.btnCreate.addActionListener(this);
@@ -91,7 +93,9 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 		this.btnJoin = new JButton();
 		this.btnJoin.setSize(315, 100);
 		this.btnJoin.setLocation(835, 310);
-		this.btnJoin.setBackground(Color.WHITE);
+		this.btnJoin.setOpaque(false);
+		this.btnJoin.setContentAreaFilled(false);
+		this.btnJoin.setBorderPainted(false);
 		this.btnJoin.setBorder(BorderFactory.createEmptyBorder());
 		this.btnJoin.setBackground(Color.WHITE);
 		this.btnJoin.addActionListener(this);
@@ -101,7 +105,9 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 		this.btnBack = new JButton();
 		this.btnBack.setSize(300, 45);
 		this.btnBack.setLocation(935, 650);
-		this.btnBack.setBackground(Color.WHITE);
+		this.btnBack.setOpaque(false);
+		this.btnBack.setContentAreaFilled(false);
+		this.btnBack.setBorderPainted(false);
 		this.btnBack.setBorder(BorderFactory.createEmptyBorder());
 		this.btnBack.setBackground(Color.WHITE);
 		this.btnBack.addActionListener(this);
