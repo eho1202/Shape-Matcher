@@ -33,12 +33,13 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	FileWriter files;
 	PrintWriter filewrite;
 	ShapeMatcherHome smh;
-	Board brd;
+	//Board brd;
 	
 	//Methods
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
+		repaint();
 	}
 
 	public void actionPerformed (ActionEvent evt){
@@ -48,9 +49,17 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			System.out.println("Back to main menu button pressed");
-			smh.frmHome.setContentPane(smh.pnlHome);
-			smh.frmHome.pack();
-			smh.frmHome.setVisible(true);
+			smh.frmHome.setTitle("Shape Matcher");
+			smh.backToMain();
+
+			// check if toggle music button is on mute or not
+			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
+				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
+				smh.playMusic.start();
+			} else {
+
+			}
+
 		} else if (evt.getSource()==start){
 			//Load all settings into variables
 			strPlayer1 = Plyr.getText();
@@ -78,12 +87,13 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 					files.close();
 					filewrite.close();
 				}catch(IOException e){
+					e.printStackTrace();
 				}
 				setVisible(false);
-				brd  = new Board(strPlayer1);
+				/*brd  = new Board(strPlayer1);
 				smh.frmHome.setContentPane(brd);
 				smh.frmHome.pack();
-				smh.frmHome.setVisible(true);
+				smh.frmHome.setVisible(true);*/
 			}
 		}
 	}
@@ -91,14 +101,16 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	public void mousePressed (MouseEvent evt){	
 	}
 
-	public void mouseReleased (MouseEvent evt){	
+	public void mouseReleased (MouseEvent evt){
 	}
 
 	public void mouseEntered (MouseEvent evt){
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			smh.playHover();
 		} else if (evt.getSource() == start) {
 			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			smh.playHover();
 		}
 	}
 
@@ -112,6 +124,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 			image = ImageIO.read(getClass().getResource("Host Settings.png"));
 		} catch (IOException e) {
 			System.out.println("Error loading host settings image");
+			e.printStackTrace();
 		}
 
 		this.smh = smh;

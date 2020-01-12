@@ -17,16 +17,24 @@ public class HelpPanel extends JPanel implements MouseListener{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(image.getScaledInstance(1280, 720, Image. SCALE_SMOOTH), 0, 0, this);
+        repaint();
     }
 
     public void mouseClicked(MouseEvent evt) {
         if (evt.getSource() == btnHome) {
             // go back to main menu
             btnHome.setCursor(Cursor.getDefaultCursor());
-            smh.frmHome.setContentPane(smh.pnlHome);
             smh.frmHome.setTitle("Shape Matcher");
-            smh.frmHome.pack();
-            smh.frmHome.setVisible(true);
+            smh.backToMain();
+
+            // check if toggle music button is on mute or not
+            if (smh.btnMusic.getIcon().equals(smh.unmute)) {
+                smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
+                smh.playMusic.start();
+            } else {
+
+            }
+
         } else if (evt.getSource() == btnInfo) {
             // go to information about settings
             btnHome.setCursor(Cursor.getDefaultCursor());
@@ -51,24 +59,41 @@ public class HelpPanel extends JPanel implements MouseListener{
     }
 
     public void mouseReleased(MouseEvent evt) {
+        if (evt.getSource() == btnHome) {
+            btnHome.setOpaque(false);
+        } else if (evt.getSource() == btnInfo) {
+            btnInfo.setOpaque(false);
+        } else if (evt.getSource() == btnHow) {
+            btnHow.setOpaque(false);
+        }
 
     }
 
     public void mouseEntered(MouseEvent evt) {
         if (evt.getSource() == btnHome) {
             btnHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor
+            btnHome.setOpaque(true);
+            smh.playHover();
         } else if (evt.getSource() == btnInfo) {
             btnInfo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            btnInfo.setOpaque(true);
+            smh.playHover();
         } else if (evt.getSource() == btnHow) {
             btnHow.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            btnHow.setOpaque(true);
+            smh.playHover();
         }
 
     }
 
     public void mouseExited(MouseEvent evt) {
-        btnHome.setCursor(Cursor.getDefaultCursor());
-        btnInfo.setCursor(Cursor.getDefaultCursor());
-        btnHow.setCursor(Cursor.getDefaultCursor());
+        if (evt.getSource() == btnHome) {
+            btnHome.setOpaque(false);
+        } else if (evt.getSource() == btnInfo) {
+            btnInfo.setOpaque(false);
+        } else if (evt.getSource() == btnHow) {
+            btnHow.setOpaque(false);
+        }
 
     }
 
@@ -92,6 +117,7 @@ public class HelpPanel extends JPanel implements MouseListener{
         btnHome.setContentAreaFilled(false);
         btnHome.setBorderPainted(false);
         btnHome.setBorder(BorderFactory.createEmptyBorder());
+        btnHome.setBackground(new Color(128,128,128,30));
         btnHome.addMouseListener(this);
         add(btnHome);
 
@@ -101,6 +127,7 @@ public class HelpPanel extends JPanel implements MouseListener{
         btnInfo.setOpaque(false);
         btnInfo.setContentAreaFilled(false);
         btnInfo.setBorder(BorderFactory.createEmptyBorder());
+        btnInfo.setBackground(new Color(128,128,128,30));
         btnInfo.addMouseListener(this);
         add(btnInfo);
 
@@ -110,6 +137,7 @@ public class HelpPanel extends JPanel implements MouseListener{
         btnHow.setOpaque(false);
         btnHow.setContentAreaFilled(false);
         btnHow.setBorder(BorderFactory.createEmptyBorder());
+        btnHow.setBackground(new Color(128,128,128,30));
         btnHow.addMouseListener(this);
         add(btnHow);
     }

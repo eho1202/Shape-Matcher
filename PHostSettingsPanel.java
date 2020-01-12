@@ -4,6 +4,7 @@ import java.awt.image.*;
 import javax.swing.*;
 import javax.imageio.*;
 import java.awt.event.*;
+import javax.swing.border.Border;
 import javax.swing.event.*;
 import javax.swing.ImageIcon.*;
 
@@ -32,11 +33,13 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	FileWriter files;
 	PrintWriter filewrite;
 	ShapeMatcherHome smh;
+	Board brd;
 	
 	//Methods
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
+		repaint();
 	}
 
 	public void actionPerformed (ActionEvent evt){
@@ -46,11 +49,23 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			System.out.println("Back to main menu button pressed");
+
+			smh.frmHome.setTitle("Shape Matcher");
+			smh.backToMain();
+
+			// check if toggle music button is on mute or not
+			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
+				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
+				smh.playMusic.start();
+			} else {
+
+			}
+
 			//Load all settings into variables
 			strPlayer1 = Plyr.getText();
-			
+
 			intPort = Integer.parseInt(Port.getText());
-			//check if user has entered a number greater than 1000. 
+			//check if user has entered a number greater than 1000.
 			if (intPort<=1000){
 				warning.setVisible(true);
 				blnCont=false; //set to false to prevent panels from swapping
@@ -58,11 +73,11 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 				warning.setVisible(false);
 				blnCont=true; //set to true to allow panels to swap
 			}
-			
+
 			intGameMode = mode.getSelectedIndex();
 			intBoardSize = board.getSelectedIndex();
 			intTime = slide.getValue()*1000;
-			
+
 			if (blnCont){
 				//write settings to a file
 				try{
@@ -74,30 +89,34 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 				}catch(IOException e){
 				}
 				setVisible(false);
-				//brd  = new Board(strPlayer1);
-				//smh.frmHome.setContentPane(brd);
+				brd  = new Board(strPlayer1);
+				smh.frmHome.setContentPane(brd);
 				smh.frmHome.pack();
 				smh.frmHome.setVisible(true);
 			}
-			smh.frmHome.setContentPane(smh.pnlHome);
-			smh.frmHome.pack();
-			smh.frmHome.setVisible(true);
-		} 
+		}
 	}
 
 	public void mousePressed (MouseEvent evt){	
 	}
 
-	public void mouseReleased (MouseEvent evt){	
+	public void mouseReleased (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setOpaque(false);
+		}
 	}
 
 	public void mouseEntered (MouseEvent evt){
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		} 
+			home.setOpaque(true);
+		}
 	}
 
 	public void mouseExited (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setOpaque(false);
+		}
 	}
 
 	//Constructor
@@ -107,6 +126,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 			image = ImageIO.read(getClass().getResource("Preferred Host Settings.png"));
 		} catch (IOException e) {
 			System.out.println("Error loading host settings image");
+			e.printStackTrace();
 		}
 
 		this.smh = smh;
@@ -122,6 +142,8 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		home.setLocation(33, 30);
 		home.setOpaque(false);
 		home.setContentAreaFilled(false);
+		home.setBorder(BorderFactory.createEmptyBorder());
+		home.setBackground(new Color(128,128,128,30));
 		home.setBorderPainted(false);
 		home.addMouseListener(this);
 		add(home);

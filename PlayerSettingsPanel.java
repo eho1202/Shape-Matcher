@@ -10,7 +10,7 @@ import javax.swing.ImageIcon.*;
 public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	
 	//Properties
-	BufferedImage image;	
+	BufferedImage image;
 	JTextField Plyr2 = new JTextField("Player 2");
 	JTextField HPort = new JTextField();
 	JTextField HIP = new JTextField();
@@ -39,12 +39,20 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
+		repaint();
 	}
 	public void mouseClicked (MouseEvent evt){
 		if(evt.getSource()== home){
-			smh.frmHome.setContentPane(smh.pnlHome);
-			smh.frmHome.pack();
-			smh.frmHome.setVisible(true);
+			smh.frmHome.setTitle("Shape Matcher");
+			smh.backToMain();
+
+			// check if toggle music button is on mute or not
+			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
+				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
+				smh.playMusic.start();
+			} else {
+
+			}
 			warning.setVisible(false);
 			warning1.setVisible(false);
 		}else if(evt.getSource() == start){
@@ -89,6 +97,7 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 					PlyrSet.close();
 					PlyrWrite.close();
 				}catch(IOException e){
+					e.printStackTrace();
 				}
 				setVisible(false);
 				brd = new Board(strPlayer2);
@@ -137,12 +146,12 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 		lblHome.setLocation(33, 30);
 		lblHome.setFont(f1);
 		add(lblHome);
-		
+
 		lblStart.setSize(85, 40);
 		lblStart.setLocation(1160, 650);
 		lblStart.setFont(f1);
 		add(lblStart);
-		
+
 		//set buttons size and location
 		home.setSize(new Dimension(291, 50));
 		home.setLocation(33, 30);

@@ -13,6 +13,7 @@ public class mainPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(imgLogo, 0, 0, this);
+		repaint();
 	}
 	
 	//CONSTRUCTOR
@@ -21,6 +22,7 @@ public class mainPanel extends JPanel {
 			imgLogo = ImageIO.read(getClass().getResource("Shape Matcher Home.png"));
 		} catch (IOException e) {
 			System.out.println("Error loading main menu image");
+			e.printStackTrace();
 		}
 	}
 }
