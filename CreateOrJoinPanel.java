@@ -17,6 +17,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
+		repaint();
 	}
 	
 	public void actionPerformed(ActionEvent evt) {
@@ -32,9 +33,16 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 			smh.frmHome.setVisible(true);
 		} else if (evt.getSource() == btnBack) {
 			System.out.println("Back to main menu button pressed");
-			smh.frmHome.setContentPane(smh.pnlHome);
-			smh.frmHome.pack();
-			smh.frmHome.setVisible(true);
+			smh.backToMain();
+
+			// check if toggle music button is on mute or not
+			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
+				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
+				smh.playMusic.start();
+			} else {
+
+			}
+
 		}
 	}
 
@@ -47,20 +55,40 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 	}
 
 	public void mouseReleased(MouseEvent evt) {
+		if (evt.getSource() == btnBack) {
+			btnBack.setOpaque(false);
+		} else if (evt.getSource() == btnCreate) {
+			btnCreate.setOpaque(false);
+		} else if (evt.getSource() == btnJoin) {
+			btnJoin.setOpaque(false);
+		}
 
 	}
 
 	public void mouseEntered(MouseEvent evt) {
 		if (evt.getSource() == btnBack) {
 			btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			btnBack.setOpaque(true);
+			smh.playHover();
 		} else if (evt.getSource() == btnCreate) {
 			btnCreate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			btnCreate.setOpaque(true);
+			smh.playHover();
 		} else if (evt.getSource() == btnJoin) {
 			btnJoin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			btnJoin.setOpaque(true);
+			smh.playHover();
 		}
 	}
 
 	public void mouseExited(MouseEvent evt) {
+		if (evt.getSource() == btnBack) {
+			btnBack.setOpaque(false);
+		} else if (evt.getSource() == btnCreate) {
+			btnCreate.setOpaque(false);
+		} else if (evt.getSource() == btnJoin) {
+			btnJoin.setOpaque(false);
+		}
 
 	}
 
@@ -85,7 +113,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 		this.btnCreate.setContentAreaFilled(false);
 		this.btnCreate.setBorderPainted(false);
 		this.btnCreate.setBorder(BorderFactory.createEmptyBorder()); //Creates a borderless, transparent button
-		this.btnCreate.setBackground(Color.WHITE);
+		this.btnCreate.setBackground(new Color(128,128,128,30));
 		this.btnCreate.addActionListener(this);
 		this.btnCreate.addMouseListener(this);
 		
@@ -97,7 +125,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 		this.btnJoin.setContentAreaFilled(false);
 		this.btnJoin.setBorderPainted(false);
 		this.btnJoin.setBorder(BorderFactory.createEmptyBorder());
-		this.btnJoin.setBackground(Color.WHITE);
+		this.btnJoin.setBackground(new Color(128,128,128,30));
 		this.btnJoin.addActionListener(this);
 		this.btnJoin.addMouseListener(this);
 		
@@ -109,7 +137,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 		this.btnBack.setContentAreaFilled(false);
 		this.btnBack.setBorderPainted(false);
 		this.btnBack.setBorder(BorderFactory.createEmptyBorder());
-		this.btnBack.setBackground(Color.WHITE);
+		this.btnBack.setBackground(new Color(128,128,128,30));
 		this.btnBack.addActionListener(this);
 		this.btnBack.addMouseListener(this);
 		

@@ -10,7 +10,7 @@ import javax.swing.ImageIcon.*;
 public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	
 	//Properties
-	BufferedImage image;	
+	BufferedImage image;
 	/**
 	 * The text field for the player name.
 	 */
@@ -62,7 +62,7 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	int intLength;
 	int intRept;
 	Font f1 = new Font("Nunito", Font.PLAIN, 18);
-	Board brd;
+	//Board brd;
 	
 	//Methods
 	/**
@@ -71,12 +71,21 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
+		repaint();
 	}
 	public void mouseClicked (MouseEvent evt){
 		if(evt.getSource()== home){
-			smh.frmHome.setContentPane(smh.pnlHome);
-			smh.frmHome.pack();
-			smh.frmHome.setVisible(true);
+			smh.frmHome.setTitle("Shape Matcher");
+			smh.backToMain();
+
+			// check if toggle music button is on mute or not
+			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
+				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
+				smh.playMusic.start();
+			} else {
+
+			}
+
 		}else if(evt.getSource() == start){
 			//load settings info into variables
 			strPlayer2 = Plyr2.getText();
@@ -119,12 +128,13 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 					PlyrSet.close();
 					PlyrWrite.close();
 				}catch(IOException e){
+					e.printStackTrace();
 				}
 				setVisible(false);
-				brd = new Board(strPlayer2);
+				/*brd = new Board(strPlayer2);
 				smh.frmHome.setContentPane(brd);
 				smh.frmHome.pack();
-				smh.frmHome.setVisible(true);
+				smh.frmHome.setVisible(true);*/
 			}
 		}
 	}

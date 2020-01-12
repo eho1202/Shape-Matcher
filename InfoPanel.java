@@ -16,6 +16,7 @@ public class InfoPanel extends JPanel implements MouseListener{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(image.getScaledInstance(1280, 720, Image. SCALE_SMOOTH), 0, 0, this);
+        repaint();
     }
 
     public void mouseClicked(MouseEvent evt) {
@@ -42,24 +43,35 @@ public class InfoPanel extends JPanel implements MouseListener{
     }
 
     public void mouseReleased(MouseEvent evt) {
+        if (evt.getSource() == home) {
+            home.setCursor(Cursor.getDefaultCursor());
+            home.setOpaque(false);
+        } else if (evt.getSource() == help) {
+            help.setCursor(Cursor.getDefaultCursor());
+            help.setOpaque(false);
+        }
 
     }
 
     public void mouseEntered(MouseEvent evt) {
         if (evt.getSource() == home) {
             home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor
+            home.setOpaque(true);
         } else if (evt.getSource() == help) {
             help.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        } else if (evt.getSource() == help) {
-            help.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            help.setOpaque(true);
         }
 
     }
 
     public void mouseExited(MouseEvent evt) {
-        home.setCursor(Cursor.getDefaultCursor());
-        help.setCursor(Cursor.getDefaultCursor());
-
+        if (evt.getSource() == home) {
+            home.setCursor(Cursor.getDefaultCursor());
+            home.setOpaque(false);
+        } else if (evt.getSource() == help) {
+            help.setCursor(Cursor.getDefaultCursor());
+            home.setOpaque(false);
+        }
     }
 
     public InfoPanel(ShapeMatcherHome smh) {
@@ -82,6 +94,7 @@ public class InfoPanel extends JPanel implements MouseListener{
         home.setContentAreaFilled(false);
         home.setBorderPainted(false);
         home.setBorder(BorderFactory.createEmptyBorder());
+        home.setBackground(new Color(128,128,128,30));
         home.addMouseListener(this);
         add(home);
 
@@ -91,6 +104,7 @@ public class InfoPanel extends JPanel implements MouseListener{
         help.setOpaque(false);
         help.setContentAreaFilled(false);
         help.setBorder(BorderFactory.createEmptyBorder());
+        help.setBackground(new Color(128,128,128,30));
         help.addMouseListener(this);
         add(help);
 

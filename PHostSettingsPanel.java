@@ -4,6 +4,7 @@ import java.awt.image.*;
 import javax.swing.*;
 import javax.imageio.*;
 import java.awt.event.*;
+import javax.swing.border.Border;
 import javax.swing.event.*;
 import javax.swing.ImageIcon.*;
 
@@ -37,6 +38,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
+		repaint();
 	}
 
 	public void actionPerformed (ActionEvent evt){
@@ -46,25 +48,40 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			System.out.println("Back to main menu button pressed");
-			smh.frmHome.setContentPane(smh.pnlHome);
-			smh.frmHome.pack();
-			smh.frmHome.setVisible(true);
+			smh.frmHome.setTitle("Shape Matcher");
+			smh.backToMain();
+
+			// check if toggle music button is on mute or not
+			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
+				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
+				smh.playMusic.start();
+			} else {
+
+			}
+
 		} 
 	}
 
 	public void mousePressed (MouseEvent evt){	
 	}
 
-	public void mouseReleased (MouseEvent evt){	
+	public void mouseReleased (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setOpaque(false);
+		}
 	}
 
 	public void mouseEntered (MouseEvent evt){
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			home.setOpaque(true);
 		} 
 	}
 
 	public void mouseExited (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setOpaque(false);
+		}
 	}
 
 	//Constructor
@@ -74,6 +91,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 			image = ImageIO.read(getClass().getResource("Preferred Host Settings.png"));
 		} catch (IOException e) {
 			System.out.println("Error loading host settings image");
+			e.printStackTrace();
 		}
 
 		this.smh = smh;
@@ -89,6 +107,8 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		home.setLocation(33, 30);
 		home.setOpaque(false);
 		home.setContentAreaFilled(false);
+		home.setBorder(BorderFactory.createEmptyBorder());
+		home.setBackground(new Color(128,128,128,30));
 		home.setBorderPainted(false);
 		home.addMouseListener(this);
 		add(home);

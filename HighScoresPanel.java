@@ -1,10 +1,13 @@
-import java.awt.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.*;
-import java.io.*;
-import javax.imageio.*;
-import java.awt.event.*;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class HighScoresPanel extends JPanel implements MouseListener{
 	//Properties
@@ -12,21 +15,31 @@ public class HighScoresPanel extends JPanel implements MouseListener{
 	JLabel easy = new JLabel();
 	JLabel medium = new JLabel();
 	JLabel hard = new JLabel();
-	JLabel home = new JLabel(new ImageIcon("BacktoMain.png"));
+	JButton home = new JButton("Back to Main Menu");
 	Font f1 = new Font("Nunito",Font.PLAIN,27);
+	Font f2 = new Font("Nunito",Font.PLAIN,34);
 	ShapeMatcherHome smh;
 	
 	//Methods
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
+		repaint();
 	}
 
 	public void mouseClicked (MouseEvent evt){
 		if(evt.getSource()==home){
-			smh.frmHome.setContentPane(smh.pnlHome);
-			smh.frmHome.pack();
-			smh.frmHome.setVisible(true);
+			smh.frmHome.setTitle("Shape Matcher");
+			smh.backToMain();
+
+			// check if toggle music button is on mute or not
+			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
+				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
+				smh.playMusic.start();
+			} else {
+
+			}
+
 		}
 	}
 
@@ -35,17 +48,24 @@ public class HighScoresPanel extends JPanel implements MouseListener{
 	}
 
 	public void mouseReleased (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setOpaque(false);
+		}
 	}
 
 	public void mouseEntered (MouseEvent evt){
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			home.setOpaque(true);
+			smh.playHover();
 		}
 	}
 
 	public void mouseExited (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setOpaque(false);
+		}
 	}
-
 
 	public String loadFile (String strFile){
 		//variables
@@ -116,6 +136,7 @@ public class HighScoresPanel extends JPanel implements MouseListener{
 				return strContent;
 
 			}catch(IOException e){
+				e.printStackTrace();
 				return null;
 			}
 		}catch(FileNotFoundException e){
@@ -158,6 +179,13 @@ public class HighScoresPanel extends JPanel implements MouseListener{
 
 		home.setSize(new Dimension(320,65));
 		home.setLocation(925,640);
+		home.setFont(f2);
+		home.setForeground(Color.BLACK);
+		home.setBackground(new Color(128,128,128,30));
+		home.setOpaque(false);
+		home.setContentAreaFilled(false);
+		home.setBorderPainted(false);
+		home.setBorder(BorderFactory.createEmptyBorder());
 		home.addMouseListener(this);
 		add(home);
 
