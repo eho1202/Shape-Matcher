@@ -18,8 +18,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	JTextArea textArea = new JTextArea();
 	JScrollPane scroll = new JScrollPane(textArea);
 	JTextField talk = new JTextField();
-	int intptx;
-	int intpty;
 	int intx;
 	int inty;
 	int intwidth =75;
@@ -118,6 +116,44 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				System.out.println("Card 15");
 			}else if(intx>365&&intx<440&&inty>496&&inty<608){
 				System.out.println("Card 16");
+			}
+			if (intBoard>=6){
+				if(intx>460&&intx<535&&inty>100&&inty<212){
+					System.out.println("Card 17");
+				}else if(intx>460&&intx<535&&inty>232&&inty<344){
+					System.out.println("Card 18");
+				}else if(intx>460&&intx<535&&inty>364&&inty<476){
+					System.out.println("Card 19");
+				}else if(intx>460&&intx<535&&inty>496&&inty<608){
+					System.out.println("Card 20");
+				}else if(intx>555&&intx<630&&inty>100&&inty<212){
+					System.out.println("Card 21");
+				}else if(intx>555&&intx<630&&inty>232&&inty<344){
+					System.out.println("Card 22");
+				}else if(intx>555&&intx<630&&inty>364&&inty<476){
+					System.out.println("Card 23");
+				}else if(intx>555&&intx<630&&inty>496&&inty<608){
+					System.out.println("Card 24");
+				}
+			}
+			if (intBoard==8){
+				if(intx>650&&intx<725&&inty>100&&inty<212){
+					System.out.println("Card 25");
+				}else if(intx>650&&intx<725&&inty>232&&inty<344){
+					System.out.println("Card 26");
+				}else if(intx>650&&intx<725&&inty>364&&inty<476){
+					System.out.println("Card 27");
+				}else if(intx>650&&intx<725&&inty>496&&inty<608){
+					System.out.println("Card 28");
+				}else if(intx>745&&intx<820&&inty>100&&inty<212){
+					System.out.println("Card 25");
+				}else if(intx>745&&intx<820&&inty>232&&inty<344){
+					System.out.println("Card 26");
+				}else if(intx>745&&intx<820&&inty>364&&inty<476){
+					System.out.println("Card 27");
+				}else if(intx>745&&intx<820&&inty>496&&inty<608){
+					System.out.println("Card 28");
+				}
 			}
 		}
 	}
