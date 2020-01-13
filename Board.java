@@ -29,42 +29,47 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	String strBoard;
 	int intBoard;
 	String strPlyrName;
+	SuperSocketMaster ssm;
+	String strFile;
+	String strIP;
+	int intPort;
+	String strSub;
+	boolean blnDraw = false;
+	boolean blnCont = false;
+	int intTime;
 	
 	//Methods
-	public void paintComponent (Graphics g){
-		//load board info from host settings file
-			file = new FileReader("Host_Settings.txt");
-			fileread = new BufferedReader(file);
-			//check for the board size
-			try{
-				strBoard = fileread.readLine();
-				if (strBoard.equals("0")){
-					intBoard = 4;
-				}else if (strBoard.equals("1")){
-					intBoard = 6;
-				}else if (strBoard.equals("2")){
-					intBoard = 8;
-				}
-				
-				file.close();
-				fileread.close();
-				
-				super.paintComponent(g);
-				intx=80;
-				inty=100;
-				
-				//loop to draw the board
-				for(int i = 0; i<intBoard;i++){
-					for(int j =0; j<4;j++){
-						g.drawRoundRect(intx,inty,intwidth,intheight,intarcWidth,intarcHeight);
-						inty +=132;
-					}
-					intx += 95;
-					inty = 100;
-				}
-			}catch(IOException e){
+	public void paintComponent (Graphics g){			
+		if(blnDraw){
+			if (strBoard.equals("0")){
+				intBoard = 4;
+				strDifficulty = "easy";
+			}else if (strBoard.equals("1")){
+				intBoard = 6;
+				strDifficulty = "medium";
+			}else if (strBoard.equals("2")){
+				intBoard = 8;
+				strDifficulty = "hard";
 			}
-		}catch(FileNotFoundException e){
+			
+			if (blnCont){
+				crdDeck = smm.loadCards(strDifficulty);
+				blnCont=false;
+			}
+			
+			super.paintComponent(g);
+			intx=80;
+			inty=100;
+
+			//loop to draw the board
+			for(int i = 0; i<intBoard;i++){
+				for(int j =0; j<4;j++){
+					g.drawRoundRect(intx,inty,intwidth,intheight,intarcWidth,intarcHeight);
+					inty +=132;
+				}
+				intx += 95;
+				inty = 100;
+			}
 		}
 	}
 	
@@ -75,8 +80,39 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		} else if(evt.getSource()==talk){
 			//append chat messages sent to the text area and set text field to blank
 			textArea.append(strPlyrName+": "+talk.getText()+"\n");
+			ssm.sendText(strPlyrName+": "+talk.getText());
 			talk.setText("");	
+		}else if(evt.getSource()== ssm){
+			int intLength;
+			int intCount =0;
+			intLength = ssm.readText().length();
+			
+			//Check for a specific data format
+			for(int i=0;i<intLength;i++){
+				strSub = ssm.readText().substring(i,i+1);
+				if(strSub.equals("|")){
+					intCount++;
+				}else if(intCount==2){
+					i = intLength;
+					strBoard = ssm.readText().substring(2,3);
+				}else{
+					intCount = 0;
+				}
+			}
+			
+			//if the data sent is the data format, store the text. Otherwise, append it only
+			if(intCount==2){
+				blnDraw=true;
+				blnCont=true;
+			}else if(ssm.readText().equals("C0nnected")){
+				ssm.sendText("||"+strBoard);
+				blnDraw=true;
+				blnCont=true;
+			}else{
+				textArea.append(ssm.readText()+"\n");
+			}
 		}
+	}
 	}
 
 	public void mouseClicked(MouseEvent evt) {
@@ -175,12 +211,40 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	}
 	
 	//Constructor
-	public Board (String strName){
+	public Board (String strHorJ){
 		setLayout(null);
 		setPreferredSize(new Dimension(1280,720));
 		addMouseListener(this);
 		
-		strPlyrName = strName;//set player name to what was listed in the settings
+		strFile = strHorJ;
+		
+		//Open file and load needed information into variables
+		try{
+			file = new FileReader(strFile);
+			fileread = new BufferedReader(file);
+			try{
+				if(strFile.equals("Host_Settings.txt")){
+					strBoard = fileread.readLine();
+					fileread.readLine();
+					strPlyrName = fileread.readLine();
+					intTime = Integer.parseInt(fileread.readLine());
+					intPort = Integer.parseInt(fileread.readLine());
+					ssm = new SuperSocketMaster(intPort,this);
+					ssm.connect();
+				}else if(strFile.equals("Player_Settings.txt")){
+					strPlyrName = fileread.readLine();
+					intPort = Integer.parseInt(fileread.readLine());
+					strIP = fileread.readLine();
+					ssm = new SuperSocketMaster(strIP,intPort,this);
+					ssm.connect();
+					ssm.sendText("C0nnected");
+				}
+				file.close();
+				fileread.close();
+			}catch(IOException e){
+			}
+		} catch (FileNotFoundException e){
+		}
 		
 		//set label szie, font, location	
 		playerturn.setFont(f1);
