@@ -34,9 +34,11 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	String strIP;
 	int intPort;
 	String strSub;
+	String strDifficulty;
 	boolean blnDraw = false;
 	boolean blnCont = false;
 	int intTime;
+	boolean blnClick = false;
 	
 	//Methods
 	public void paintComponent (Graphics g){			
@@ -70,6 +72,15 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				intx += 95;
 				inty = 100;
 			}
+			
+			//pause game for selected number of seconds when card is selected
+			if(blnClick){
+				try{
+					Thread.sleep(intTime*1000);
+				}catch(InterruptedException e){
+				}
+				blnClick = false;
+			}
 		}
 	}
 	
@@ -95,6 +106,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				}else if(intCount==2){
 					i = intLength;
 					strBoard = ssm.readText().substring(2,3);
+					intTime = Integer.parseInt(ssm.readText().substring(5,6));
 				}else{
 					intCount = 0;
 				}
@@ -105,7 +117,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				blnDraw=true;
 				blnCont=true;
 			}else if(ssm.readText().equals("C0nnected")){
-				ssm.sendText("||"+strBoard);
+				ssm.sendText("||"+strBoard+"||"+intTime);
 				blnDraw=true;
 				blnCont=true;
 			}else{
