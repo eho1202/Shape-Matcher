@@ -4,8 +4,6 @@ import java.awt.image.*;
 import javax.swing.*;
 import javax.imageio.*;
 import java.awt.event.*;
-import javax.swing.event.*;
-import javax.swing.ImageIcon.*;
 
 public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseListener {
 	BufferedImage image;
@@ -96,7 +94,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 		this.smh = smh;
 		
 		try{
-			image = ImageIO.read(getClass().getResource("Create or Join.png"));
+			image = ImageIO.read(getClass().getResource("/img/Create or Join.png"));
 		}catch(IOException e){
 			System.out.println("Error loading create or join server image");
 		}

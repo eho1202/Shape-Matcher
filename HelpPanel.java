@@ -99,7 +99,7 @@ public class HelpPanel extends JPanel implements MouseListener{
 
     public HelpPanel(ShapeMatcherHome smh) {
         try {
-            image = ImageIO.read(getClass().getResource("Help.png"));
+            image = ImageIO.read(getClass().getResource("img/Help.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

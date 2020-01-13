@@ -16,11 +16,11 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	public JButton btnHelp;
 	public JButton btnQuit;
 	public JOptionPane optionQuit;
-	Clip playMusic;
-	long clipTimePosition;
-	JToggleButton btnMusic;
-	Icon mute;
-	Icon unmute;
+	public JToggleButton btnMusic;
+	public Clip playMusic;
+	public long clipTimePosition;
+	public Icon mute;
+	public Icon unmute;
 	
 	CreateOrJoinPanel pnlCreateOrJoin = new CreateOrJoinPanel(this);
 	PHostSettingsPanel pnlPHS = new PHostSettingsPanel(this);
@@ -77,7 +77,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		} else if (evt.getSource() == btnMusic) {
 			if (btnMusic.getIcon().equals(unmute)) {
 				btnMusic.setIcon(mute);
-				btnMusic.setBackground(Color.DARK_GRAY);
 				clipTimePosition = playMusic.getMicrosecondPosition(); // get time where music is stopped
 				playMusic.stop();
 			} else if (btnMusic.getIcon().equals(mute)){
@@ -133,6 +132,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 			playHover();
 		} else if (evt.getSource() == btnMusic) {
 			btnMusic.setBackground(new Color(128,128,128,30));
+			playHover();
 		}
 	}
 
@@ -154,7 +154,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	}
 
 	// method to play a sound when hovering over a button
-    public void playHover(){
+    public void playHover() {
 		try {
 			AudioInputStream hover = AudioSystem.getAudioInputStream(new File("hover.wav"));
 			Clip hovering = AudioSystem.getClip();
@@ -194,7 +194,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		// get images for mute and unmute icons
 		mute = new ImageIcon("mute.png");
 		unmute = new ImageIcon("unmute.png");
-		
+
 		//Home panel setup
 		this.pnlHome = new mainPanel();
 		this.pnlHome.setPreferredSize(new Dimension(1280, 720));
@@ -264,6 +264,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.btnMusic = new JToggleButton();
 		this.btnMusic.setSize(50,50);
 		this.btnMusic.setLocation(1190,640);
+		this.btnMusic.setOpaque(true);
 		this.btnMusic.setBorderPainted(false);
 		this.btnMusic.setBorder(BorderFactory.createEmptyBorder());
 		this.btnMusic.setIcon(unmute);

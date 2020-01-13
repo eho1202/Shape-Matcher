@@ -4,8 +4,6 @@ import java.awt.image.*;
 import javax.swing.*;
 import javax.imageio.*;
 import java.awt.event.*;
-import javax.swing.event.*;
-import javax.swing.ImageIcon.*;
 
 public class HostSettingsPanel extends JPanel implements ActionListener, MouseListener{
 	
@@ -121,7 +119,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	public HostSettingsPanel (ShapeMatcherHome smh) {
 
 		try {
-			image = ImageIO.read(getClass().getResource("Host Settings.png"));
+			image = ImageIO.read(getClass().getResource("img/Host Settings.png"));
 		} catch (IOException e) {
 			System.out.println("Error loading host settings image");
 			e.printStackTrace();

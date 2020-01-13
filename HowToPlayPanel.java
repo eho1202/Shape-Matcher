@@ -75,7 +75,7 @@ public class HowToPlayPanel extends JPanel implements MouseListener{
 
     public HowToPlayPanel(ShapeMatcherHome smh) {
         try {
-            image = ImageIO.read(getClass().getResource("HowToPlay.png"));
+            image = ImageIO.read(getClass().getResource("/img/HowToPlay.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

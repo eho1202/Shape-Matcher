@@ -19,7 +19,7 @@ public class mainPanel extends JPanel {
 	//CONSTRUCTOR
 	public mainPanel() {
 		try {
-			imgLogo = ImageIO.read(getClass().getResource("Shape Matcher Home.png"));
+			imgLogo = ImageIO.read(getClass().getResource("/img/Shape Matcher Home.png"));
 		} catch (IOException e) {
 			System.out.println("Error loading main menu image");
 			e.printStackTrace();
