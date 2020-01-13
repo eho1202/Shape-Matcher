@@ -174,4 +174,13 @@ public class ShapeMatcherModel {
         // return the resultant array 
         return anotherArray; 
     }
+    
+    public void flipCard(card c) {
+		if (c.blnFlipped == true) {
+			c.blnFlipped = false;
+		} else if (c.blnFlipped == false) {
+			c.blnFlipped = true;
+		}
+	}
+		
 }
