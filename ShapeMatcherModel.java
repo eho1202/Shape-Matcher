@@ -174,12 +174,4 @@ public class ShapeMatcherModel {
         // return the resultant array 
         return anotherArray; 
     }
-	
-	public static void main(String[] args) {
-		ShapeMatcherModel smm = new ShapeMatcherModel();
-		card cards[] = smm.loadCards("m");
-		for (int i = 0; i < 24; i++) {
-			System.out.println(cards[i].intShape);
-		}
-	}
 }
