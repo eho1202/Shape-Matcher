@@ -41,7 +41,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	int intTime;
 	boolean blnClick = false;
 	ShapeMatcherModel smm = new ShapeMatcherModel();
-	crdDeck[];
+	card crdDeck[];
 	int intIndex;
 	int intCard1=-1;
 	int intCard2;
