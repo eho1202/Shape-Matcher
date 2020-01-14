@@ -76,7 +76,7 @@ public class InfoPanel extends JPanel implements MouseListener{
 
     public InfoPanel(ShapeMatcherHome smh) {
         try {
-            image = ImageIO.read(getClass().getResource("InfoSettings.png"));
+            image = ImageIO.read(getClass().getResource("img/InfoSettings.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -4,8 +4,6 @@ import java.awt.image.*;
 import javax.swing.*;
 import javax.imageio.*;
 import java.awt.event.*;
-import javax.swing.event.*;
-import javax.swing.ImageIcon.*;
 
 public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	
@@ -133,7 +131,7 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 		this.smh = smh;
 		
 		try{
-			image = ImageIO.read(getClass().getResource("Player Settings.png"));
+			image = ImageIO.read(getClass().getResource("img/Player Settings.png"));
 		}catch(IOException e){
 			System.out.println("Error loading player settings image");
 		}

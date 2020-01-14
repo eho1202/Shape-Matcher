@@ -147,7 +147,7 @@ public class HighScoresPanel extends JPanel implements MouseListener{
 	//Constructor
 	public HighScoresPanel (ShapeMatcherHome smh){
 		try{
-			image = ImageIO.read(getClass().getResource("High Scores.png"));
+			image = ImageIO.read(getClass().getResource("img/High Scores.png"));
 		}catch(IOException e){
 			e.printStackTrace();
 		}

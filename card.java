@@ -9,7 +9,7 @@ public class card {
 	BufferedImage image; //Image associated with each shape
 	boolean blnFlipped;
 	int intN;
-	
+
 	//METHODS
 	 public void flip() {
 		if (this.blnFlipped == true) {

@@ -4,9 +4,6 @@ import java.awt.image.*;
 import javax.swing.*;
 import javax.imageio.*;
 import java.awt.event.*;
-import javax.swing.border.Border;
-import javax.swing.event.*;
-import javax.swing.ImageIcon.*;
 
 public class PHostSettingsPanel extends JPanel implements ActionListener, MouseListener{
 	
@@ -123,7 +120,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	public PHostSettingsPanel (ShapeMatcherHome smh) {
 
 		try {
-			image = ImageIO.read(getClass().getResource("Preferred Host Settings.png"));
+			image = ImageIO.read(getClass().getResource("img/Preferred Host Settings.png"));
 		} catch (IOException e) {
 			System.out.println("Error loading host settings image");
 			e.printStackTrace();
