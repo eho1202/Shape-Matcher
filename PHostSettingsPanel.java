@@ -46,6 +46,39 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			System.out.println("Back to main menu button pressed");
+			//Load all settings into variables
+			strPlayer1 = Plyr.getText();
+			
+			intPort = Integer.parseInt(Port.getText());
+			//check if user has entered a number greater than 1000. 
+			if (intPort<=1000){
+				warning.setVisible(true);
+				blnCont=false; //set to false to prevent panels from swapping
+			}else{
+				warning.setVisible(false);
+				blnCont=true; //set to true to allow panels to swap
+			}
+			
+			intGameMode = mode.getSelectedIndex();
+			intBoardSize = board.getSelectedIndex();
+			intTime = slide.getValue()*1000;
+			
+			if (blnCont){
+				//write settings to a file
+				try{
+					files = new FileWriter("Host_Settings.txt");
+					filewrite = new PrintWriter(files);
+					filewrite.println(intBoardSize+"\n"+intGameMode+"\n"+strPlayer1+"\n"+intTime+"\n"+intPort+"\n"+IP.getText());
+					files.close();
+					filewrite.close();
+				}catch(IOException e){
+				}
+				setVisible(false);
+				//brd  = new Board(strPlayer1);
+				//smh.frmHome.setContentPane(brd);
+				smh.frmHome.pack();
+				smh.frmHome.setVisible(true);
+			}
 			smh.frmHome.setContentPane(smh.pnlHome);
 			smh.frmHome.pack();
 			smh.frmHome.setVisible(true);
