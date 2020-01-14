@@ -6,12 +6,12 @@ import javax.imageio.*;
 import java.awt.event.*;
 
 public class PHostSettingsPanel extends JPanel implements ActionListener, MouseListener{
-	
+
 	//Properties
 	BufferedImage image;
 	JButton home = new JButton();
 	JLabel warning = new JLabel("Please enter a value higher than 1000");
-	JTextField Plyr = new JTextField("Player 1"); 
+	JTextField Plyr = new JTextField("Player 1");
 	JTextField Port = new JTextField("3112");
 	JTextField IP;
 	JSlider slide = new JSlider(JSlider.HORIZONTAL,1,3,1);
@@ -30,7 +30,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	FileWriter files;
 	PrintWriter filewrite;
 	ShapeMatcherHome smh;
-	
+
 	//Methods
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
@@ -41,7 +41,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	public void actionPerformed (ActionEvent evt){
 	}
 
-	public void mouseClicked (MouseEvent evt){		
+	public void mouseClicked (MouseEvent evt){
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			System.out.println("Back to main menu button pressed");
@@ -56,10 +56,10 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 
 			}
 
-		} 
+		}
 	}
 
-	public void mousePressed (MouseEvent evt){	
+	public void mousePressed (MouseEvent evt){
 	}
 
 	public void mouseReleased (MouseEvent evt){
@@ -72,7 +72,8 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			home.setOpaque(true);
-		} 
+			smh.playHover();
+		}
 	}
 
 	public void mouseExited (MouseEvent evt){

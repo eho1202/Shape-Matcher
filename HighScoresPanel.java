@@ -15,7 +15,7 @@ public class HighScoresPanel extends JPanel implements MouseListener{
 	JLabel easy = new JLabel();
 	JLabel medium = new JLabel();
 	JLabel hard = new JLabel();
-	JButton home = new JButton("Back to Main Menu");
+	JButton home = new JButton("Back to main menu");
 	Font f1 = new Font("Nunito",Font.PLAIN,27);
 	Font f2 = new Font("Nunito",Font.PLAIN,34);
 	ShapeMatcherHome smh;

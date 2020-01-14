@@ -89,7 +89,7 @@ public class HelpPanel extends JPanel implements MouseListener{
     public void mouseExited(MouseEvent evt) {
         if (evt.getSource() == btnHome) {
             btnHome.setOpaque(false);
-        } else if (evt.getSource() == btnInfo) {
+        } else if (evt.getSource() == btnInfo) {setOpaque(false);
             btnInfo.setOpaque(false);
         } else if (evt.getSource() == btnHow) {
             btnHow.setOpaque(false);

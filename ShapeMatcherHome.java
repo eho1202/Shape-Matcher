@@ -1,7 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class ShapeMatcherHome implements ActionListener, MouseListener {
@@ -21,6 +23,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	public long clipTimePosition;
 	public Icon mute;
 	public Icon unmute;
+	public BufferedImage icon;
 	
 	CreateOrJoinPanel pnlCreateOrJoin = new CreateOrJoinPanel(this);
 	PHostSettingsPanel pnlPHS = new PHostSettingsPanel(this);
@@ -191,6 +194,13 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 
 		playMusic();
 
+		// change icon image in task bar instead of java icon
+		try{
+			icon = ImageIO.read(getClass().getResource("/mute.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// get images for mute and unmute icons
 		mute = new ImageIcon("mute.png");
 		unmute = new ImageIcon("unmute.png");
@@ -285,6 +295,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.frmHome.setResizable(false);
 		this.frmHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frmHome.setContentPane(pnlHome);
+		this.frmHome.setIconImage(icon);
 		this.frmHome.pack();
 		this.frmHome.setVisible(true);
 		this.frmHome.setLocationRelativeTo(null); //causes frmHome to centre on screen

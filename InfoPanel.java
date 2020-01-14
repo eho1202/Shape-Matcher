@@ -70,7 +70,7 @@ public class InfoPanel extends JPanel implements MouseListener{
             home.setOpaque(false);
         } else if (evt.getSource() == help) {
             help.setCursor(Cursor.getDefaultCursor());
-            home.setOpaque(false);
+            help.setOpaque(false);
         }
     }
 
@@ -89,7 +89,7 @@ public class InfoPanel extends JPanel implements MouseListener{
 
         // Button that goes back to main menu
         home.setSize(new Dimension(320,65));
-        home.setLocation(925,640);
+        home.setLocation(931,640);
         home.setOpaque(false);
         home.setContentAreaFilled(false);
         home.setBorderPainted(false);
@@ -100,7 +100,7 @@ public class InfoPanel extends JPanel implements MouseListener{
 
         // Button that goes back to help
         help.setSize(new Dimension(240,50));
-        help.setLocation(1020,595);
+        help.setLocation(1020,592);
         help.setOpaque(false);
         help.setContentAreaFilled(false);
         help.setBorder(BorderFactory.createEmptyBorder());
