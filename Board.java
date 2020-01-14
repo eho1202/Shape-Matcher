@@ -50,6 +50,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	int intTurn=1;
 	String strSend ="";
 	String strNumbers[];
+	int intGo;
 	
 	//Methods
 	public void paintComponent (Graphics g){			
@@ -235,9 +236,15 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			repaint();
 		} else if(evt.getSource()==talk){
 			//append chat messages sent to the text area and set text field to blank
-			textArea.append(strPlyrName+": "+talk.getText()+"\n");
-			ssm.sendText(strPlyrName+": "+talk.getText());
-			talk.setText("");	
+			if(intGo==1){
+				textArea.append(strPlyrName+": "+talk.getText()+"\n");
+				ssm.sendText(strPlyrName+": "+talk.getText());
+				talk.setText("");	
+			}else if(intGo==2){
+				textArea.append(strPlyrName2+": "+talk.getText()+"\n");
+				ssm.sendText(strPlyrName2+": "+talk.getText());
+				talk.setText("");
+			}
 		}else if(evt.getSource()== ssm){
 			int intLength;
 			int intCount1 =0;
@@ -278,7 +285,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				strNumbers = ssm.readText().split("&&");
 				strBoard=strNumbers[0];
 				intTime= Integer.parseInt(strNumbers[1]);
-				strPlyrName2=strNumbers[2];
+				strPlyrName=strNumbers[2];
 				
 				//determine value for intBoard and strDifficulty based on intBoard
 				if (strBoard.equals("0")){
@@ -302,6 +309,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				crdDeck = smm.loadImages(crdDeck); //load images of shapes 
 				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
 				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
+				playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
 			}else if(intCount2==2){
 				ssm.sendText(strBoard+"&&"+intTime+"&&"+strPlyrName+strSend);
 				
@@ -338,7 +346,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent evt) {
-		if(evt.getSource()==this){
+		if(evt.getSource()==this&&blnDraw&&intGo==intTurn){
 			intx = evt.getX();
 			inty = evt.getY();
 			//checks if a card has been clicked, changes value of intx1 and iny1, index, and crdDeck[].blnFlipped
@@ -560,6 +568,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					ssm.sendText("2@@"+intCard2+"@@"+intx3+"@@"+inty3);
 				}else if(intj == 2&&intIndex==intCard1){
 					intj=1;
+					crdDeck[intCard1].flip();
 				}
 				blnCont=false;
 			}
@@ -599,6 +608,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					strBoard = fileread.readLine();
 					fileread.readLine();
 					strPlyrName = fileread.readLine();
+					intGo=1;
 					intTime = Integer.parseInt(fileread.readLine());
 					intPort = Integer.parseInt(fileread.readLine());
 					ssm = new SuperSocketMaster(intPort,this);
@@ -626,7 +636,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						crdDeck[i].blnFlipped=false;
 					}
 				}else if(strFile.equals("Player_Settings.txt")){
-					strPlyrName = fileread.readLine();
+					strPlyrName2 = fileread.readLine();
+					intGo=2;
 					intPort = Integer.parseInt(fileread.readLine());
 					strIP = fileread.readLine();
 					ssm = new SuperSocketMaster(strIP,intPort,this);
