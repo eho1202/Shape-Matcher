@@ -8,4 +8,5 @@ public class card {
 	int intShape;
 	BufferedImage image;
 	boolean blnFlipped;
+	int intN;
 }
