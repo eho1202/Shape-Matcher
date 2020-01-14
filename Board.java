@@ -29,6 +29,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	String strBoard;
 	int intBoard;
 	String strPlyrName;
+	String strPlyrName ="";
 	SuperSocketMaster ssm;
 	String strFile;
 	String strIP;
@@ -106,6 +107,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						crdDeck[intCard1].blnFlipped=false;
 						crdDeck[intCard2].blnFlipped=false;
 					}
+					player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//update score
+					playerturn.setText(strPlyrName2+"'s Turn!");
 					//reset variables
 					intT=1;
 					intCard1=-1;
@@ -237,24 +240,60 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			for(int i=0;i<intLength;i++){
 				strSub = ssm.readText().substring(i,i+1);
 				if(strSub.equals("|")){
-					intCount++;
-				}else if(intCount==2){
-					i = intLength;
-					strBoard = ssm.readText().substring(2,3);
-					intTime = Integer.parseInt(ssm.readText().substring(5,6));
-				}else{
-					intCount = 0;
+					intCount1++;
+				}else if(i==0){
+					try{
+						Integer.parseInt(strSub);
+						strBoard = strSub;
+						intCount1++;
+					}catch(NumberFormatException e){
+						intCount1=0;
+						i=intLength;
+					}
+				}else if(i==3){
+					try{
+						intTime = Integer.parseInt(strSub);
+						intCount1++;
+					}catch(NumberFormatException e){
+						intCount1=0;
+						i=intLength;
+					}
+				}else if(i>=6){
+					strPlyrName2+= strSub;
 				}
 			}
-			
+
+			for(int i=0;i<intLength;i++){
+				strSub = ssm.readText().substring(i,i+1);
+				if(strSub.equals("|")){
+					intCount2++;
+				}else if(i>=0&&i<=8){
+					try{
+						Integer.parseInt(strSub);
+						intCount2 = 0;
+						i = intLength;
+					}catch(NumberFormatException e){
+						intCount2++;
+					}
+				}else if(i>=11){
+					strPlyrName2+=strSub;
+					intCount2++;
+				}
+			}
+		
 			//if the data sent is the data format, store the text. Otherwise, append it only
 			if(intCount==2){
 				blnDraw=true;
 				blnCont=true;
-			}else if(ssm.readText().equals("C0nnected")){
-				ssm.sendText("||"+strBoard+"||"+intTime);
+				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
+				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
+			}else if(intCount2!=0){
+				ssm.sendText(strBoard+"||"+intTime+"||"+strPlyrName);
 				blnDraw=true;
 				blnCont=true;
+				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
+				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
+				playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
 			}else{
 				textArea.append(ssm.readText()+"\n");
 			}
@@ -497,7 +536,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					strIP = fileread.readLine();
 					ssm = new SuperSocketMaster(strIP,intPort,this);
 					ssm.connect();
-					ssm.sendText("C0nnected");
+					ssm.sendText("Connected||"+strPlyrName);
 				}
 				file.close();
 				fileread.close();
