@@ -84,6 +84,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 					files.close();
 					filewrite.close();
 				}catch(IOException e){
+					e.printStackTrace();
 				}
 				setVisible(false);
 				brd  = new Board(strPlayer1);

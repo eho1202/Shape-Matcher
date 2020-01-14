@@ -156,7 +156,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	// method to play a sound when hovering over a button
     public void playHover(){
 		try {
-			AudioInputStream hover = AudioSystem.getAudioInputStream(new File("hover.wav"));
+			AudioInputStream hover = AudioSystem.getAudioInputStream(new File("audio/hover.wav"));
 			Clip hovering = AudioSystem.getClip();
 			hovering.open(hover);
 			hovering.start();
@@ -168,7 +168,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	// plays the music file bgm.wav
 	private void playMusic() {
 		try {
-			AudioInputStream music = AudioSystem.getAudioInputStream(new File("bgm.wav"));
+			AudioInputStream music = AudioSystem.getAudioInputStream(new File("audio/bgm.wav"));
 			playMusic = AudioSystem.getClip();
 			playMusic.open(music);
 			FloatControl gainControl = (FloatControl) playMusic.getControl(FloatControl.Type.MASTER_GAIN);
