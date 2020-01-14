@@ -39,10 +39,18 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	boolean blnCont = false;
 	int intTime;
 	boolean blnClick = false;
+	ShapeMatcherModel smm = new ShapeMatcherModel();
+	crdDeck[];
+	int intIndex;
+	int intCard1=-1;
+	int intCard2;
+	int intj=0;
+	int intT=1;
 	
 	//Methods
 	public void paintComponent (Graphics g){			
 		if(blnDraw){
+			//change value of board columns and strDifficulty based on board size
 			if (strBoard.equals("0")){
 				intBoard = 4;
 				strDifficulty = "easy";
@@ -54,6 +62,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				strDifficulty = "hard";
 			}
 			
+			//load the cards into the array once
 			if (blnCont){
 				crdDeck = smm.loadCards(strDifficulty);
 				blnCont=false;
@@ -66,22 +75,148 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			//loop to draw the board
 			for(int i = 0; i<intBoard;i++){
 				for(int j =0; j<4;j++){
-					g.drawRoundRect(intx,inty,intwidth,intheight,intarcWidth,intarcHeight);
+					g.setColor(Color.WHITE);
+					g.fillRoundRect(intx,inty,intwidth,intheight,intarcWidth,intarcHeight);
 					inty +=132;
 				}
 				intx += 95;
 				inty = 100;
 			}
 			
-			//pause game for selected number of seconds when card is selected
+			//after two cards have been selected, go into if statement
 			if(blnClick){
-				try{
-					Thread.sleep(intTime*1000);
-				}catch(InterruptedException e){
-				}
-				blnClick = false;
+				//draw images
+				g.drawImage(crdDeck[intCard1].image,intx2,inty2,null);
+				g.drawImage(crdDeck[intCard2].image,intx3,inty3,null);
+				
+				//pause game the second time when images have been drawn
+				if(intT==1){
+					intT++;
+				}else if(intT==2){
+					try{
+						Thread.sleep(intTime*1000);
+					}catch(InterruptedException e){
+					}
+					
+					//if cards have the same shape, then keep blnFlipped = true. Otherwise, it equals false
+					if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
+						crdDeck[intCard1].blnFlipped=true;
+						crdDeck[intCard2].blnFlipped=true;
+					}else{
+						crdDeck[intCard1].blnFlipped=false;
+						crdDeck[intCard2].blnFlipped=false;
+					}
+					//reset variables
+					intT=1;
+					intCard1=-1;
+					blnClick = false;
+					intj=0;
+				}	
 			}
-		}
+			//draw cards if blnFlipped=true
+			if (crdDeck[0].blnFlipped){
+				g.drawImage(crdDeck[0].image,102,141,null);
+			}
+			if(crdDeck[1].blnFlipped){
+				g.drawImage(crdDeck[1].image,197,141,null);
+			}
+			if(crdDeck[2].blnFlipped){
+				g.drawImage(crdDeck[2].image,292,141,null);
+			}
+			if(crdDeck[3].blnFlipped){
+				g.drawImage(crdDeck[3].image,387,141,null);
+			}
+			if(crdDeck[4].blnFlipped){
+				g.drawImage(crdDeck[4].image,102,273,null);
+			}
+			if(crdDeck[5].blnFlipped){
+				g.drawImage(crdDeck[5].image,197,273,null);
+			}
+			if(crdDeck[6].blnFlipped){
+				g.drawImage(crdDeck[6].image,292,273,null);
+			}
+			if(crdDeck[7].blnFlipped){
+				g.drawImage(crdDeck[7].image,387,273,null);
+			}
+			if(crdDeck[8].blnFlipped){
+				g.drawImage(crdDeck[8].image,102,405,null);
+			}
+			if(crdDeck[9].blnFlipped){
+				g.drawImage(crdDeck[9].image,197,405,null);
+			}
+			if(crdDeck[10].blnFlipped){
+				g.drawImage(crdDeck[10].image,292,405,null);
+			}
+			if(crdDeck[11].blnFlipped){
+				g.drawImage(crdDeck[11].image,387,405,null);
+			}
+			if(crdDeck[12].blnFlipped){
+				g.drawImage(crdDeck[12].image,102,537,null);
+			}
+			if(crdDeck[13].blnFlipped){
+				g.drawImage(crdDeck[13].image,197,537,null);
+			}
+			if(crdDeck[14].blnFlipped){
+				g.drawImage(crdDeck[14].image,292,537,null);
+			}
+			if(crdDeck[15].blnFlipped){
+				g.drawImage(crdDeck[15].image,387,537,null);
+			}
+			//extra set of cards for a larger board
+			if (intBoard>=6){
+				if(crdDeck[16].blnFlipped){
+					g.drawImage(crdDeck[16].image,482,141,null);
+				}
+				if(crdDeck[17].blnFlipped){
+					g.drawImage(crdDeck[17].image,577,141,null);
+				}
+				if(crdDeck[18].blnFlipped){
+					g.drawImage(crdDeck[18].image,482,273,null);
+				}
+				if(crdDeck[19].blnFlipped){
+					g.drawImage(crdDeck[19].image,577,273,null);
+				}
+				if(crdDeck[20].blnFlipped){
+					g.drawImage(crdDeck[20].image,482,405,null);
+				}
+				if(crdDeck[21].blnFlipped){
+					g.drawImage(crdDeck[21].image,577,405,null);
+				}
+				if(crdDeck[22].blnFlipped){
+					g.drawImage(crdDeck[22].image,482,537,null);
+				}
+				if(crdDeck[23].blnFlipped){
+					g.drawImage(crdDeck[23].image,577,537,null);
+				}
+			}
+			//extra set of cards for a larger board
+			if (intBoard==8){
+				if(crdDeck[24].blnFlipped){
+					g.drawImage(crdDeck[24].image,672,141,null);
+				}
+				if(crdDeck[25].blnFlipped){
+					g.drawImage(crdDeck[25].image,767,141,null);
+				}
+				if(crdDeck[26].blnFlipped){
+					g.drawImage(crdDeck[26].image,672,273,null);
+				}
+				if(crdDeck[27].blnFlipped){
+					g.drawImage(crdDeck[27].image,767,273,null);
+				}
+				if(crdDeck[28].blnFlipped){
+					g.drawImage(crdDeck[28].image,672,405,null);
+				}
+				if(crdDeck[29].blnFlipped){
+					g.drawImage(crdDeck[29].image,767,405,null);
+				}
+				if(crdDeck[30].blnFlipped){
+					g.drawImage(crdDeck[30].image,672,537,null);
+				}
+				if(crdDeck[31].blnFlipped){
+					g.drawImage(crdDeck[31].image,767,537,null);
+				}
+			}
+		}//blnDraw if statement
 	}
 	
 	public void actionPerformed(ActionEvent evt){
@@ -131,77 +266,190 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		if(evt.getSource()==this){
 			intx = evt.getX();
 			inty = evt.getY();
-			//checks if a card has been clicked
+			//checks if a card has been clicked, changes value of intx1 and iny1, index, and crdDeck[].blnFlipped
 			if (intx>80&&intx<155&&inty>100&&inty<212){
-				System.out.println("Card 1");
+				intx1=102;
+				inty1=141;
+				intIndex=0;
+				crdDeck[0].blnFlipped=true;
 			}else if(intx>175&&intx<250&&inty>100&&inty<212){
-				System.out.println("Card 2");
+				intx1=197;
+				inty1=141;
+				intIndex=1;
+				crdDeck[1].blnFlipped=true;				
 			}else if(intx>270&&intx<345&&inty>100&&inty<212){
-				System.out.println("Card 3");
+				intx1=292;
+				inty1=141;
+				intIndex=2;
+				crdDeck[2].blnFlipped=true;
 			}else if(intx>365&&intx<440&&inty>100&&inty<212){
-				System.out.println("Card 4");
+				intx1=387;
+				inty1=141;
+				intIndex=3;
+				crdDeck[3].blnFlipped=true;
 			}else if(intx>80&&intx<155&&inty>232&&inty<344){
-				System.out.println("Card 5");
+				intx1=102;
+				inty1=273;
+				intIndex=4;
+				crdDeck[4].blnFlipped=true;
 			}else if(intx>175&&intx<250&&inty>232&&inty<344){
-				System.out.println("Card 6");
+				intx1=197;
+				inty1=273;
+				intIndex=5;
+				crdDeck[5].blnFlipped=true;
 			}else if(intx>270&&intx<345&&inty>232&&inty<344){
-				System.out.println("Card 7");
+				intx1=292;
+				inty1=273;
+				intIndex=6;
+				crdDeck[6].blnFlipped=true;
 			}else if(intx>365&&intx<440&&inty>232&&inty<344){
-				System.out.println("Card 8");
+				intx1=387;
+				inty1=273;
+				intIndex=7;
+				crdDeck[7].blnFlipped=true;
 			}else if(intx>80&&intx<155&&inty>364&&inty<476){
-				System.out.println("Card 9");
+				intx1=102;
+				inty1=405;
+				intIndex=8;
+				crdDeck[8].blnFlipped=true;
 			}else if(intx>175&&intx<250&&inty>364&&inty<476){
-				System.out.println("Card 10");    
+				intx1=197;
+				inty1=405;
+				intIndex=9;
+				crdDeck[9].blnFlipped=true;
 			}else if(intx>270&&intx<345&&inty>364&&inty<476){
-				System.out.println("Card 11");
+				intx1=292;
+				inty1=405;
+				intIndex=10;
+				crdDeck[10].blnFlipped=true;
 			}else if(intx>365&&intx<440&&inty>364&&inty<476){
-				System.out.println("Card 12");
+				intx1=387;
+				inty1=405;
+				intIndex=11;
+				crdDeck[11].blnFlipped=true;
 			}else if(intx>80&&intx<155&&inty>496&&inty<608){
-				System.out.println("Card 13");
+				intx1=102;
+				inty1=537;
+				intIndex=12;
+				crdDeck[12].blnFlipped=true;
 			}else if(intx>175&&intx<250&&inty>496&&inty<608){
-				System.out.println("Card 14");
+				intx1=197;
+				inty1=537;
+				intIndex=13;
+				crdDeck[13].blnFlipped=true;
 			}else if(intx>270&&intx<345&&inty>496&&inty<608){
-				System.out.println("Card 15");
+				intx1=292;
+				inty1=537;
+				intIndex=14;
+				crdDeck[14].blnFlipped=true;
 			}else if(intx>365&&intx<440&&inty>496&&inty<608){
-				System.out.println("Card 16");
+				intx1=387;
+				inty1=537;
+				intIndex=15;
+				crdDeck[15].blnFlipped=true;
 			}
+			//loads more cards if the board size selected is larger than 4x4
 			if (intBoard>=6){
 				if(intx>460&&intx<535&&inty>100&&inty<212){
-					System.out.println("Card 17");
-				}else if(intx>460&&intx<535&&inty>232&&inty<344){
-					System.out.println("Card 18");
-				}else if(intx>460&&intx<535&&inty>364&&inty<476){
-					System.out.println("Card 19");
-				}else if(intx>460&&intx<535&&inty>496&&inty<608){
-					System.out.println("Card 20");
+					intx1=482;
+					inty1=141;
+					intIndex=16;
+					crdDeck[16].blnFlipped=true;
 				}else if(intx>555&&intx<630&&inty>100&&inty<212){
-					System.out.println("Card 21");
+					intx1=577;
+					inty1=141;
+					intIndex=17;
+					crdDeck[17].blnFlipped=true;
+				}else if(intx>460&&intx<535&&inty>232&&inty<344){
+					intx1=482;
+					inty1=273;
+					intIndex=18;
+					crdDeck[18].blnFlipped=true;
 				}else if(intx>555&&intx<630&&inty>232&&inty<344){
-					System.out.println("Card 22");
+					intx1=577;
+					inty1=273;
+					intIndex=19;
+					crdDeck[19].blnFlipped=true;
+				}else if(intx>460&&intx<535&&inty>364&&inty<476){
+					intx1=482;
+					inty1=405;
+					intIndex=20;
+					crdDeck[20].blnFlipped=true;
 				}else if(intx>555&&intx<630&&inty>364&&inty<476){
-					System.out.println("Card 23");
+					intx1=577;
+					inty1=405;
+					intIndex=21;
+					crdDeck[21].blnFlipped=true;
+				}else if(intx>460&&intx<535&&inty>496&&inty<608){
+					intx1=482;
+					inty1=537;
+					intIndex=22;
+					crdDeck[22].blnFlipped=true;
 				}else if(intx>555&&intx<630&&inty>496&&inty<608){
-					System.out.println("Card 24");
+					intx1=577;
+					inty1=537;
+					intIndex=23;
+					crdDeck[23].blnFlipped=true;
 				}
 			}
 			if (intBoard==8){
 				if(intx>650&&intx<725&&inty>100&&inty<212){
-					System.out.println("Card 25");
-				}else if(intx>650&&intx<725&&inty>232&&inty<344){
-					System.out.println("Card 26");
-				}else if(intx>650&&intx<725&&inty>364&&inty<476){
-					System.out.println("Card 27");
-				}else if(intx>650&&intx<725&&inty>496&&inty<608){
-					System.out.println("Card 28");
+					intx1=672;
+					inty1=141;
+					intIndex=24;
+					crdDeck[24].blnFlipped=true;
 				}else if(intx>745&&intx<820&&inty>100&&inty<212){
-					System.out.println("Card 25");
+					intx1=767;
+					inty1=141;
+					intIndex=25;
+					crdDeck[25].blnFlipped=true;
+				}else if(intx>650&&intx<725&&inty>232&&inty<344){
+					intx1=672;
+					inty1=273;
+					intIndex=26;
+					crdDeck[26].blnFlipped=true;
 				}else if(intx>745&&intx<820&&inty>232&&inty<344){
-					System.out.println("Card 26");
+					intx1=767;
+					inty1=273;
+					intIndex=27;
+					crdDeck[27].blnFlipped=true;
+				}else if(intx>650&&intx<725&&inty>364&&inty<476){
+					intx1=672;
+					inty1=405;
+					intIndex=28;
+					crdDeck[28].blnFlipped=true;
 				}else if(intx>745&&intx<820&&inty>364&&inty<476){
-					System.out.println("Card 27");
+					intx1=767;
+					inty1=405;
+					intIndex=29;
+					crdDeck[29].blnFlipped=true;
+				}else if(intx>650&&intx<725&&inty>496&&inty<608){
+					intx1=672;
+					inty1=537;
+					intIndex=30;
+					crdDeck[30].blnFlipped=true;
 				}else if(intx>745&&intx<820&&inty>496&&inty<608){
-					System.out.println("Card 28");
+					intx1=672;
+					inty1=537;
+					intIndex=31;
+					crdDeck[31].blnFlipped=true;
 				}
+			}
+			//if statement to take the required values of the selected cards
+			intj++;  
+			if(intj == 1&&intCard1==-1){
+				intCard1=intIndex;
+				crdDeck[intIndex].blnFlipped=false;
+				intx2 = intx1;
+				inty2 = inty1;
+			}else if(intj == 2&&intIndex!=intCard1){
+				intCard2=intIndex;
+				crdDeck[intCard1].blnFlipped=true;
+				blnClick = true;
+				intx3 = intx1;
+				inty3 = inty1;
+			}else if(intj == 2&&intIndex==intCard1){
+				intj=1;
 			}
 		}
 	}
