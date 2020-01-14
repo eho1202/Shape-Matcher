@@ -8,18 +8,24 @@ import javax.imageio.*;
 
 public class HelpPanel extends JPanel implements MouseListener{
 
-    BufferedImage image;
-    ShapeMatcherHome smh;
-    JButton btnHome = new JButton();
-    JButton btnInfo = new JButton();
-    JButton btnHow = new JButton();
+	//PROPERTIES
+    BufferedImage image; //Help panel image
+    ShapeMatcherHome smh; //Main menu
+    
+    //Buttons on help panel
+    JButton btnHome = new JButton(); //Back to main menu
+    JButton btnInfo = new JButton(); //Information about settings
+    JButton btnHow = new JButton(); //How to play
 
+	//METHODS
+	//Draws help panel image
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(image.getScaledInstance(1280, 720, Image. SCALE_SMOOTH), 0, 0, this);
+        g.drawImage(image.getScaledInstance(1280, 720, Image. SCALE_SMOOTH), 0, 0, this); //Scale screenshot to 1280 by 720
         repaint();
     }
 
+	//MouseListener methods
     public void mouseClicked(MouseEvent evt) {
         if (evt.getSource() == btnHome) {
             // go back to main menu
@@ -31,8 +37,6 @@ public class HelpPanel extends JPanel implements MouseListener{
             if (smh.btnMusic.getIcon().equals(smh.unmute)) {
                 smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
                 smh.playMusic.start();
-            } else {
-
             }
 
         } else if (evt.getSource() == btnInfo) {
@@ -54,8 +58,8 @@ public class HelpPanel extends JPanel implements MouseListener{
 
     }
 
+	//Unused
     public void mousePressed(MouseEvent evt) {
-
     }
 
     public void mouseReleased(MouseEvent evt) {
@@ -71,7 +75,7 @@ public class HelpPanel extends JPanel implements MouseListener{
 
     public void mouseEntered(MouseEvent evt) {
         if (evt.getSource() == btnHome) {
-            btnHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor
+            btnHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor (more user-friendly)
             btnHome.setOpaque(true);
             smh.playHover();
         } else if (evt.getSource() == btnInfo) {
@@ -97,14 +101,16 @@ public class HelpPanel extends JPanel implements MouseListener{
 
     }
 
+	//CONSTRUCTOR
     public HelpPanel(ShapeMatcherHome smh) {
+		//Find help panel image
         try {
             image = ImageIO.read(getClass().getResource("img/Help.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        this.smh = smh;
+        this.smh = smh; //Links to main menu
 
         // JPanel
         setPreferredSize(new Dimension(1280,720));
