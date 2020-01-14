@@ -47,28 +47,13 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	int intCard2;
 	int intj=0;
 	int intT=1;
+	int intTurn=1;
+	String strSend ="";
+	String strNumbers[];
 	
 	//Methods
 	public void paintComponent (Graphics g){			
 		if(blnDraw){
-			//change value of board columns and strDifficulty based on board size
-			if (strBoard.equals("0")){
-				intBoard = 4;
-				strDifficulty = "easy";
-			}else if (strBoard.equals("1")){
-				intBoard = 6;
-				strDifficulty = "medium";
-			}else if (strBoard.equals("2")){
-				intBoard = 8;
-				strDifficulty = "hard";
-			}
-			
-			//load the cards into the array once
-			if (blnCont){
-				crdDeck = smm.loadCards(strDifficulty);
-				blnCont=false;
-			}
-			
 			super.paintComponent(g);
 			intx=80;
 			inty=100;
@@ -88,7 +73,9 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			if(blnClick){
 				//draw images
 				g.drawImage(crdDeck[intCard1].image,intx2,inty2,null);
-				g.drawImage(crdDeck[intCard2].image,intx3,inty3,null);
+				if(intT>=2){
+					g.drawImage(crdDeck[intCard2].image,intx3,inty3,null);
+				}
 				
 				//pause game the second time when images have been drawn
 				if(intT==1){
@@ -107,14 +94,31 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						crdDeck[intCard1].blnFlipped=true;
 						crdDeck[intCard2].blnFlipped=true;
 					}else{
-						crdDeck[intCard1].blnFlipped=false;
-						crdDeck[intCard2].blnFlipped=false;
+						crdDeck[intCard1].flip();
+						crdDeck[intCard2].flip();
 					}
-					player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//update score
-					playerturn.setText(strPlyrName2+"'s Turn!");
+					
+					//update labels and variables based on the player's turn
+					if(intTurn==1){
+						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
+							intPlyr1Pts++;
+						}
+						player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//update score
+						playerturn.setText(strPlyrName2+"'s Turn!");
+						intTurn++;
+					}else if(intTurn==2){
+						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
+							intPlyr2Pts++;
+						}
+						player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
+						playerturn.setText(strPlyrName+"'s Turn!");
+						intTurn=1;
+					}
+					
 					//reset variables
 					intT=1;
 					intCard1=-1;
+					intCard2=-1;
 					blnClick = false;
 					intj=0;
 				}	
@@ -236,67 +240,96 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			talk.setText("");	
 		}else if(evt.getSource()== ssm){
 			int intLength;
-			int intCount =0;
+			int intCount1 =0;
+			int intCount2 =0;
 			intLength = ssm.readText().length();
 			
 			//Check for a specific data format
 			for(int i=0;i<intLength;i++){
 				strSub = ssm.readText().substring(i,i+1);
-				if(strSub.equals("|")){
+				if(strSub.equals("&")){
 					intCount1++;
-				}else if(i==0){
-					try{
-						Integer.parseInt(strSub);
-						strBoard = strSub;
-						intCount1++;
-					}catch(NumberFormatException e){
-						intCount1=0;
-						i=intLength;
-					}
-				}else if(i==3){
-					try{
-						intTime = Integer.parseInt(strSub);
-						intCount1++;
-					}catch(NumberFormatException e){
-						intCount1=0;
-						i=intLength;
-					}
-				}else if(i>=6){
-					strPlyrName2+= strSub;
 				}
 			}
 
 			for(int i=0;i<intLength;i++){
 				strSub = ssm.readText().substring(i,i+1);
-				if(strSub.equals("|")){
+				if(strSub.equals(",")){
 					intCount2++;
-				}else if(i>=0&&i<=8){
-					try{
-						Integer.parseInt(strSub);
-						intCount2 = 0;
-						i = intLength;
-					}catch(NumberFormatException e){
-						intCount2++;
+				}
+			}
+			
+			strSub="";
+			for(int i=0;i<intLength;i++){
+				strSub = ssm.readText().substring(i,i+1);
+				if(strSub.equals("@")){
+					strSub+=strSub;
+					if(strSub.equals("@@")){
+						i=intLength;
 					}
-				}else if(i>=11){
-					strPlyrName2+=strSub;
-					intCount2++;
 				}
 			}
 		
 			//if the data sent is the data format, store the text. Otherwise, append it only
-			if(intCount==2){
+			if(intCount1>=36){
 				blnDraw=true;
-				blnCont=true;
+				
+				//split data and load first three into variables
+				strNumbers = ssm.readText().split("&&");
+				strBoard=strNumbers[0];
+				intTime= Integer.parseInt(strNumbers[1]);
+				strPlyrName2=strNumbers[2];
+				
+				//determine value for intBoard and strDifficulty based on intBoard
+				if (strBoard.equals("0")){
+					intBoard = 4;
+					strDifficulty = "easy";
+				}else if (strBoard.equals("1")){
+					intBoard = 6;
+					strDifficulty = "medium";
+				}else if (strBoard.equals("2")){
+					intBoard = 8;
+					strDifficulty = "hard";
+				}
+				
+				//initialize crdDeck,load values of crdDeck.intShape into it, and set .blnFlipped to false
+				crdDeck = new card[intBoard*4];
+				for(int i=0;i<intBoard*4;i++){
+					crdDeck[i]=new card();
+					crdDeck[i].intShape=Integer.parseInt(strNumbers[3+i]);
+					crdDeck[i].blnFlipped=false;
+				}
+				crdDeck = smm.loadImages(crdDeck); //load images of shapes 
 				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
 				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
-			}else if(intCount2!=0){
-				ssm.sendText(strBoard+"||"+intTime+"||"+strPlyrName);
+			}else if(intCount2==2){
+				ssm.sendText(strBoard+"&&"+intTime+"&&"+strPlyrName+strSend);
+				
+				//split and load name
+				strNumbers = ssm.readText().split(",,");
+				strPlyrName2 = strNumbers[1];
 				blnDraw=true;
-				blnCont=true;
+				
 				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
 				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
 				playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
+			}else if(strSub.equals("@@")){
+				strNumbers = ssm.readText().split("@@");//split data
+				
+				//load intCard1 or intCard2 value, flip the card, set blnClick to true, and load x and y integers. Differ based on if it's the first or second card
+				if(strNumbers[0].equals("1")){
+					intCard1=Integer.parseInt(strNumbers[1]);
+					crdDeck[intCard1].flip();
+					blnClick=true;
+					intx2=Integer.parseInt(strNumbers[2]);
+					inty2=Integer.parseInt(strNumbers[3]);
+				}else if(strNumbers[0].equals("2")){
+					intCard2=Integer.parseInt(strNumbers[1]);
+					crdDeck[intCard2].flip();
+					blnClick=true;
+					intx3=Integer.parseInt(strNumbers[2]);
+					inty3=Integer.parseInt(strNumbers[3]);
+				}
 			}else{
 				textArea.append(ssm.readText()+"\n");
 			}
@@ -313,82 +346,98 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				intx1=102;
 				inty1=141;
 				intIndex=0;
-				crdDeck[0].blnFlipped=true;
+				crdDeck[0].flip();
+				blnCont=true;
 			}else if(intx>175&&intx<250&&inty>100&&inty<212){
 				intx1=197;
 				inty1=141;
 				intIndex=1;
-				crdDeck[1].blnFlipped=true;				
+				crdDeck[1].flip();	
+				blnCont=true;			
 			}else if(intx>270&&intx<345&&inty>100&&inty<212){
 				intx1=292;
 				inty1=141;
 				intIndex=2;
-				crdDeck[2].blnFlipped=true;
+				crdDeck[2].flip();
+				blnCont=true;
 			}else if(intx>365&&intx<440&&inty>100&&inty<212){
 				intx1=387;
 				inty1=141;
 				intIndex=3;
-				crdDeck[3].blnFlipped=true;
+				crdDeck[3].flip();
+				blnCont=true;
 			}else if(intx>80&&intx<155&&inty>232&&inty<344){
 				intx1=102;
 				inty1=273;
 				intIndex=4;
-				crdDeck[4].blnFlipped=true;
+				crdDeck[4].flip();
+				blnCont=true;
 			}else if(intx>175&&intx<250&&inty>232&&inty<344){
 				intx1=197;
 				inty1=273;
 				intIndex=5;
-				crdDeck[5].blnFlipped=true;
+				crdDeck[5].flip();
+				blnCont=true;
 			}else if(intx>270&&intx<345&&inty>232&&inty<344){
 				intx1=292;
 				inty1=273;
 				intIndex=6;
-				crdDeck[6].blnFlipped=true;
+				crdDeck[6].flip();
+				blnCont=true;
 			}else if(intx>365&&intx<440&&inty>232&&inty<344){
 				intx1=387;
 				inty1=273;
 				intIndex=7;
-				crdDeck[7].blnFlipped=true;
+				crdDeck[7].flip();
+				blnCont=true;
 			}else if(intx>80&&intx<155&&inty>364&&inty<476){
 				intx1=102;
 				inty1=405;
 				intIndex=8;
-				crdDeck[8].blnFlipped=true;
+				crdDeck[8].flip();
+				blnCont=true;
 			}else if(intx>175&&intx<250&&inty>364&&inty<476){
 				intx1=197;
 				inty1=405;
 				intIndex=9;
-				crdDeck[9].blnFlipped=true;
+				crdDeck[9].flip();
+				blnCont=true;
 			}else if(intx>270&&intx<345&&inty>364&&inty<476){
 				intx1=292;
 				inty1=405;
 				intIndex=10;
-				crdDeck[10].blnFlipped=true;
+				crdDeck[10].flip();
+				blnCont=true;
 			}else if(intx>365&&intx<440&&inty>364&&inty<476){
 				intx1=387;
 				inty1=405;
 				intIndex=11;
-				crdDeck[11].blnFlipped=true;
+				crdDeck[11].flip();
+				blnCont=true;
 			}else if(intx>80&&intx<155&&inty>496&&inty<608){
 				intx1=102;
 				inty1=537;
 				intIndex=12;
-				crdDeck[12].blnFlipped=true;
+				crdDeck[12].flip();
+				blnCont=true;
 			}else if(intx>175&&intx<250&&inty>496&&inty<608){
 				intx1=197;
 				inty1=537;
 				intIndex=13;
-				crdDeck[13].blnFlipped=true;
+				crdDeck[13].flip();
+				blnCont=true;
 			}else if(intx>270&&intx<345&&inty>496&&inty<608){
 				intx1=292;
 				inty1=537;
 				intIndex=14;
-				crdDeck[14].blnFlipped=true;
+				crdDeck[14].flip();
+				blnCont=true;
 			}else if(intx>365&&intx<440&&inty>496&&inty<608){
 				intx1=387;
 				inty1=537;
 				intIndex=15;
-				crdDeck[15].blnFlipped=true;
+				crdDeck[15].flip();
+				blnCont=true;
 			}
 			//loads more cards if the board size selected is larger than 4x4
 			if (intBoard>=6){
@@ -396,42 +445,50 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					intx1=482;
 					inty1=141;
 					intIndex=16;
-					crdDeck[16].blnFlipped=true;
+					crdDeck[16].flip();
+					blnCont=true;
 				}else if(intx>555&&intx<630&&inty>100&&inty<212){
 					intx1=577;
 					inty1=141;
 					intIndex=17;
-					crdDeck[17].blnFlipped=true;
+					crdDeck[17].flip();
+					blnCont=true;
 				}else if(intx>460&&intx<535&&inty>232&&inty<344){
 					intx1=482;
 					inty1=273;
 					intIndex=18;
-					crdDeck[18].blnFlipped=true;
+					crdDeck[18].flip();
+					blnCont=true;
 				}else if(intx>555&&intx<630&&inty>232&&inty<344){
 					intx1=577;
 					inty1=273;
 					intIndex=19;
-					crdDeck[19].blnFlipped=true;
+					crdDeck[19].flip();
+					blnCont=true;
 				}else if(intx>460&&intx<535&&inty>364&&inty<476){
 					intx1=482;
 					inty1=405;
 					intIndex=20;
-					crdDeck[20].blnFlipped=true;
+					crdDeck[20].flip();
+					blnCont=true;
 				}else if(intx>555&&intx<630&&inty>364&&inty<476){
 					intx1=577;
 					inty1=405;
 					intIndex=21;
-					crdDeck[21].blnFlipped=true;
+					crdDeck[21].flip();
+					blnCont=true;
 				}else if(intx>460&&intx<535&&inty>496&&inty<608){
 					intx1=482;
 					inty1=537;
 					intIndex=22;
-					crdDeck[22].blnFlipped=true;
+					crdDeck[22].flip();
+					blnCont=true;
 				}else if(intx>555&&intx<630&&inty>496&&inty<608){
 					intx1=577;
 					inty1=537;
 					intIndex=23;
-					crdDeck[23].blnFlipped=true;
+					crdDeck[23].flip();
+					blnCont=true;
 				}
 			}
 			if (intBoard==8){
@@ -439,58 +496,72 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					intx1=672;
 					inty1=141;
 					intIndex=24;
-					crdDeck[24].blnFlipped=true;
+					crdDeck[24].flip();
+					blnCont=true;
 				}else if(intx>745&&intx<820&&inty>100&&inty<212){
 					intx1=767;
 					inty1=141;
 					intIndex=25;
-					crdDeck[25].blnFlipped=true;
+					crdDeck[25].flip();
+					blnCont=true;
 				}else if(intx>650&&intx<725&&inty>232&&inty<344){
 					intx1=672;
 					inty1=273;
 					intIndex=26;
-					crdDeck[26].blnFlipped=true;
+					crdDeck[26].flip();
+					blnCont=true;
 				}else if(intx>745&&intx<820&&inty>232&&inty<344){
 					intx1=767;
 					inty1=273;
 					intIndex=27;
-					crdDeck[27].blnFlipped=true;
+					crdDeck[27].flip();
+					blnCont=true;
 				}else if(intx>650&&intx<725&&inty>364&&inty<476){
 					intx1=672;
 					inty1=405;
 					intIndex=28;
-					crdDeck[28].blnFlipped=true;
+					crdDeck[28].flip();
+					blnCont=true;
 				}else if(intx>745&&intx<820&&inty>364&&inty<476){
 					intx1=767;
 					inty1=405;
 					intIndex=29;
-					crdDeck[29].blnFlipped=true;
+					crdDeck[29].flip();
+					blnCont=true;
 				}else if(intx>650&&intx<725&&inty>496&&inty<608){
 					intx1=672;
 					inty1=537;
 					intIndex=30;
-					crdDeck[30].blnFlipped=true;
+					crdDeck[30].flip();
+					blnCont=true;
 				}else if(intx>745&&intx<820&&inty>496&&inty<608){
 					intx1=672;
 					inty1=537;
 					intIndex=31;
-					crdDeck[31].blnFlipped=true;
+					crdDeck[31].flip();
+					blnCont=true;
 				}
 			}
-			//if statement to take the required values of the selected cards
-			intj++;  
-			if(intj == 1&&intCard1==-1){
-				intCard1=intIndex;
-				blnClick=true;
-				intx2 = intx1;
-				inty2 = inty1;
-			}else if(intj == 2&&intIndex!=intCard1){
-				intCard2=intIndex;
-				blnClick = true;
-				intx3 = intx1;
-				inty3 = inty1;
-			}else if(intj == 2&&intIndex==intCard1){
-				intj=1;
+			
+			if(blnCont){
+				//if statement to take the required values of the selected cards
+				intj++;  
+				if(intj == 1&&intCard1==-1){
+					intCard1=intIndex;
+					blnClick=true;
+					intx2 = intx1;
+					inty2 = inty1;
+					ssm.sendText("1@@"+intCard1+"@@"+intx2+"@@"+inty2);
+				}else if(intj == 2&&intIndex!=intCard1){
+					intCard2=intIndex;
+					blnClick = true;
+					intx3 = intx1;
+					inty3 = inty1;
+					ssm.sendText("2@@"+intCard2+"@@"+intx3+"@@"+inty3);
+				}else if(intj == 2&&intIndex==intCard1){
+					intj=1;
+				}
+				blnCont=false;
 			}
 		}
 	}
@@ -532,13 +603,35 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					intPort = Integer.parseInt(fileread.readLine());
 					ssm = new SuperSocketMaster(intPort,this);
 					ssm.connect();
+					
+					//change value of board columns and strDifficulty based on board size
+					if (strBoard.equals("0")){
+						intBoard = 4;
+						strDifficulty = "easy";
+					}else if (strBoard.equals("1")){
+						intBoard = 6;
+						strDifficulty = "medium";
+					}else if (strBoard.equals("2")){
+						intBoard = 8;
+						strDifficulty = "hard";
+					}
+					
+					//load the cards into the array once
+					crdDeck = smm.loadCards(strDifficulty);
+					crdDeck = smm.loadImages(crdDeck);
+					
+					//add intShape of the deck to variable strSend and set all .blnFlipped to false
+					for(int i=0; i<intBoard*4; i++){
+						strSend+= "&&"+crdDeck[i].intShape;
+						crdDeck[i].blnFlipped=false;
+					}
 				}else if(strFile.equals("Player_Settings.txt")){
 					strPlyrName = fileread.readLine();
 					intPort = Integer.parseInt(fileread.readLine());
 					strIP = fileread.readLine();
 					ssm = new SuperSocketMaster(strIP,intPort,this);
 					ssm.connect();
-					ssm.sendText("Connected||"+strPlyrName);
+					ssm.sendText("Connected,,"+strPlyrName);
 				}
 				file.close();
 				fileread.close();
