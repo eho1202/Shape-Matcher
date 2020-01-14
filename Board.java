@@ -93,7 +93,10 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				//pause game the second time when images have been drawn
 				if(intT==1){
 					intT++;
+					blnClick=false;
 				}else if(intT==2){
+					intT++;
+				}else if(intT==3){
 					try{
 						Thread.sleep(intTime*1000);
 					}catch(InterruptedException e){
@@ -478,12 +481,11 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			intj++;  
 			if(intj == 1&&intCard1==-1){
 				intCard1=intIndex;
-				crdDeck[intIndex].blnFlipped=false;
+				blnClick=true;
 				intx2 = intx1;
 				inty2 = inty1;
 			}else if(intj == 2&&intIndex!=intCard1){
 				intCard2=intIndex;
-				crdDeck[intCard1].blnFlipped=true;
 				blnClick = true;
 				intx3 = intx1;
 				inty3 = inty1;
