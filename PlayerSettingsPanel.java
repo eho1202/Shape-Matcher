@@ -11,49 +11,20 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	
 	//Properties
 	BufferedImage image;	
-	/**
-	 * The text field for the player name.
-	 */
 	JTextField Plyr2 = new JTextField("Player 2");
-	/**
-	 * The text field for the host's port number.
-	 */
 	JTextField HPort = new JTextField();
-	/**
-	 * The text field for the host's IP address.
-	 */
 	JTextField HIP = new JTextField();
+	JLabel lblHome = new JLabel("Back to Main Menu");
+	JLabel lblStart = new JLabel("Start");
 	JButton home = new JButton();
 	JButton start = new JButton();
-	/**
-	 * The label to ask user to enter numbers only.
-	 */
 	JLabel warning = new JLabel("Please enter numbers only");
-	/**
-	 * The label to ask user to enter numbers only.
-	 */
 	JLabel warning1 = new JLabel("Please enter an IP address");
-	/**
-	 * String variable for the player name.
-	 */
 	String strPlayer2;
-	/**
-	 * Integer variable for the port number entered.
-	 */
 	int intP2Port;
-	
 	String strP2IP;
-	/**
-	 * Opens a file to write to.
-	 */
 	FileWriter PlyrSet;// = new FileWriter("Player_Settings.txt");
-	/**
-	 * Writes to the file.
-	 */
 	PrintWriter PlyrWrite;// = new PrintWriter(PlyrSet);
-	/**
-	 * Boolean variable to control whether or not the panel continues to the game screen or not.
-	 */
 	Boolean blnCheck = true;
 	ShapeMatcherHome smh;
 	int intDot;
@@ -61,13 +32,10 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	int intI;
 	int intLength;
 	int intRept;
-	Font f1 = new Font("Nunito", Font.PLAIN, 18);
 	Board brd;
+	Font f1 = new Font("Nunito", Font.PLAIN, 23);
 	
 	//Methods
-	/**
-	 * Changes panel based on the "button" selection.
-	 */
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
@@ -77,6 +45,8 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 			smh.frmHome.setContentPane(smh.pnlHome);
 			smh.frmHome.pack();
 			smh.frmHome.setVisible(true);
+			warning.setVisible(false);
+			warning1.setVisible(false);
 		}else if(evt.getSource() == start){
 			//load settings info into variables
 			strPlayer2 = Plyr2.getText();
@@ -161,6 +131,17 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 		
 		setPreferredSize(new Dimension(1280,720));
 		setLayout(null);
+		
+		//set labels size and location
+		lblHome.setSize(291, 50);
+		lblHome.setLocation(33, 30);
+		lblHome.setFont(f1);
+		add(lblHome);
+		
+		lblStart.setSize(85, 40);
+		lblStart.setLocation(1160, 650);
+		lblStart.setFont(f1);
+		add(lblStart);
 		
 		//set buttons size and location
 		home.setSize(new Dimension(291, 50));
