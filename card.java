@@ -7,9 +7,9 @@ public class card {
 	//PROPERTIES
 	int intShape; //Shape number that can range from 1-32
 	BufferedImage image; //Image associated with each shape
-	boolean blnFlipped;
+	boolean blnFlipped = false;
 	int intN;
-	boolean blnPair;
+	boolean blnPair = false;
 	boolean blnRepeat = false;
 
 	//METHODS
