@@ -38,7 +38,7 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	int intDot; //Number of periods in string
 	String strSub;
 	int intLength;
-	int intRept;
+	int intRept; //makes sure that user doesn't type multiple periods in a row
 	Boolean blnCheck = true; //If all checks are passed, then the settings are written to a text file
 	
 	ShapeMatcherHome smh; //Links to main menu
@@ -92,7 +92,7 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 				strSub = strP2IP.substring(i,i+1);
 				if(strSub.equals(".")){
 					intDot++;
-					intRept++;
+					intRept++; 
 				}else{
 					intRept=0;
 				}
