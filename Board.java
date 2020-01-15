@@ -281,6 +281,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			int intLength;
 			int intCount1 =0;
 			int intCount2 =0;
+			int intCount3 =0;
 			intLength = ssm.readText().length();
 			
 			//Check for a specific data format
@@ -298,14 +299,10 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				}
 			}
 			
-			strSub="";
 			for(int i=0;i<intLength;i++){
 				strSub = ssm.readText().substring(i,i+1);
 				if(strSub.equals("@")){
-					strSub+=strSub;
-					if(strSub.equals("@@")){
-						i=intLength;
-					}
+					intCount3++;
 				}
 			}
 		
@@ -354,7 +351,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
 				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
 				playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
-			}else if(strSub.equals("@@")){
+			}else if(intCount3==6){
 				strNumbers = ssm.readText().split("@@");//split data
 				
 				//load intCard1 or intCard2 value, flip the card, set blnClick to true, and load x and y integers. Differ based on if it's the first or second card
