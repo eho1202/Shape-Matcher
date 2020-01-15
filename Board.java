@@ -65,6 +65,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				for(int j =0; j<4;j++){
 					g.setColor(Color.WHITE);
 					g.fillRoundRect(intx,inty,intwidth,intheight,intarcWidth,intarcHeight);
+					g.setColor(Color.BLACK);
+					g.drawRoundRect(intx,inty,intwidth,intheight,intarcWidth,intarcHeight);
 					inty +=132;
 				}
 				intx += 95;
