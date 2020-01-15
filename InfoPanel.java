@@ -12,17 +12,21 @@ import javax.imageio.*;
 
 public class InfoPanel extends JPanel implements MouseListener{
 
-    BufferedImage image;
-    ShapeMatcherHome smh;
+	//PROPERTIES
+    BufferedImage image; //Information about settings panel image
+    ShapeMatcherHome smh; //Main menu
+    
+    //Buttons
     JButton home = new JButton();
     JButton help = new JButton();
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(image.getScaledInstance(1280, 720, Image. SCALE_SMOOTH), 0, 0, this);
+        g.drawImage(image.getScaledInstance(1280, 720, Image. SCALE_SMOOTH), 0, 0, this); //Scales image to 1280 by 720
         repaint();
     }
 
+	//MouseListener methods
     public void mouseClicked(MouseEvent evt) {
         if (evt.getSource() == home) {
             // go back to main menu
@@ -43,7 +47,6 @@ public class InfoPanel extends JPanel implements MouseListener{
     }
 
     public void mousePressed(MouseEvent evt) {
-
     }
 
     public void mouseReleased(MouseEvent evt) {
@@ -59,7 +62,7 @@ public class InfoPanel extends JPanel implements MouseListener{
 
     public void mouseEntered(MouseEvent evt) {
         if (evt.getSource() == home) {
-            home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor
+            home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor (more user-friendly)
             home.setOpaque(true);
         } else if (evt.getSource() == help) {
             help.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -77,7 +80,8 @@ public class InfoPanel extends JPanel implements MouseListener{
             home.setOpaque(false);
         }
     }
-
+	
+	//CONSTRUCTOR
     public InfoPanel(ShapeMatcherHome smh) {
         try {
             image = ImageIO.read(getClass().getResource("img/InfoSettings.png"));
@@ -85,7 +89,7 @@ public class InfoPanel extends JPanel implements MouseListener{
             e.printStackTrace();
         }
 
-        this.smh = smh;
+        this.smh = smh; //Links to main menu
 
         // JPanel
         setPreferredSize(new Dimension(1280,720));

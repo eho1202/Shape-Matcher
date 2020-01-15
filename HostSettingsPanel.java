@@ -11,8 +11,14 @@ import java.awt.event.*;
 
 public class HostSettingsPanel extends JPanel implements ActionListener, MouseListener{
 	
-	//Properties
+	//PROPERTIES
 	BufferedImage image;
+	
+	//String arrays for JComboBoxes
+	String[] modes = {"Traditional", "Real-Time"};
+	String[] boards = {"Easy 4x4", "Medium 6x4", "Hard 8x4"};
+	
+	//JComponents
 	JButton home = new JButton();
 	JButton start = new JButton();
 	JLabel warning = new JLabel("Please enter a value higher than 1000");
@@ -20,24 +26,32 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	JTextField Port = new JTextField("3112");
 	JTextField IP;
 	JSlider slide = new JSlider(JSlider.HORIZONTAL,1,3,1);
-	String[] modes = {"Traditional", "Real-Time"};
 	JComboBox mode = new JComboBox<String>(modes);
-	String[] boards = {"Easy 4x4", "Medium 6x4", "Hard 8x4"};
 	JComboBox board = new JComboBox<String>(boards);
+	
+	//Font
 	Font f1 = new Font("Nunito", Font.PLAIN, 18);
+	
+	//Enables networking
 	SuperSocketMaster ssm;
-	int intPort = 3112;
-	String strPlayer1;
-	int intTime = 1;
-	int intGameMode = 0;
-	int intBoardSize = 0;
-	boolean blnCont = true;
+	
+	//Default settings parameters
+	int intPort = 3112; //Port #
+	String strPlayer1; //Name of player
+	int intTime = 1; //Time that cards stay flipped up
+	int intGameMode = 0; //Traditional
+	int intBoardSize = 0; //Easy
+	
+	boolean blnCont = true; //If true, settings are written to a text file and panels are allowed to be swapped
+	
+	//Text files
 	FileWriter files;
 	PrintWriter filewrite;
-	ShapeMatcherHome smh;
+	
+	ShapeMatcherHome smh; //Main menu
 	//Board brd;
 	
-	//Methods
+	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
@@ -119,7 +133,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	public void mouseExited (MouseEvent evt){
 	}
 
-	//Constructor
+	//CONSTRUCTOR
 	public HostSettingsPanel (ShapeMatcherHome smh) {
 
 		try {

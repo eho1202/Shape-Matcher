@@ -11,8 +11,10 @@ import java.awt.event.*;
 
 public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	
-	//Properties
-	BufferedImage image;
+	//PROPERTIES
+	BufferedImage image; //Player settings panel image
+	
+	//JComponents
 	JTextField Plyr2 = new JTextField("Player 2");
 	JTextField HPort = new JTextField();
 	JTextField HIP = new JTextField();
@@ -22,29 +24,40 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	JButton start = new JButton();
 	JLabel warning = new JLabel("Please enter numbers only");
 	JLabel warning1 = new JLabel("Please enter an IP address");
+	
+	//Settings parameters
 	String strPlayer2;
 	int intP2Port;
 	String strP2IP;
+	
+	//Text files
 	FileWriter PlyrSet;// = new FileWriter("Player_Settings.txt");
 	PrintWriter PlyrWrite;// = new PrintWriter(PlyrSet);
-	Boolean blnCheck = true;
-	ShapeMatcherHome smh;
-	int intDot;
+	
+	//To check whether or not a real IP address has been entered
+	int intDot; //Number of periods in string
 	String strSub;
-	int intI;
 	int intLength;
 	int intRept;
-	Board brd;
-	Font f1 = new Font("Nunito", Font.PLAIN, 23);
+	Boolean blnCheck = true; //If all checks are passed, then the settings are written to a text file
 	
-	//Methods
+	ShapeMatcherHome smh; //Links to main menu
+	
+	Board brd;
+	
+	Font f1 = new Font("Nunito", Font.PLAIN, 23); //Font
+	
+	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
 		repaint();
 	}
+	
+	//MouseListener methods
 	public void mouseClicked (MouseEvent evt){
 		if(evt.getSource()== home){
+			home.setCursor(Cursor.getDefaultCursor());
 			smh.frmHome.setTitle("Shape Matcher");
 			smh.backToMain();
 
@@ -52,12 +65,14 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
 				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
 				smh.playMusic.start();
-			} else {
-
 			}
+			
 			warning.setVisible(false);
 			warning1.setVisible(false);
+			
 		}else if(evt.getSource() == start){
+			start.setCursor(Cursor.getDefaultCursor());
+			
 			//load settings info into variables
 			strPlayer2 = Plyr2.getText();
 			try{
@@ -68,8 +83,8 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 				blnCheck=false;
 			}
 			
+			//To check whether or not a real IP address has been entered
 			intDot = 0;
-			intI = 1;
 			intRept = 0;
 			strP2IP = HIP.getText();
 			intLength = strP2IP.length();
@@ -84,12 +99,13 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 			}
 			
 			if(intDot!=3||intRept!=0){
-				warning1.setVisible(true);
+				warning1.setVisible(true); //Show warning if an IP address is not inputted
 				blnCheck=false;
 			}else{
 				warning1.setVisible(false);
 			} 
 			
+			//If all checks are passed
 			if(blnCheck){
 				//load info onto a file
 				try{
@@ -109,25 +125,36 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 			}
 		}
 	}
-	/**
-	 * Created for MouseListener.
-	 */
+	
 	public void mousePressed (MouseEvent evt){	
 	}
-	/**
-	 * Created for MouseListener.
-	 */
 	public void mouseReleased (MouseEvent evt){	
+		if (evt.getSource() == home) {
+            home.setCursor(Cursor.getDefaultCursor());
+            home.setOpaque(false);
+        } else if (evt.getSource() == start) {
+            start.setCursor(Cursor.getDefaultCursor());
+            start.setOpaque(false);
+        }
 	}
-	/**
-	 * Created for MouseListener.
-	 */
+	
 	public void mouseEntered (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor (more user-friendly)
+            home.setOpaque(true);
+        } else if (evt.getSource() == start) {
+			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			start.setOpaque(true);
+		}
 	}
-	/**
-	 * Created for MouseListener.
-	 */
 	public void mouseExited (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setCursor(Cursor.getDefaultCursor());
+            home.setOpaque(false);
+        } else if (evt.getSource() == start) {
+			start.setCursor(Cursor.getDefaultCursor());
+			start.setOpaque(false);
+		}
 	}
 	
 	//Constructor

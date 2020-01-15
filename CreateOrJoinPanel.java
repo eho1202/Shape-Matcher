@@ -10,14 +10,19 @@ import javax.imageio.*;
 import java.awt.event.*;
 
 public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseListener {
+	
 	//PROPERTIES
-	BufferedImage image;
+	BufferedImage image; //Create or join panel image
+	
+	//Buttons
 	public JButton btnCreate;
 	public JButton btnJoin;
 	public JButton btnBack;
-	ShapeMatcherHome smh;
+	
+	ShapeMatcherHome smh; //Main menu
 	
 	//METHODS
+	//Draws panel image
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
@@ -25,19 +30,19 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 	}
 	
 	public void actionPerformed(ActionEvent evt) {
-		if (evt.getSource() == btnCreate) {
+		if (evt.getSource() == btnCreate) { //Create server button
 			System.out.println("Create button pressed");
-			smh.frmHome.setContentPane(smh.pnlHS);
+			smh.frmHome.setContentPane(smh.pnlHS); //Switch to host settings panel
 			smh.frmHome.pack();
 			smh.frmHome.setVisible(true);
-		} else if (evt.getSource() == btnJoin) {
+		} else if (evt.getSource() == btnJoin) { //Join server button
 			System.out.println("Join button pressed");
-			smh.frmHome.setContentPane(smh.pnlPS);
+			smh.frmHome.setContentPane(smh.pnlPS); //Switch to player settings panel
 			smh.frmHome.pack();
 			smh.frmHome.setVisible(true);
-		} else if (evt.getSource() == btnBack) {
+		} else if (evt.getSource() == btnBack) { //Back to main menu button
 			System.out.println("Back to main menu button pressed");
-			smh.backToMain();
+			smh.backToMain(); //Consult backToMain method in ShapeMatcherHome class
 
 			// check if toggle music button is on mute or not
 			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
@@ -50,12 +55,10 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 		}
 	}
 
+	//MouseListener methods
 	public void mouseClicked(MouseEvent evt) {
-
 	}
-
 	public void mousePressed(MouseEvent evt) {
-
 	}
 
 	public void mouseReleased(MouseEvent evt) {
@@ -69,6 +72,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 
 	}
 
+	//Change to hand cursor so the user knows they are hovering over a button
 	public void mouseEntered(MouseEvent evt) {
 		if (evt.getSource() == btnBack) {
 			btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -98,8 +102,9 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 
 	//CONSTRUCTOR
 	public CreateOrJoinPanel(ShapeMatcherHome smh) {
-		this.smh = smh;
+		this.smh = smh; //Linking to main menu
 		
+		//Finding create or join panel image
 		try{
 			image = ImageIO.read(getClass().getResource("img/Create or Join.png"));
 		}catch(IOException e){

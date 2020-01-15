@@ -10,6 +10,7 @@ import java.io.*;
 
 public class ShapeMatcherHome implements ActionListener, MouseListener {
 
+	//PROPERTIES
 	public JFrame frmHome;
 	public mainPanel pnlHome;
 
@@ -20,20 +21,23 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	public JButton btnHelp;
 	public JButton btnQuit;
 	public JOptionPane optionQuit;
+	
+	//Music
 	Clip playMusic;
 	long clipTimePosition;
 	JToggleButton btnMusic;
 	Icon mute;
 	Icon unmute;
 	
-	CreateOrJoinPanel pnlCreateOrJoin = new CreateOrJoinPanel(this);
-	PHostSettingsPanel pnlPHS = new PHostSettingsPanel(this);
-	HostSettingsPanel pnlHS = new HostSettingsPanel(this);
-	PlayerSettingsPanel pnlPS = new PlayerSettingsPanel(this);
-	HighScoresPanel pnlHigh = new HighScoresPanel(this);
-	HelpPanel pnlHelp = new HelpPanel(this);
-	InfoPanel pnlInfo = new InfoPanel(this);
-	HowToPlayPanel pnlHow = new HowToPlayPanel(this);
+	//All game panels
+	CreateOrJoinPanel pnlCreateOrJoin = new CreateOrJoinPanel(this); //Create or join server pre-game
+	PHostSettingsPanel pnlPHS = new PHostSettingsPanel(this); //Settings --> Preferred host settings
+	HostSettingsPanel pnlHS = new HostSettingsPanel(this); //Create server --> Host settings
+	PlayerSettingsPanel pnlPS = new PlayerSettingsPanel(this); //Join server --> player settings
+	HighScoresPanel pnlHigh = new HighScoresPanel(this); //High scores
+	HelpPanel pnlHelp = new HelpPanel(this); //Help panel
+	InfoPanel pnlInfo = new InfoPanel(this); //Help --> Information about settings
+	HowToPlayPanel pnlHow = new HowToPlayPanel(this); //Help --> How to play
 
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == btnPlay) {
@@ -92,12 +96,11 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		}
 	}
 
+	//MouseListener methods
 	public void mouseClicked(MouseEvent evt) {
 	}
-
 	public void mousePressed(MouseEvent evt) {
 	}
-
 	public void mouseReleased(MouseEvent evt) {
 		// Added to prevent the light grey background to show when going back to main menu
 		if (evt.getSource() == btnPlay) {
@@ -116,7 +119,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 
 	public void mouseEntered(MouseEvent evt) {
 		if (evt.getSource() == btnPlay) {
-			btnPlay.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			btnPlay.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); //Changes to hand cursor (more user-friendly)
 			btnPlay.setOpaque(true);
 			playHover();
 		} else if (evt.getSource() == btnHighScores) {
@@ -192,7 +195,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
     }
 
 	public ShapeMatcherHome() {
-
 		playMusic();
 
 		// get images for mute and unmute icons

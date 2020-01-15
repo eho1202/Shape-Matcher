@@ -11,46 +11,55 @@ import javax.swing.ImageIcon.*;
 
 public class ShapeMatcherModel {
 	
-	public card[] loadCards(String strDifficulty) {
-		int intIncrement = 16;
-		int intCards = 16;
-		int intRandom;
+	//METHODS
+	//"Deals" cards (numbers only)
+	public card[] loadCards(String strDifficulty) { 
+		int intIncrement = 16; //Number of times the for loop runs (initial # of cards)
+		int intCards = 16; //Number of cards remaining in the deck (this number will decrease as cards are "dealt")
+		int intRandom; //Randomly generated card number
 		
-		if (strDifficulty.equalsIgnoreCase("easy") || strDifficulty.equalsIgnoreCase("e")) {
+		if (strDifficulty.equalsIgnoreCase("easy") || strDifficulty.equalsIgnoreCase("e")) { //4x4 (16 cards)
 			intCards = 16;
 			intIncrement = 16;
 
-		} else if (strDifficulty.equalsIgnoreCase("medium") || strDifficulty.equalsIgnoreCase("m")) {
+		} else if (strDifficulty.equalsIgnoreCase("medium") || strDifficulty.equalsIgnoreCase("m")) { //6x4 (24 cards)
 			intCards = 24;
 			intIncrement = 24;
 
-		} else if (strDifficulty.equalsIgnoreCase("hard") || strDifficulty.equalsIgnoreCase("h")) {
+		} else if (strDifficulty.equalsIgnoreCase("hard") || strDifficulty.equalsIgnoreCase("h")) { //8x4 (32 cards)
 			intCards = 32;
 			intIncrement = 32;
 		}
 		
+		//Create new card array based on difficulty (# of cards)
 		card cards[] = new card[intIncrement];
 		
+		//Construct each card object
 		for (int i = 0; i < intIncrement; i++) {
 			cards[i] = new card();
 		}
+		
+		//Create new "unshuffled" deck based on difficulty (# of cards)
 		int intDeck[] = new int[intIncrement];
 		
+		//Each card in the deck will be assigned a unique number, from 1 to the # of cards in the deck (based on difficulty)
 		for (int i = 1; i <= intIncrement; i++) {
 			intDeck[i-1] = i;
 		}
 		
+		//Randomly "dealing" cards
 		for (int i = 0; i < intIncrement; i++) {
 			intRandom = (int)(Math.random()*intCards);
-			intCards--;
+			intCards--; //Number of cards decreases by 1 each time one is "dealt"
 			cards[i].intShape = intDeck[intRandom];
-			intDeck = removeElement(intDeck, intRandom);
+			intDeck = removeElement(intDeck, intRandom); //Removes a card from the intDeck array
 		}
 		return cards;
 	}
 	
-	public card[] loadImages(card[] cards) {
-		int intIncrement = cards.length;
+	//Adds the corresponding shape image based on each card's number
+	public card[] loadImages(card[] cards) { 
+		int intIncrement = cards.length; //In other words, # of cards
 		
 		for (int i = 0; i < intIncrement; i++) {
 			if (cards[i].intShape == 1 || cards[i].intShape == 2) {
@@ -171,34 +180,30 @@ public class ShapeMatcherModel {
 		
 	}
 	
-	public static int[] removeElement(int[] arr, int index) { 
+	//Remove an element from an array
+	public static int[] removeElement(int[] intArray, int intIndex) { 
   
-        // If the array is empty 
-        // or the index is not in array range 
-        // return the original array 
-        if (arr == null || index < 0 || index >= arr.length) { 
-            return arr; 
+        // If the array is empty or the index is out of bounds, return the original array
+        if (intArray == null || intIndex < 0 || intIndex >= intArray.length) { 
+            return intArray; 
         } 
   
         // Create another array of size one less 
-        int[] anotherArray = new int[arr.length - 1]; 
+        int[] intArray2 = new int[intArray.length - 1]; 
   
-        // Copy the elements except the index 
-        // from original array to the other array 
-        for (int i = 0, k = 0; i < arr.length; i++) { 
+        // Copy the elements except the index from the original array to the other array
+        for (int i = 0, k = 0; i < intArray.length; i++) { 
   
-            // if the index is 
-            // the removal element index 
-            if (i == index) { 
+            // if the index is the one to be removed
+            if (i == intIndex) { 
                 continue; 
             } 
   
-            // if the index is not 
-            // the removal element index 
-            anotherArray[k++] = arr[i]; 
+            // if the index is not the one to be removed
+            intArray2[k++] = intArray[i]; 
         } 
   
-        // return the resultant array 
-        return anotherArray; 
+        // return the resulting array 
+        return intArray2; 
     }
 }

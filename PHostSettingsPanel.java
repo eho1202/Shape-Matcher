@@ -11,32 +11,49 @@ import java.awt.event.*;
 
 public class PHostSettingsPanel extends JPanel implements ActionListener, MouseListener{
 	
-	//Properties
-	BufferedImage image;
+	//PROPERTIES
+	BufferedImage image; //Preferred host settings panel image
+	
+	//String arrays for JComboBoxes
+	String[] modes = {"Traditional", "Real-Time"};
+	String[] boards = {"Easy 4x4", "Medium 6x4", "Hard 8x4"};
+	
+	//JComponents
 	JButton home = new JButton();
 	JLabel warning = new JLabel("Please enter a value higher than 1000");
+	
+	//Settings parameters
 	JTextField Plyr = new JTextField("Player 1"); 
 	JTextField Port = new JTextField("3112");
 	JTextField IP;
 	JSlider slide = new JSlider(JSlider.HORIZONTAL,1,3,1);
-	String[] modes = {"Traditional", "Real-Time"};
 	JComboBox mode = new JComboBox<String>(modes);
-	String[] boards = {"Easy 4x4", "Medium 6x4", "Hard 8x4"};
 	JComboBox board = new JComboBox<String>(boards);
+	
+	//Font
 	Font f1 = new Font("Nunito", Font.PLAIN, 18);
+	
+	//Enables networking
 	SuperSocketMaster ssm;
-	int intPort = 3112;
-	String strPlayer1;
-	int intTime = 1;
-	int intGameMode = 0;
-	int intBoardSize = 0;
-	boolean blnCont = true;
+	
+	//Default settings parameters
+	int intPort = 3112; //Port #
+	String strPlayer1; //Player 1 name
+	int intTime = 1; //Time that cards stay flipped up
+	int intGameMode = 0; //Traditional
+	int intBoardSize = 0; //Easy
+	
+	boolean blnCont = true; //If true, settings are written to a text file and panels are allowed to be swapped
+	
+	//Text files
 	FileWriter files;
 	PrintWriter filewrite;
-	ShapeMatcherHome smh;
+	
+	ShapeMatcherHome smh; //Main menu
+	
 	Board brd;
 	
-	//Methods
+	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
@@ -46,6 +63,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	public void actionPerformed (ActionEvent evt){
 	}
 
+	//MouseListener methods
 	public void mouseClicked (MouseEvent evt){		
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
@@ -58,8 +76,6 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
 				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
 				smh.playMusic.start();
-			} else {
-
 			}
 
 			//Load all settings into variables
@@ -131,7 +147,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 			e.printStackTrace();
 		}
 
-		this.smh = smh;
+		this.smh = smh; //Links to main menu
 
 		//Panel dimensions and layout null
 		setPreferredSize(new Dimension(1280, 720));
