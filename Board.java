@@ -559,16 +559,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					ssm.connect();
 					
 					//change value of board columns and strDifficulty based on board size
-					if (strBoard.equals("0")){
-						intBoard = 4;
-						strDifficulty = "easy";
-					}else if (strBoard.equals("1")){
-						intBoard = 6;
-						strDifficulty = "medium";
-					}else if (strBoard.equals("2")){
-						intBoard = 8;
-						strDifficulty = "hard";
-					}
+					intBoard = smm.boardColumns(strBoard);
 					
 					//load the cards into the array once
 					crdDeck = smm.loadCards(strDifficulty);
