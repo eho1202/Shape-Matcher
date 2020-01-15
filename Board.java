@@ -236,6 +236,33 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		//repaint board at 60 fps
 		if(evt.getSource()==theTimer){
 			repaint();
+			
+			//check if game has finished 
+			int intDone = 0;
+			for(int i = 0; i< intBoard*4;i++){
+				if(crdDeck[i].blnPair==true){
+					intDone++;
+				}else{
+					intDone=0;
+				}
+			}
+			if (intDone==intBoard*4){
+				if(intPlyr1Pts>intPlyr2Pts){
+					if(intGo==1){
+						System.out.println("You Won!");
+					}else if(intGo==2){
+						System.out.println("You Lost...");
+					}
+				}else if(intPlyr1Pts<intPlyr2Pts){
+					if(intGo==1){
+						System.out.println("You Lost...");
+					}else if(intGo==2){
+						System.out.println("You Won!");
+					}
+				}else if(intPlyr1Pts==intPlyr2Pts){
+					System.out.println("You Tied!");
+				}
+			}
 		} else if(evt.getSource()==talk){
 			//append chat messages sent to the text area and set text field to blank
 			if(intGo==1){
@@ -281,8 +308,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		
 			//if the data sent is the data format, store the text. Otherwise, append it only
 			if(intCount1>=36){
-				blnDraw=true;
-				
 				//split data and load first three into variables
 				strNumbers = ssm.readText().split("&&");
 				strBoard=strNumbers[0];
@@ -301,15 +326,16 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					strDifficulty = "hard";
 				}
 				
-				//initialize crdDeck,load values of crdDeck.intShape into it, and set .blnFlipped to false
+				//initialize crdDeck and load values of crdDeck.intShape into it
 				crdDeck = new card[intBoard*4];
 				for(int i=0;i<intBoard*4;i++){
 					crdDeck[i]=new card();
 					crdDeck[i].intShape=Integer.parseInt(strNumbers[3+i]);
-					crdDeck[i].blnFlipped=false;
-					crdDeck[i].blnPair=false;
 				}
 				crdDeck = smm.loadImages(crdDeck); //load images of shapes 
+				
+				blnDraw=true;
+				
 				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
 				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
 				playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
@@ -636,11 +662,9 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					crdDeck = smm.loadCards(strDifficulty);
 					crdDeck = smm.loadImages(crdDeck);
 					
-					//add intShape of the deck to variable strSend and set all .blnFlipped to false
+					//add intShape of the deck to variable strSend
 					for(int i=0; i<intBoard*4; i++){
 						strSend+= "&&"+crdDeck[i].intShape;
-						crdDeck[i].blnFlipped=false;
-						crdDeck[i].blnPair=false;
 					}
 				}else if(strFile.equals("Player_Settings.txt")){
 					strPlyrName2 = fileread.readLine();
