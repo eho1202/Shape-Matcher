@@ -9,4 +9,18 @@ public class card {
 	BufferedImage image;
 	boolean blnFlipped;
 	int intN;
+	boolean blnPair;
+	boolean blnRepeat = false;
+	
+	//Methods
+	public void flip() {
+		if (this.blnFlipped == true && this.blnPair == true) {
+			this.blnFlipped = true;
+			blnRepeat = true;
+		}else if (this.blnFlipped == true) {
+			this.blnFlipped = false;
+		} else if (this.blnFlipped == false) {
+			this.blnFlipped = true;
+		}
+	}
 }
