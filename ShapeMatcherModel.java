@@ -222,4 +222,70 @@ public class ShapeMatcherModel {
         // return the resulting array 
         return intArray2; 
     }
+     //Checks the data format
+    public static int checkFormat (int intLength, String strText, String strSign){
+		String strSub;
+		int intCount=0;
+		for(int i=0;i<intLength;i++){
+			strSub = strText.substring(i,i+1);
+			if(strSub.equals(strSign)){
+				intCount++;
+			}
+		}
+		return intCount;
+	}
+	
+	//returns number of columns in the board
+	public static int boardColumns (String strBoard){
+		int intColumns = 0;
+		if (strBoard.equals("0")){
+			intColumns = 4;
+		}else if (strBoard.equals("1")){
+			intColumns = 6;
+		}else if (strBoard.equals("2")){
+			intColumns = 8;
+		}
+		
+		return intColumns;
+	}
+	
+	//returns x value of shape
+	public static int shapeXValue (int intIndex){
+		int intX = 0;
+		if(intIndex==0||intIndex==4||intIndex==8||intIndex==12){
+			intX = 102;
+		}else if(intIndex==1||intIndex==5||intIndex==9||intIndex==13){
+			intX = 197;
+		}else if(intIndex==2||intIndex==6||intIndex==10||intIndex==14){
+			intX = 292;
+		}else if(intIndex==3||intIndex==7||intIndex==11||intIndex==15){
+			intX = 387;
+		}else if(intIndex==16||intIndex==18||intIndex==20||intIndex==22){
+			intX = 482;
+		}else if(intIndex==17||intIndex==19||intIndex==21||intIndex==23){
+			intX = 577;
+		}else if(intIndex==24||intIndex==26||intIndex==28||intIndex==30){
+			intX = 672;
+		}else if(intIndex==25||intIndex==27||intIndex==29||intIndex==31){
+			intX = 767;
+		}		
+		return intX;
+	}
+	
+	//returns y value of shape
+	public static int shapeYValue (int intIndex){
+		int intY;
+		if (intIndex>=0&&intIndex<=3||intIndex==16||intIndex==17||intIndex==24||intIndex==25){
+			intY = 141;
+		}else if(intIndex>=4&&intIndex<=7||intIndex==18||intIndex==19||intIndex==26||intIndex==27){
+			intY = 273;
+		}else if(intIndex>=8&&intIndex<=11||intIndex==20||intIndex==21||intIndex==28||intIndex==29){
+			intY = 405;
+		}else if(intIndex>=12&&intIndex<=15||intIndex==22||intIndex==23||intIndex==30||intIndex==31){
+			intY = 537;
+		}else{
+			intY=0;
+		}
+		return intY;
+	}
 }
