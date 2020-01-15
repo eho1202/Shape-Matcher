@@ -4,13 +4,12 @@
  */
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 
-public class InfoPanel extends JPanel implements MouseListener{
+public class InfoPanel extends JPanel implements ActionListener, MouseListener{
 
 	//PROPERTIES
     BufferedImage image; //Information about settings panel image
@@ -19,6 +18,9 @@ public class InfoPanel extends JPanel implements MouseListener{
     //Buttons
     JButton home = new JButton();
     JButton help = new JButton();
+    
+    //Timer (all panels repaint at 60 fps)
+    Timer timer = new Timer(1000/60, this);
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -26,6 +28,12 @@ public class InfoPanel extends JPanel implements MouseListener{
         repaint();
     }
 
+	public void actionPerformed(ActionEvent evt) {
+		if (evt.getSource() == timer) {
+			repaint();
+		}
+	}
+	
 	//MouseListener methods
     public void mouseClicked(MouseEvent evt) {
         if (evt.getSource() == home) {

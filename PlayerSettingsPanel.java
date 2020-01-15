@@ -9,7 +9,7 @@ import javax.swing.*;
 import javax.imageio.*;
 import java.awt.event.*;
 
-public class PlayerSettingsPanel extends JPanel implements MouseListener {
+public class PlayerSettingsPanel extends JPanel implements ActionListener, MouseListener {
 	
 	//PROPERTIES
 	BufferedImage image; //Player settings panel image
@@ -24,6 +24,9 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 	JButton start = new JButton();
 	JLabel warning = new JLabel("Please enter numbers only");
 	JLabel warning1 = new JLabel("Please enter an IP address");
+	
+	//Timer (all panels repaint at 60 fps)
+	Timer timer = new Timer(1000/60, this);
 	
 	//Settings parameters
 	String strPlayer2;
@@ -52,6 +55,12 @@ public class PlayerSettingsPanel extends JPanel implements MouseListener {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
 		repaint();
+	}
+	
+	public void actionPerformed(ActionEvent evt) {
+		if (evt.getSource() == timer) {
+			repaint();
+		}
 	}
 	
 	//MouseListener methods

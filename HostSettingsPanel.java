@@ -32,6 +32,9 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	//Font
 	Font f1 = new Font("Nunito", Font.PLAIN, 18);
 	
+	//Timer (all panels repaint at 60 fps)
+	Timer timer = new Timer(1000/60, this);
+	
 	//Enables networking
 	SuperSocketMaster ssm;
 	
@@ -59,6 +62,9 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	}
 
 	public void actionPerformed (ActionEvent evt){
+		if (evt.getSource() == timer) {
+			repaint();
+		}
 	}
 
 	public void mouseClicked (MouseEvent evt){		

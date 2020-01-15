@@ -4,13 +4,12 @@
  */
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 
-public class HelpPanel extends JPanel implements MouseListener{
+public class HelpPanel extends JPanel implements ActionListener, MouseListener{
 
 	//PROPERTIES
     BufferedImage image; //Help panel image
@@ -20,6 +19,9 @@ public class HelpPanel extends JPanel implements MouseListener{
     JButton btnHome = new JButton(); //Back to main menu
     JButton btnInfo = new JButton(); //Information about settings
     JButton btnHow = new JButton(); //How to play
+    
+    //Timer (all panels repaint at 60 fps)
+    Timer timer = new Timer(1000/60, this);
 
 	//METHODS
 	//Draws help panel image
@@ -29,6 +31,12 @@ public class HelpPanel extends JPanel implements MouseListener{
         repaint();
     }
 
+	public void actionPerformed(ActionEvent evt) {
+		if (evt.getSource() == timer) {
+			repaint();
+		}
+	}
+	
 	//MouseListener methods
     public void mouseClicked(MouseEvent evt) {
         if (evt.getSource() == btnHome) {

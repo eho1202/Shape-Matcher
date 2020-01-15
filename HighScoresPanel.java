@@ -5,15 +5,14 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class HighScoresPanel extends JPanel implements MouseListener{
+public class HighScoresPanel extends JPanel implements ActionListener, MouseListener{
 	
 	//PROPERTIES
 	BufferedImage image; //High scores panel image
@@ -28,6 +27,9 @@ public class HighScoresPanel extends JPanel implements MouseListener{
 	Font f1 = new Font("Nunito",Font.PLAIN,27);
 	Font f2 = new Font("Nunito",Font.PLAIN,34);
 	
+	//Timer (all panels repaint at 60 fps)
+	Timer timer = new Timer(1000/60, this);
+	
 	ShapeMatcherHome smh; //Main menu
 	
 	//METHODS
@@ -37,6 +39,12 @@ public class HighScoresPanel extends JPanel implements MouseListener{
 		repaint();
 	}
 
+	public void actionPerformed(ActionEvent evt) {
+		if (evt.getSource() == timer) {
+			repaint();
+		}
+	}
+	
 	//MouseListener methods
 	public void mouseClicked (MouseEvent evt){
 		if(evt.getSource()==home){

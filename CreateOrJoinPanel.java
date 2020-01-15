@@ -19,6 +19,9 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 	public JButton btnJoin;
 	public JButton btnBack;
 	
+	//Timer (all panels repaint at 60 fps)
+	Timer timer = new Timer(1000/60, this);
+	
 	ShapeMatcherHome smh; //Main menu
 	
 	//METHODS
@@ -48,10 +51,9 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
 				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
 				smh.playMusic.start();
-			} else {
-
 			}
-
+		} else if (evt.getSource() == timer) {
+			repaint();
 		}
 	}
 

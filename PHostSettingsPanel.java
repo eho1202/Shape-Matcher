@@ -22,6 +22,9 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	JButton home = new JButton();
 	JLabel warning = new JLabel("Please enter a value higher than 1000");
 	
+	//Timer (all panels repaint at 60 fps)
+	Timer timer = new Timer(1000/60, this);
+	
 	//Settings parameters
 	JTextField Plyr = new JTextField("Player 1"); 
 	JTextField Port = new JTextField("3112");
@@ -61,6 +64,9 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	}
 
 	public void actionPerformed (ActionEvent evt){
+		if (evt.getSource() == timer) {
+			repaint();
+		}
 	}
 
 	//MouseListener methods
