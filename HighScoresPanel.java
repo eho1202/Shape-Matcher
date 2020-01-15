@@ -55,10 +55,7 @@ public class HighScoresPanel extends JPanel implements ActionListener, MouseList
 			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
 				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
 				smh.playMusic.start();
-			} else {
-
 			}
-
 		}
 	}
 
@@ -159,6 +156,7 @@ public class HighScoresPanel extends JPanel implements ActionListener, MouseList
 				return null;
 			}
 		}catch(FileNotFoundException e){
+			e.printStackTrace();
 			return null;
 		}
 	}

@@ -67,6 +67,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Circle.png"));
 				}catch(IOException e){
 					System.out.println("Error loading circle");
+					e.printStackTrace();
 				}
 				cards[i].intN = 1;
 			} else if (cards[i].intShape == 3 || cards[i].intShape == 4) {
@@ -74,6 +75,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Eq Triangle.png"));
 				}catch(IOException e){
 					System.out.println("Error loading eq triangle");
+					e.printStackTrace();
 				}
 				cards[i].intN = 2;
 			} else if (cards[i].intShape == 5 || cards[i].intShape == 6) {
@@ -81,6 +83,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Square.png"));
 				}catch(IOException e){
 					System.out.println("Error loading square");
+					e.printStackTrace();
 				}
 				cards[i].intN = 3;
 			} else if (cards[i].intShape == 7 || cards[i].intShape == 8) {
@@ -88,6 +91,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Pentagon.png"));
 				}catch(IOException e){
 					System.out.println("Error loading pentagon");
+					e.printStackTrace();
 				}
 				cards[i].intN = 4;
 			} else if (cards[i].intShape == 9 || cards[i].intShape == 10) {
@@ -95,6 +99,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Hexagon.png"));
 				}catch(IOException e){
 					System.out.println("Error loading hexagon");
+					e.printStackTrace();
 				}
 				cards[i].intN = 5;
 			} else if (cards[i].intShape == 11 || cards[i].intShape == 12) {
@@ -102,6 +107,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Rhombus.png"));
 				}catch(IOException e){
 					System.out.println("Error loading rhombus");
+					e.printStackTrace();
 				}
 				cards[i].intN = 6;
 			} else if (cards[i].intShape == 13 || cards[i].intShape == 14) {
@@ -109,6 +115,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Parallelogram.png"));
 				}catch(IOException e){
 					System.out.println("Error loading parallelogram");
+					e.printStackTrace();
 				}
 				cards[i].intN = 7;
 			} else if (cards[i].intShape == 15 || cards[i].intShape == 16) {
@@ -116,6 +123,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Trapezoid.png"));
 				}catch(IOException e){
 					System.out.println("Error loading trapezoid");
+					e.printStackTrace();
 				}
 				cards[i].intN = 8;
 			} else if (cards[i].intShape == 17 || cards[i].intShape == 18) {
@@ -123,6 +131,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Star.png"));
 				}catch(IOException e){
 					System.out.println("Error loading star");
+					e.printStackTrace();
 				}
 				cards[i].intN = 9;
 			} else if (cards[i].intShape == 19 || cards[i].intShape == 20) {
@@ -130,6 +139,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Heart.png"));
 				}catch(IOException e){
 					System.out.println("Error loading heart");
+					e.printStackTrace();
 				}
 				cards[i].intN = 10;
 			} else if (cards[i].intShape == 21 || cards[i].intShape == 22) {
@@ -137,6 +147,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Rectangle.png"));
 				}catch(IOException e){
 					System.out.println("Error loading rectangle");
+					e.printStackTrace();
 				}
 				cards[i].intN = 11;
 			} else if (cards[i].intShape == 23 || cards[i].intShape == 24) {
@@ -144,6 +155,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("RA Triangle.png"));
 				}catch(IOException e){
 					System.out.println("Error loading right angle triangle");
+					e.printStackTrace();
 				}
 				cards[i].intN = 12;
 			} else if (cards[i].intShape == 25 || cards[i].intShape == 26) {
@@ -151,6 +163,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Scalene.png"));
 				}catch(IOException e){
 					System.out.println("Error loading scalene triangle");
+					e.printStackTrace();
 				}
 				cards[i].intN = 13;
 			} else if (cards[i].intShape == 27 || cards[i].intShape == 28) {
@@ -158,6 +171,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Semicircle.png"));
 				}catch(IOException e){
 					System.out.println("Error loading semicircle");
+					e.printStackTrace();
 				}
 				cards[i].intN = 14;
 			} else if (cards[i].intShape == 29 || cards[i].intShape == 30) {
@@ -165,6 +179,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Oval.png"));
 				}catch(IOException e){
 					System.out.println("Error loading oval");
+					e.printStackTrace();
 				}
 				cards[i].intN = 15;
 			} else if (cards[i].intShape == 31 || cards[i].intShape == 32) {
@@ -172,6 +187,7 @@ public class ShapeMatcherModel {
 					cards[i].image = ImageIO.read(getClass().getResource("Crescent.png"));
 				}catch(IOException e){
 					System.out.println("Error loading trapezoid");
+					e.printStackTrace();
 				}
 				cards[i].intN = 16;
 			}

@@ -111,6 +111,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 			image = ImageIO.read(getClass().getResource("img/Create or Join.png"));
 		}catch(IOException e){
 			System.out.println("Error loading create or join server image");
+			e.printStackTrace();
 		}
 		
 		//Create or join panel setup

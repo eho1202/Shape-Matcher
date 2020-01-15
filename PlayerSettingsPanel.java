@@ -90,6 +90,7 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 			}catch(NumberFormatException e){
 				warning.setVisible(true);
 				blnCheck=false;
+				e.printStackTrace();
 			}
 			
 			//To check whether or not a real IP address has been entered
@@ -174,6 +175,7 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 			image = ImageIO.read(getClass().getResource("img/Player Settings.png"));
 		}catch(IOException e){
 			System.out.println("Error loading player settings image");
+			e.printStackTrace();
 		}
 		
 		setPreferredSize(new Dimension(1280,720));
