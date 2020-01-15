@@ -1,3 +1,7 @@
+/* SHAPE MATCHER
+ * By: Venice Co, Ernestine Ho, Susan Chen
+ * Game model
+ */
 import java.io.*;
 import java.awt.*;
 import java.awt.image.*;

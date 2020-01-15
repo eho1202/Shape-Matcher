@@ -1,3 +1,7 @@
+/* SHAPE MATCHER
+ * By: Venice Co, Ernestine Ho, Susan Chen
+ * Panel: high scores
+ */
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;

@@ -1,3 +1,7 @@
+/* SHAPE MATCHER
+ * By: Venice Co, Ernestine Ho, Susan Chen
+ * Panel: main menu
+ */
 import java.awt.*;
 import java.awt.image.*;
 import javax.swing.*;

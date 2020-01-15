@@ -1,3 +1,7 @@
+/* SHAPE MATCHER
+ * By: Venice Co, Ernestine Ho, Susan Chen
+ * Main menu
+ */
 import javax.swing.*;
 import javax.sound.sampled.*;
 import java.awt.*;

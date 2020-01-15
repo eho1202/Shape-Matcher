@@ -1,3 +1,7 @@
+/* SHAPE MATCHER
+ * By: Venice Co, Ernestine Ho, Susan Chen
+ * Panel: help --> how to play
+ */
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.MouseEvent;

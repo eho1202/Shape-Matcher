@@ -1,3 +1,7 @@
+/* SHAPE MATCHER
+ * By: Venice Co, Ernestine Ho, Susan Chen
+ * Panel: Create or Join (pre-game)
+ */
 import java.io.*;
 import java.awt.*;
 import java.awt.image.*;
@@ -6,12 +10,14 @@ import javax.imageio.*;
 import java.awt.event.*;
 
 public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseListener {
+	//PROPERTIES
 	BufferedImage image;
 	public JButton btnCreate;
 	public JButton btnJoin;
 	public JButton btnBack;
 	ShapeMatcherHome smh;
 	
+	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, this);
@@ -90,6 +96,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 
 	}
 
+	//CONSTRUCTOR
 	public CreateOrJoinPanel(ShapeMatcherHome smh) {
 		this.smh = smh;
 		
