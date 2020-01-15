@@ -93,7 +93,9 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					//if cards have the same shape, then keep blnFlipped = true. Otherwise, it equals false
 					if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
 						crdDeck[intCard1].blnFlipped=true;
+						crdDeck[intCard1].blnPair=true;
 						crdDeck[intCard2].blnFlipped=true;
+						crdDeck[intCard2].blnPair=true;
 					}else{
 						crdDeck[intCard1].flip();
 						crdDeck[intCard2].flip();
@@ -305,6 +307,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					crdDeck[i]=new card();
 					crdDeck[i].intShape=Integer.parseInt(strNumbers[3+i]);
 					crdDeck[i].blnFlipped=false;
+					crdDeck[i].blnPair=false;
 				}
 				crdDeck = smm.loadImages(crdDeck); //load images of shapes 
 				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
@@ -554,7 +557,10 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			if(blnCont){
 				//if statement to take the required values of the selected cards
 				intj++;  
-				if(intj == 1&&intCard1==-1){
+				if (crdDeck[intIndex].blnRepeat){//if select a card in a flipped over pair
+					intj=0;
+					crdDeck[intIndex].blnRepeat = false;
+				}else if(intj == 1&&intCard1==-1){
 					intCard1=intIndex;
 					blnClick=true;
 					intx2 = intx1;
@@ -634,6 +640,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					for(int i=0; i<intBoard*4; i++){
 						strSend+= "&&"+crdDeck[i].intShape;
 						crdDeck[i].blnFlipped=false;
+						crdDeck[i].blnPair=false;
 					}
 				}else if(strFile.equals("Player_Settings.txt")){
 					strPlyrName2 = fileread.readLine();
