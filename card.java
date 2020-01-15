@@ -9,10 +9,15 @@ public class card {
 	BufferedImage image; //Image associated with each shape
 	boolean blnFlipped;
 	int intN;
+	boolean blnPair;
+	boolean blnRepeat = false;
 
 	//METHODS
 	 public void flip() {
-		if (this.blnFlipped == true) {
+		if (this.blnFlipped == true && this.blnPair == true) {
+			this.blnFlipped = true;
+			blnRepeat = true;
+		}else if (this.blnFlipped == true) {
 			this.blnFlipped = false;
 		} else if (this.blnFlipped == false) {
 			this.blnFlipped = true;
