@@ -57,7 +57,7 @@ public class ShapeMatcherModel {
 		return cards;
 	}
 	
-	//Adds the corresponding shape image based on each card's number
+	//Adds the corresponding shape image based on each card's number and the shape number for each shape type
 	public card[] loadImages(card[] cards) { 
 		int intIncrement = cards.length; //In other words, # of cards
 		
