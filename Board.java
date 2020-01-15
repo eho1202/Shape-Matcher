@@ -51,6 +51,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	String strSend ="";
 	String strNumbers[];
 	int intGo;
+	int intMode;
 	
 	//Methods
 	public void paintComponent (Graphics g){			
@@ -307,12 +308,13 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			}
 		
 			//if the data sent is the data format, store the text. Otherwise, append it only
-			if(intCount1>=36){
+			if(intCount1>=38){
 				//split data and load first three into variables
 				strNumbers = ssm.readText().split("&&");
 				strBoard=strNumbers[0];
 				intTime= Integer.parseInt(strNumbers[1]);
-				strPlyrName=strNumbers[2];
+				intMode= Integer.parseInt(strNumbers[2]);
+				strPlyrName=strNumbers[3];
 				
 				//determine value for intBoard and strDifficulty based on intBoard
 				if (strBoard.equals("0")){
@@ -330,7 +332,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				crdDeck = new card[intBoard*4];
 				for(int i=0;i<intBoard*4;i++){
 					crdDeck[i]=new card();
-					crdDeck[i].intShape=Integer.parseInt(strNumbers[3+i]);
+					crdDeck[i].intShape=Integer.parseInt(strNumbers[4+i]);
 				}
 				crdDeck = smm.loadImages(crdDeck); //load images of shapes 
 				
@@ -340,7 +342,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
 				playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
 			}else if(intCount2==2){
-				ssm.sendText(strBoard+"&&"+intTime+"&&"+strPlyrName+strSend);
+				ssm.sendText(strBoard+"&&"+intTime+"&&"+intMode+"&&"+strPlyrName+strSend);
 				
 				//split and load name
 				strNumbers = ssm.readText().split(",,");
@@ -638,7 +640,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			try{
 				if(strFile.equals("Host_Settings.txt")){
 					strBoard = fileread.readLine();
-					fileread.readLine();
+					intMode = fileread.readLine();
 					strPlyrName = fileread.readLine();
 					intGo=1;
 					intTime = Integer.parseInt(fileread.readLine());
