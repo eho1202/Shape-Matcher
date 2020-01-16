@@ -112,7 +112,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 					e.printStackTrace();
 				}
 				setVisible(false);
-				brd  = new Board(strPlayer1);
+				brd  = new Board("Host_Settings.txt");
 				smh.frmHome.setContentPane(brd);
 				smh.frmHome.pack();
 				smh.frmHome.setVisible(true);

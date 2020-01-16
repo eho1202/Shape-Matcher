@@ -128,7 +128,7 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 					e.printStackTrace();
 				}
 				setVisible(false);
-				brd = new Board(strPlayer2);
+				brd = new Board("Player_Settings.txt");
 				smh.frmHome.setContentPane(brd);
 				smh.frmHome.pack();
 				smh.frmHome.setVisible(true);
