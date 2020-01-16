@@ -1,4 +1,4 @@
-import java.io.*
+import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -493,11 +493,11 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				}else if(intj == 1&&intCard1==-1){
 					intCard1=intIndex;
 					blnClick=true;
-					ssm.sendText("1@@"+intCard1+"@@"+intx2+"@@"+inty2);
+					ssm.sendText("1@@"+intCard1);
 				}else if(intj == 2&&intIndex!=intCard1){
 					intCard2=intIndex;
 					blnClick = true;
-					ssm.sendText("2@@"+intCard2+"@@"+intx3+"@@"+inty3);
+					ssm.sendText("2@@"+intCard2);
 				}else if(intj == 2&&intIndex==intCard1){
 					intj=1;
 					crdDeck[intCard1].flip();
@@ -538,7 +538,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			try{
 				if(strFile.equals("Host_Settings.txt")){
 					strBoard = fileread.readLine();
-					intMode = fileread.readLine();
+					intMode = Integer.parseInt(fileread.readLine());
 					strPlyrName = fileread.readLine();
 					intGo=1;
 					intTime = Integer.parseInt(fileread.readLine());
@@ -552,7 +552,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					intBoard = smm.boardColumns(strBoard);
 					
 					//load the cards into the array once
-					crdDeck = smm.loadCards(strDifficulty);
+					crdDeck = smm.loadCards(strBoard);
 					crdDeck = smm.loadImages(crdDeck);
 					
 					//add intShape of the deck to variable strSend
