@@ -26,6 +26,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	
 	FileReader file;
 	BufferedReader fileread; 
+	FileWriter theFile;
+	PrintWriter filewrite;
 	
 	String strBoard;
 	int intBoard;
@@ -297,20 +299,60 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				}
 			}
 			if (intDone==intBoard*4){
-				if(intPlyr1Pts>intPlyr2Pts){
-					if(intGo==1){
-						System.out.println("You Won!");
-					}else if(intGo==2){
-						System.out.println("You Lost...");
+				theTimer.stop(); //stop timer after game is finished
+				try{
+					//load file based on board size
+					if(strBoard.equals("0")){
+						theFile = new FileWriter("EasyScores.txt", true);
+						filewrite = new PrintWriter(theFile);
+					}else if(strBoard.equals("1")){	
+						theFile = new FileWriter("MediumScores.txt", true);
+						filewrite = new PrintWriter(theFile);
+					}else if(strBoard.equals("2")){
+						theFile = new FileWriter("HardScores.txt", true);
+						filewrite = new PrintWriter(theFile);
 					}
-				}else if(intPlyr1Pts<intPlyr2Pts){
-					if(intGo==1){
-						System.out.println("You Lost...");
-					}else if(intGo==2){
-						System.out.println("You Won!");
+					//based on the winner, confirm their win or loss and write the winner's score to the appropriapte high scores file
+					if(intPlyr1Pts>intPlyr2Pts){
+						if(intGo==1){
+							System.out.println("You Won!");
+						}else if(intGo==2){
+							System.out.println("You Lost...");
+						}
+						
+						filewrite.println(strPlyrName);
+						if(intMode==0){
+							filewrite.println(intPlyr1Pts);
+						}else if(intMode==1){
+							filewrite.println(intPlyr1Pts);
+						}
+					}else if(intPlyr1Pts<intPlyr2Pts){
+						if(intGo==1){
+							System.out.println("You Lost...");
+						}else if(intGo==2){
+							System.out.println("You Won!");
+						}
+						
+						filewrite.println(strPlyrName2);
+						if(intMode==0){
+							filewrite.println(intPlyr2Pts);
+						}else if(intMode==1){
+							filewrite.println(intPlyr2Pts);
+						}
+					}else if(intPlyr1Pts==intPlyr2Pts){
+						System.out.println("You Tied!");
+						
+						filewrite.println("Tie");
+						if(intMode==0){
+							filewrite.println(intPlyr2Pts);
+						}else if(intMode==1){
+							filewrite.println(intPlyr2Pts);
+						}
 					}
-				}else if(intPlyr1Pts==intPlyr2Pts){
-					System.out.println("You Tied!");
+					//close fileWriter and PrintWriter
+					filewrite.close();
+					theFile.close();
+				}catch(IOException e){
 				}
 			}
 		}else if(evt.getSource()==cardTimer){
