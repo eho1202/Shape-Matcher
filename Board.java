@@ -344,7 +344,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent evt) {
-		if(evt.getSource()==this&&blnDraw&&intGo==intTurn){
+		if(evt.getSource()==this&&blnDraw&&intGo==intTurn&&cardTimer.isRunning()==false){
 			intx = evt.getX();
 			inty = evt.getY();
 			//checks if a card has been clicked, changes value of intx1 and iny1, index, and crdDeck[].blnFlipped
