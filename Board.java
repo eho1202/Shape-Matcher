@@ -340,7 +340,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 	}
-	}
 
 	public void mouseClicked(MouseEvent evt) {
 		if(evt.getSource()==this&&blnDraw&&intGo==intTurn&&cardTimer.isRunning()==false){
