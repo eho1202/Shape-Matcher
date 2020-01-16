@@ -248,4 +248,12 @@ public class ShapeMatcherModel {
 		
 		return intColumns;
 	}
+	
+	//Update Player points
+	public static int updatePoints (int intPoints, int intN, int intN1 ){
+			if(intN==intN1){
+				intPoints++;
+			}
+			return intPoints;
+	}
 }
