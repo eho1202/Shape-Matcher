@@ -662,6 +662,9 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					if (crdDeck[intIndex].blnRepeat){//if select a card in a pair
 						intj=0;
 						crdDeck[intIndex].blnRepeat = false;
+					}else if(intT2>=2&&intIndex==intCard3||intIndex==intCard4){ //prevent host from selecting a card opponent has selected on real time mode
+						crdDeck[intIndex].flip();
+						intj--;
 					}else if(intj == 1&&intCard1==-1){//selection of first card
 						intCard1 = intIndex;
 						intOrigin1 = 1;
@@ -680,6 +683,9 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					if (crdDeck[intIndex].blnRepeat){//if select a card in a pair
 						intj1=0;
 						crdDeck[intIndex].blnRepeat = false;
+					}else if(intT>=2&&intIndex==intCard1||intIndex==intCard2){//prevent client from selecting a card opponent has selected on real time mode
+						crdDeck[intIndex].flip();
+						intj1--;
 					}else if(intj1 == 1&&intCard3==-1){//selection of first card
 						intCard3 = intIndex;
 						intOrigin2 = 1;
