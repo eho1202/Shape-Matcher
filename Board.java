@@ -6,7 +6,6 @@ import javax.swing.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener{
 	//Properties
-	JFrame theframe = new JFrame();
 	Timer theTimer = new Timer(1000/60, this);
 	Timer cardTimer;
 	Timer cardTimer2;
@@ -49,6 +48,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	int intCard3=-1;
 	int intCard4;
 	int intj=0;
+	int intj1=0;
 	int intT=1;
 	int intPlyr1Pts =0;
 	int intPlyr2Pts =0;
@@ -198,6 +198,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						intT++;
 						cardTimer.start();
 						cardTimer.restart();
+						intOrigin1=0;
 					}
 				}
 				if(intOrigin2==1&&intMode==1){
@@ -210,6 +211,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						intT2++;
 						cardTimer2.start();
 						cardTimer2.restart();
+						intOrigin2=0;
 					}
 				}
 					
@@ -251,29 +253,29 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							playerturn.setText(strPlyrName+"'s Turn!");
 							intTurn=1;
 						}
+						intCard1=-1;
+						intj=0;
+						intT=1;
 					}else if(intMode==1){
 						if(intOrigin1==1){
-							if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
-								intPlyr1Pts++;
-							}
+							intPlyr1Pts = smm.updatePoints(intPlyr1Pts, crdDeck[intCard1].intN, crdDeck[intCard2].intN);
 							player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//update score
+							intCard1=-1;
+							intj=0;
+							intT=1;
 						}
 						if(intOrigin2==1){
-							if(crdDeck[intCard3].intN==crdDeck[intCard4].intN){
-								intPlyr2Pts++;
-							}
+							intPlyr2Pts = smm.updatePoints(intPlyr2Pts, crdDeck[intCard3].intN, crdDeck[intCard4].intN);
 							player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");//update score
+							intCard3=-1;
+							intj1=0;
+							intT2=1;
 						}
 					}
 					//reset variables
 					intOrigin1=0;
 					intOrigin2=0;
-					intT=1;
-					intT2=1;
-					intCard1=-1;
-					intCard2=-1;
 					blnClick = false;
-					intj=0;
 					blnCheck = false;
 				}	
 			} 	
@@ -314,9 +316,13 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		}else if(evt.getSource()==cardTimer){
 			cardTimer.stop();
 			blnCheck=true;
+			blnClick=true;
+			intOrigin1=1;
 		}else if(evt.getSource()==cardTimer2){
 			cardTimer2.stop();
 			blnCheck=true;
+			blnClick=true;
+			intOrigin2=1;
 		}else if(evt.getSource()==talk){
 			//append chat messages sent to the text area and set text field to blank
 			if(intGo==1){
@@ -356,6 +362,9 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				
 				if(intMode==1){
 					intTurn=intGo;
+					playerturn.setText("REAL-TIME MODE");
+				}else if(intMode==0){
+					playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
 				}
 				
 				//determine value for intBoard and strDifficulty based on intBoard
@@ -373,7 +382,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				
 				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
 				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
-				playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
 			}else if(intCount2==2){
 				ssm.sendText(strBoard+"&&"+intTime+"&&"+intMode+"&&"+strPlyrName+strSend);
 				
@@ -384,7 +392,12 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				
 				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
 				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
-				playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
+				
+				if(intMode==0){
+					playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
+				}else if(intMode==1){
+					playerturn.setText("REAL-TIME MODE");
+				}
 			}else if(intCount3==2){
 				strNumbers = ssm.readText().split("@@");//split data
 				//load intCard1 or intCard2 value, flip the card, set blnClick to true, and load x and y integers. Differ based on if it's the first or second card
@@ -418,7 +431,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent evt) {
-		if(evt.getSource()==this&&blnDraw&&intGo==intTurn&&cardTimer.isRunning()==false){
+		if(evt.getSource()==this&&blnDraw&&intGo==intTurn){
 			intx = evt.getX();
 			inty = evt.getY();
 			//checks if a card has been clicked, changes value of intx1 and iny1, index, and crdDeck[].blnFlipped
@@ -561,8 +574,15 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			
 			if(blnCont){
 				//if statement to take the required values of the selected cards
-				intj++;  		
-				if(intGo==1||intMode==0){	
+				intj++;  
+				intj1++;		
+				if(cardTimer.isRunning()&&intGo==1){
+					intj=0;
+					crdDeck[intIndex].flip();
+				}else if(cardTimer2.isRunning()&&intGo==2){
+					intj1=0;
+					crdDeck[intIndex].flip();
+				}else if(intGo==1||intMode==0){	
 					if (crdDeck[intIndex].blnRepeat){//if select a card in a pair
 						intj=0;
 						crdDeck[intIndex].blnRepeat = false;
@@ -582,20 +602,20 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					}
 				}else if(intGo==2&&intMode==1){
 					if (crdDeck[intIndex].blnRepeat){//if select a card in a pair
-						intj=0;
+						intj1=0;
 						crdDeck[intIndex].blnRepeat = false;
-					}else if(intj == 1&&intCard3==-1){//selection of first card
+					}else if(intj1 == 1&&intCard3==-1){//selection of first card
 						intCard3 = intIndex;
 						intOrigin2 = 1;
 						ssm.sendText("1@@"+intCard3);
 						blnClick = true;
-					}else if(intj == 2&&intIndex!=intCard3){//selection of the second card
+					}else if(intj1 == 2&&intIndex!=intCard3){//selection of the second card
 						intCard4 = intIndex;
 						intOrigin2 = 1;
 						ssm.sendText("2@@"+intCard4);
 						blnClick = true;
-					}else if(intj == 2&&intIndex==intCard3){ //if select first card again
-						intj=1;
+					}else if(intj1 == 2&&intIndex==intCard3){ //if select first card again
+						intj1=1;
 						crdDeck[intCard3].flip();
 					}
 				}
