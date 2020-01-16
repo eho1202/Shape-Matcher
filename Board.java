@@ -5,8 +5,8 @@ import javax.swing.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener{
 	//Properties
-	JFrame theframe = new JFrame();
 	Timer theTimer = new Timer(1000/60, this);
+	Timer cardTimer;
 	Font f1 = new Font("Nunito", Font.PLAIN,30);
 	Font f2 = new Font("Nunito", Font.PLAIN,34);
 	Font f3 = new Font("Nunito", Font.PLAIN,24);
@@ -20,10 +20,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	JTextField talk = new JTextField();
 	int intx;
 	int inty;
-	int intwidth =75;
-	int intheight =112;
-	int intarcWidth = 22;
-	int intarcHeight = 22;
 	FileReader file;
 	BufferedReader fileread; 
 	String strBoard;
@@ -51,11 +47,12 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	String strNumbers[];
 	int intGo;
 	int intMode;
+	boolean blnCheck = false;
 	
 	//Methods
 	public void paintComponent (Graphics g){			
+		super.paintComponent(g);
 		if(blnDraw){
-			super.paintComponent(g);
 			intx=80;
 			inty=100;
 
@@ -63,71 +60,15 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			for(int i = 0; i<intBoard;i++){
 				for(int j =0; j<4;j++){
 					g.setColor(Color.WHITE);
-					g.fillRoundRect(intx,inty,intwidth,intheight,intarcWidth,intarcHeight);
+					g.fillRoundRect(intx,inty,75,112,22,22);
 					g.setColor(Color.BLACK);
-					g.drawRoundRect(intx,inty,intwidth,intheight,intarcWidth,intarcHeight);
+					g.drawRoundRect(intx,inty,75,112,22,22);
 					inty +=132;
 				}
 				intx += 95;
 				inty = 100;
 			}
 			
-			//after two cards have been selected, go into if statement
-			if(blnClick){
-				//draw images
-				g.drawImage(crdDeck[intCard1].image,intx2,inty2,null);
-				if(intT>=2){
-					g.drawImage(crdDeck[intCard2].image,intx3,inty3,null);
-				}
-				
-				//pause game the second time when images have been drawn
-				if(intT==1){
-					intT++;
-					blnClick=false;
-				}else if(intT==2){
-					intT++;
-				}else if(intT==3){
-					try{
-						Thread.sleep(intTime*1000);
-					}catch(InterruptedException e){
-					}
-					
-					//if cards have the same shape, then keep blnFlipped = true. Otherwise, it equals false
-					if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
-						crdDeck[intCard1].blnFlipped=true;
-						crdDeck[intCard1].blnPair=true;
-						crdDeck[intCard2].blnFlipped=true;
-						crdDeck[intCard2].blnPair=true;
-					}else{
-						crdDeck[intCard1].flip();
-						crdDeck[intCard2].flip();
-					}
-					
-					//update labels and variables based on the player's turn
-					if(intTurn==1){
-						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
-							intPlyr1Pts++;
-						}
-						player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//update score
-						playerturn.setText(strPlyrName2+"'s Turn!");
-						intTurn++;
-					}else if(intTurn==2){
-						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
-							intPlyr2Pts++;
-						}
-						player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
-						playerturn.setText(strPlyrName+"'s Turn!");
-						intTurn=1;
-					}
-					
-					//reset variables
-					intT=1;
-					intCard1=-1;
-					intCard2=-1;
-					blnClick = false;
-					intj=0;
-				}	
-			}
 			//draw cards if blnFlipped=true
 			if (crdDeck[0].blnFlipped){
 				g.drawImage(crdDeck[0].image,102,141,null);
@@ -231,6 +172,57 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					g.drawImage(crdDeck[31].image,767,537,null);
 				}
 			}
+			
+			//after two cards have been selected, go into if statement
+			if(blnClick){
+				//pause game the second time when images have been drawn
+				if(intT==1){
+					intT++;
+					blnClick=false;
+				}else if(intT==2){
+					cardTimer.start();
+					intT++;
+					cardTimer.restart();
+				}
+				
+				if(blnCheck){
+					//if cards have the same shape, then keep blnFlipped = true. Otherwise, it equals false
+					if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
+						crdDeck[intCard1].blnFlipped=true;
+						crdDeck[intCard1].blnPair=true;
+						crdDeck[intCard2].blnFlipped=true;
+						crdDeck[intCard2].blnPair=true;
+					}else{
+						crdDeck[intCard1].flip();
+						crdDeck[intCard2].flip();
+					}
+					
+					//update labels and variables based on the player's turn
+					if(intTurn==1){
+						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
+							intPlyr1Pts++;
+						}
+						player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//update score
+						playerturn.setText(strPlyrName2+"'s Turn!");
+						intTurn++;
+					}else if(intTurn==2){
+						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
+							intPlyr2Pts++;
+						}
+						player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
+						playerturn.setText(strPlyrName+"'s Turn!");
+						intTurn=1;
+					}
+					
+					//reset variables
+					intT=1;
+					intCard1=-1;
+					intCard2=-1;
+					blnClick = false;
+					intj=0;
+					blnCheck= false;
+				}	
+			}
 		}//blnDraw if statement
 	}
 	
@@ -276,6 +268,9 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				ssm.sendText(strPlyrName2+": "+talk.getText());
 				talk.setText("");
 			}
+		}else if(evt.getSource()==cardTimer){
+			cardTimer.stop();
+			blnCheck=true;
 		}else if(evt.getSource()== ssm){
 			int intLength;
 			int intCount1 =0;
@@ -298,6 +293,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				intTime= Integer.parseInt(strNumbers[1]);
 				intMode= Integer.parseInt(strNumbers[2]);
 				strPlyrName=strNumbers[3];
+				
+				cardTimer = new Timer(intTime*1000,this);//initialize timer
 				
 				//determine value for intBoard and strDifficulty based on intBoard
 				intBoard = smm.boardColumns(strBoard);
@@ -334,14 +331,10 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					intCard1=Integer.parseInt(strNumbers[1]);
 					crdDeck[intCard1].flip();
 					blnClick=true;
-					intx2=smm.shapeXValue(intCard1);
-					inty2=smm.shapeYValue(intCard1);
 				}else if(strNumbers[0].equals("2")){
 					intCard2=Integer.parseInt(strNumbers[1]);
 					crdDeck[intCard2].flip();
-					blnClick=true;
-					intx3=smm.shapeXValue(intCard2);
-					inty3=smm.shapeYValue(intCard2);   
+					blnClick=true; 
 				}
 			}else{
 				textArea.append(ssm.readText()+"\n");
@@ -351,7 +344,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent evt) {
-		if(evt.getSource()==this&&blnDraw&&intGo==intTurn){
+		if(evt.getSource()==this&&blnDraw&&intGo==intTurn&&cardTimer.isRunning()==false){
 			intx = evt.getX();
 			inty = evt.getY();
 			//checks if a card has been clicked, changes value of intx1 and iny1, index, and crdDeck[].blnFlipped
@@ -501,14 +494,10 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				}else if(intj == 1&&intCard1==-1){
 					intCard1=intIndex;
 					blnClick=true;
-					intx2 = smm.shapeXValue(intIndex);
-					inty2 = smm.shapeYValue(intIndex);
 					ssm.sendText("1@@"+intCard1+"@@"+intx2+"@@"+inty2);
 				}else if(intj == 2&&intIndex!=intCard1){
 					intCard2=intIndex;
 					blnClick = true;
-					intx3 = smm.shapeXValue(intIndex);
-					inty3 = smm.shapeYValue(intIndex);
 					ssm.sendText("2@@"+intCard2+"@@"+intx3+"@@"+inty3);
 				}else if(intj == 2&&intIndex==intCard1){
 					intj=1;
@@ -557,6 +546,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					intPort = Integer.parseInt(fileread.readLine());
 					ssm = new SuperSocketMaster(intPort,this);
 					ssm.connect();
+					
+					cardTimer = new Timer(intTime*1000,this);//initialize timer
 					
 					//change value of board columns and strDifficulty based on board size
 					intBoard = smm.boardColumns(strBoard);
@@ -621,18 +612,5 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		add(talk);
 		
 		theTimer.start();
-		
-		/*
-		theframe.setResizable(false);
-		theframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		theframe.setContentPane(this);
-		theframe.pack();
-		theframe.setVisible(true);
-		*/
 	}
-	/*
-	public static void main (String[] args){
-		new Board();
-	}
-	*/
 }
