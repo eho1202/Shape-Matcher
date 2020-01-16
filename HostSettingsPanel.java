@@ -52,7 +52,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	PrintWriter filewrite;
 	
 	ShapeMatcherHome smh; //Main menu
-	//Board brd;
+	Board brd;
 	
 	//METHODS
 	public void paintComponent (Graphics g){
@@ -112,10 +112,10 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 					e.printStackTrace();
 				}
 				setVisible(false);
-				/*brd  = new Board(strPlayer1);
+				brd  = new Board(strPlayer1);
 				smh.frmHome.setContentPane(brd);
 				smh.frmHome.pack();
-				smh.frmHome.setVisible(true);*/
+				smh.frmHome.setVisible(true);
 			}
 		}
 	}

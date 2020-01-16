@@ -38,7 +38,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	HelpPanel pnlHelp = new HelpPanel(this); //Help panel
 	InfoPanel pnlInfo = new InfoPanel(this); //Help --> Information about settings
 	HowToPlayPanel pnlHow = new HowToPlayPanel(this); //Help --> How to play
-	EndPanel pnlEnd = new EndPanel(this); //Victory or defeat panel
+	//EndPanel pnlEnd = new EndPanel(this); //Victory or defeat panel
 
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == btnPlay) {

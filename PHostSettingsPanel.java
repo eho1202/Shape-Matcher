@@ -54,8 +54,6 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	
 	ShapeMatcherHome smh; //Main menu
 	
-	Board brd;
-	
 	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
@@ -113,10 +111,6 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 					e.printStackTrace();
 				}
 				setVisible(false);
-				brd  = new Board(strPlayer1);
-				smh.frmHome.setContentPane(brd);
-				smh.frmHome.pack();
-				smh.frmHome.setVisible(true);
 			}
 		}
 	}
