@@ -6,14 +6,19 @@ import javax.swing.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener{
 	//Properties
+		//Timers
 	Timer theTimer = new Timer(1000/60, this);
 	Timer cardTimer;
 	Timer cardTimer2;
+	
+	//Fonts
 	Font f1 = new Font("Nunito", Font.PLAIN,30);
 	Font f2 = new Font("Nunito", Font.PLAIN,34);
 	Font f3 = new Font("Nunito", Font.PLAIN,24);
 	Font f4 = new Font("Nunito", Font.PLAIN,12);
-	JLabel playerturn = new JLabel("Player 1's Turn!",JLabel.CENTER);
+	
+	//JComponents
+	JLabel playerturn = new JLabel("",JLabel.CENTER);
 	JLabel scoreboard = new JLabel("Scoreboard");
 	JLabel player1 = new JLabel("Player 1 - 0 point(s)");
 	JLabel player2 = new JLabel("Player 2 - 0 point(s)");
@@ -21,48 +26,52 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	JScrollPane scroll = new JScrollPane(textArea);
 	JTextField talk = new JTextField();
 	
+	//x and y coordinates of cards
 	int intx;
 	int inty;
 	
+	//file io
 	FileReader file;
 	BufferedReader fileread; 
 	FileWriter theFile;
 	PrintWriter filewrite;
 	
-	String strBoard;
-	int intBoard;
+	String strBoard; //holds board selection as stored in the settings text file
+	int intBoard; //holds number of columns in the board 
 	String strPlyrName;
 	String strPlyrName2 ="";
 	SuperSocketMaster ssm;
-	String strFile;
+	String strFile; //settings file of the user
 	String strIP;
 	int intPort;
-	boolean blnDraw = false;
+	boolean blnDraw = false; //ensures sections aren't accessed until after both players have all the info loaded
 	ShapeMatcherModel smm = new ShapeMatcherModel();
+	ShapeMatcherHome smh;
+	EndPanel pnlEnd = new EndPanel();
 	card crdDeck[];
-	boolean blnCont = false;
+	boolean blnCont = false; //controls when the check if the cards flipped are the same happens
 	int intTime;
-	boolean blnClick = false;
+	boolean blnClick = false;//controls loop for when cards have been selected
 	
-	int intIndex;
-	int intCard1=-1;
-	int intCard2;
-	int intCard3=-1;
-	int intCard4;
-	int intj=0;
-	int intj1=0;
-	int intT=1;
+	int intIndex;//index of card selected
+	int intCard1=-1; //holds card index for later comparison
+	int intCard2; //holds card index for later comparison
+	int intCard3=-1; //holds card index for later comparison (Real Time mode)
+	int intCard4; //holds card index for later comparison (Real time mode)
+	int intj=0; //controls section after user initially selects a card (controls what happens with what info)
+	int intj1=0; //controls section after user initially selects a card (real time mode for client user)
+	int intT=1; //keeps track of how many times program goes into the blnClick section 
 	int intPlyr1Pts =0;
 	int intPlyr2Pts =0;
-	int intTurn=1;
+	int intTurn=1; //controls the turns (traditional mode)
 	String strSend ="";
 	String strNumbers[];
-	int intGo;
+	int intGo; //controls which turn player goes on
 	int intMode;
 	boolean blnCheck = false;
 	int intOrigin1;//host
 	int intOrigin2;//client
-	int intT2=1;
+	int intT2=1;//keeps track of how many times program goes into the blnClick section (real time mode, client user)
 	
 	//Methods
 	public void paintComponent (Graphics g){
@@ -289,70 +298,90 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		if(evt.getSource()==theTimer){
 			repaint();
 			
-			//check if game has finished 
-			int intDone = 0;
-			for(int i = 0; i< intBoard*4;i++){
-				if(crdDeck[i].blnPair==true){
-					intDone++;
-				}else{
-					intDone=0;
+			if(blnDraw){
+				//check if game has finished 
+				int intDone = 0;
+				for(int i = 0; i< intBoard*4;i++){
+					if(crdDeck[i].blnPair==true){
+						intDone++;
+					}else{
+						intDone=0;
+					}
 				}
-			}
-			if (intDone==intBoard*4){
-				theTimer.stop(); //stop timer after game is finished
-				try{
-					//load file based on board size
-					if(strBoard.equals("0")){
-						theFile = new FileWriter("EasyScores.txt", true);
-						filewrite = new PrintWriter(theFile);
-					}else if(strBoard.equals("1")){	
-						theFile = new FileWriter("MediumScores.txt", true);
-						filewrite = new PrintWriter(theFile);
-					}else if(strBoard.equals("2")){
-						theFile = new FileWriter("HardScores.txt", true);
-						filewrite = new PrintWriter(theFile);
+				if (intDone==intBoard*4){
+					theTimer.stop(); //stop timer after game is finished
+					try{
+						//load file based on board size
+						if(strBoard.equals("0")){
+							theFile = new FileWriter("EasyScores.txt", true);
+							filewrite = new PrintWriter(theFile);
+						}else if(strBoard.equals("1")){	
+							theFile = new FileWriter("MediumScores.txt", true);
+							filewrite = new PrintWriter(theFile);
+						}else if(strBoard.equals("2")){
+							theFile = new FileWriter("HardScores.txt", true);
+							filewrite = new PrintWriter(theFile);
+						}
+						//based on the winner, confirm their win or loss and write the winner's score to the appropriapte high scores file
+						if(intPlyr1Pts>intPlyr2Pts){
+							if(intGo==1){
+								System.out.println("You Won!");
+							}else if(intGo==2){
+								System.out.println("You Lost...");
+							}
+
+							filewrite.println(strPlyrName);
+							if(intMode==0){
+								filewrite.println(intPlyr1Pts);
+							}else if(intMode==1){
+								filewrite.println(intPlyr1Pts);
+							}
+						}else if(intPlyr1Pts<intPlyr2Pts){
+							if(intGo==1){
+								System.out.println("You Lost...");
+							}else if(intGo==2){
+								System.out.println("You Won!");
+							}
+
+							filewrite.println(strPlyrName2);
+							if(intMode==0){
+								filewrite.println(intPlyr2Pts);
+							}else if(intMode==1){
+								filewrite.println(intPlyr2Pts);
+							}
+						}else if(intPlyr1Pts==intPlyr2Pts){
+							System.out.println("You Tied!");
+
+							filewrite.println("Tie");
+							if(intMode==0){
+								filewrite.println(intPlyr2Pts);
+							}else if(intMode==1){
+								filewrite.println(intPlyr2Pts);
+							}
+						}
+						//close fileWriter and PrintWriter
+						filewrite.close();
+						theFile.close();
+					}catch(IOException e){
 					}
-					//based on the winner, confirm their win or loss and write the winner's score to the appropriapte high scores file
-					if(intPlyr1Pts>intPlyr2Pts){
-						if(intGo==1){
-							System.out.println("You Won!");
-						}else if(intGo==2){
-							System.out.println("You Lost...");
-						}
-						
-						filewrite.println(strPlyrName);
-						if(intMode==0){
-							filewrite.println(intPlyr1Pts);
-						}else if(intMode==1){
-							filewrite.println(intPlyr1Pts);
-						}
-					}else if(intPlyr1Pts<intPlyr2Pts){
-						if(intGo==1){
-							System.out.println("You Lost...");
-						}else if(intGo==2){
-							System.out.println("You Won!");
-						}
-						
-						filewrite.println(strPlyrName2);
-						if(intMode==0){
-							filewrite.println(intPlyr2Pts);
-						}else if(intMode==1){
-							filewrite.println(intPlyr2Pts);
-						}
-					}else if(intPlyr1Pts==intPlyr2Pts){
-						System.out.println("You Tied!");
-						
-						filewrite.println("Tie");
-						if(intMode==0){
-							filewrite.println(intPlyr2Pts);
-						}else if(intMode==1){
-							filewrite.println(intPlyr2Pts);
-						}
-					}
-					//close fileWriter and PrintWriter
-					filewrite.close();
-					theFile.close();
-				}catch(IOException e){
+					
+					//reset variable values
+					strPlyrName2="";
+					blnCont=false;
+					blnClick=false;
+					intCard1=-1;
+					intCard3=-1;
+					intj=0;
+					intj1=0;
+					intT=1;
+					intPlyr1Pts=0;
+					intPlyr2Pts=0;
+					intTurn=1;
+					strSend="";
+					blnCheck=false;
+					intT2=1;
+					
+					setVisible(false);
 				}
 			}
 		}else if(evt.getSource()==cardTimer){
@@ -399,8 +428,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				intMode = Integer.parseInt(strNumbers[2]);
 				strPlyrName = strNumbers[3];
 				
-				cardTimer = new Timer(intTime*1000,this);
-				cardTimer2 = new Timer(intTime*1000,this);
+				cardTimer = new Timer(intTime,this);
+				cardTimer2 = new Timer(intTime,this);
 				
 				if(intMode==1){
 					intTurn=intGo;
@@ -707,8 +736,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					ssm = new SuperSocketMaster(intPort,this);
 					ssm.connect();
 					
-					cardTimer = new Timer(intTime*1000,this);
-					cardTimer2 = new Timer(intTime*1000,this);
+					cardTimer = new Timer(intTime,this);
+					cardTimer2 = new Timer(intTime,this);
 					
 					if(intMode==1){
 						intTurn=intGo;
