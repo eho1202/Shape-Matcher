@@ -1,3 +1,4 @@
+import java.io.*
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -48,6 +49,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	int intGo;
 	int intMode;
 	boolean blnCheck = false;
+	int intPlyr1Pts=0;
+	int intPlyr2Pts=0;
 	
 	//Methods
 	public void paintComponent (Graphics g){			
@@ -199,16 +202,12 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					
 					//update labels and variables based on the player's turn
 					if(intTurn==1){
-						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
-							intPlyr1Pts++;
-						}
+						intPlyr1Pts = smm.updatePoints(intPlyr1Pts, crdDeck[intCard1].intN, crdDeck[intCard2].intN);
 						player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//update score
 						playerturn.setText(strPlyrName2+"'s Turn!");
 						intTurn++;
 					}else if(intTurn==2){
-						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
-							intPlyr2Pts++;
-						}
+						intPlyr2Pts = smm.updatePoints(intPlyr2Pts, crdDeck[intCard1].intN, crdDeck[intCard2].intN);
 						player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
 						playerturn.setText(strPlyrName+"'s Turn!");
 						intTurn=1;
