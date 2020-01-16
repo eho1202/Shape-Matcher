@@ -18,15 +18,15 @@ public class ShapeMatcherModel {
 		int intCards = 16; //Number of cards remaining in the deck (this number will decrease as cards are "dealt")
 		int intRandom; //Randomly generated card number
 		
-		if (strDifficulty.equalsIgnoreCase("easy") || strDifficulty.equalsIgnoreCase("e")) { //4x4 (16 cards)
+		if (strDifficulty.equalsIgnoreCase("0")) { //4x4 (16 cards)
 			intCards = 16;
 			intIncrement = 16;
 
-		} else if (strDifficulty.equalsIgnoreCase("medium") || strDifficulty.equalsIgnoreCase("m")) { //6x4 (24 cards)
+		} else if (strDifficulty.equalsIgnoreCase("1")) { //6x4 (24 cards)
 			intCards = 24;
 			intIncrement = 24;
 
-		} else if (strDifficulty.equalsIgnoreCase("hard") || strDifficulty.equalsIgnoreCase("h")) { //8x4 (32 cards)
+		} else if (strDifficulty.equalsIgnoreCase("2")) { //8x4 (32 cards)
 			intCards = 32;
 			intIncrement = 32;
 		}
