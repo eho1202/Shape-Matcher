@@ -1,3 +1,8 @@
+/* SHAPE MATCHER
+ * By: Venice Co, Ernestine Ho, Susan Chen
+ * Panel: Game view
+ */
+
 import java.io.*;
 import java.awt.*;
 import javax.swing.*;
@@ -6,7 +11,7 @@ import javax.swing.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener{
 	//Properties
-		//Timers
+	//Timers
 	Timer theTimer = new Timer(1000/60, this);
 	Timer cardTimer;
 	Timer cardTimer2;
