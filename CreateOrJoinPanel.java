@@ -10,20 +10,20 @@ import javax.imageio.*;
 import java.awt.event.*;
 
 public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseListener {
-	
+
 	//PROPERTIES
 	BufferedImage image; //Create or join panel image
-	
+
 	//Buttons
 	public JButton btnCreate;
 	public JButton btnJoin;
 	public JButton btnBack;
-	
+
 	//Timer (all panels repaint at 60 fps)
 	Timer timer = new Timer(1000/60, this);
-	
+
 	ShapeMatcherHome smh; //Main menu
-	
+
 	//METHODS
 	//Draws panel image
 	public void paintComponent (Graphics g){
@@ -31,7 +31,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 		g.drawImage(image, 0, 0, this);
 		repaint();
 	}
-	
+
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == btnCreate) { //Create server button
 			System.out.println("Create button pressed");
@@ -105,7 +105,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 	//CONSTRUCTOR
 	public CreateOrJoinPanel(ShapeMatcherHome smh) {
 		this.smh = smh; //Linking to main menu
-		
+
 		//Finding create or join panel image
 		try{
 			image = ImageIO.read(getClass().getResource("img/Create or Join.png"));

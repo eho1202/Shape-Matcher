@@ -14,12 +14,12 @@ public class HelpPanel extends JPanel implements ActionListener, MouseListener{
 	//PROPERTIES
     BufferedImage image; //Help panel image
     ShapeMatcherHome smh; //Main menu
-    
+
     //Buttons on help panel
     JButton btnHome = new JButton(); //Back to main menu
     JButton btnInfo = new JButton(); //Information about settings
     JButton btnHow = new JButton(); //How to play
-    
+
     //Timer (all panels repaint at 60 fps)
     Timer timer = new Timer(1000/60, this);
 
@@ -36,7 +36,7 @@ public class HelpPanel extends JPanel implements ActionListener, MouseListener{
 			repaint();
 		}
 	}
-	
+
 	//MouseListener methods
     public void mouseClicked(MouseEvent evt) {
         if (evt.getSource() == btnHome) {
@@ -72,6 +72,7 @@ public class HelpPanel extends JPanel implements ActionListener, MouseListener{
 
 	//Unused
     public void mousePressed(MouseEvent evt) {
+
     }
 
     public void mouseReleased(MouseEvent evt) {

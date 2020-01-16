@@ -13,25 +13,25 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class HighScoresPanel extends JPanel implements ActionListener, MouseListener{
-	
+
 	//PROPERTIES
 	BufferedImage image; //High scores panel image
-	
+
 	//JComponents (labels and button)
 	JLabel easy = new JLabel();
 	JLabel medium = new JLabel();
 	JLabel hard = new JLabel();
 	JButton home = new JButton("Back to Main Menu");
-	
+
 	//Fonts
 	Font f1 = new Font("Nunito",Font.PLAIN,27);
 	Font f2 = new Font("Nunito",Font.PLAIN,34);
-	
+
 	//Timer (all panels repaint at 60 fps)
 	Timer timer = new Timer(1000/60, this);
-	
+
 	ShapeMatcherHome smh; //Main menu
-	
+
 	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
@@ -44,7 +44,7 @@ public class HighScoresPanel extends JPanel implements ActionListener, MouseList
 			repaint();
 		}
 	}
-	
+
 	//MouseListener methods
 	public void mouseClicked (MouseEvent evt){
 		if(evt.getSource()==home){

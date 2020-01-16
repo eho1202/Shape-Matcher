@@ -14,11 +14,11 @@ public class InfoPanel extends JPanel implements ActionListener, MouseListener{
 	//PROPERTIES
     BufferedImage image; //Information about settings panel image
     ShapeMatcherHome smh; //Main menu
-    
+
     //Buttons
     JButton home = new JButton();
     JButton help = new JButton();
-    
+
     //Timer (all panels repaint at 60 fps)
     Timer timer = new Timer(1000/60, this);
 
@@ -33,7 +33,7 @@ public class InfoPanel extends JPanel implements ActionListener, MouseListener{
 			repaint();
 		}
 	}
-	
+
 	//MouseListener methods
     public void mouseClicked(MouseEvent evt) {
         if (evt.getSource() == home) {
@@ -88,7 +88,7 @@ public class InfoPanel extends JPanel implements ActionListener, MouseListener{
             home.setOpaque(false);
         }
     }
-	
+
 	//CONSTRUCTOR
     public InfoPanel(ShapeMatcherHome smh) {
         try {

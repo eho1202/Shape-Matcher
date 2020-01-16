@@ -2,7 +2,7 @@
  * By: Venice Co, Ernestine Ho, Susan Chen
  * Object: card
  */
- 
+
 import java.io.*;
 import java.awt.image.*;
 import javax.imageio.*;

@@ -14,11 +14,11 @@ public class HowToPlayPanel extends JPanel implements ActionListener, MouseListe
 	//PROPERTIES
     BufferedImage image; //How to play panel image
     ShapeMatcherHome smh; //Main menu
-    
+
     //JComponents
-    JButton home = new JButton(); 
+    JButton home = new JButton();
     JButton help = new JButton();
-    
+
     //Timer (all panels repaint at 60 fps)
     Timer timer = new Timer(1000/60, this);
 
@@ -33,7 +33,7 @@ public class HowToPlayPanel extends JPanel implements ActionListener, MouseListe
 			repaint();
 		}
 	}
-	
+
 	//MouseListener methods
     public void mouseClicked(MouseEvent evt) {
         if (evt.getSource() == home) {
@@ -87,7 +87,7 @@ public class HowToPlayPanel extends JPanel implements ActionListener, MouseListe
         }
 
     }
-	
+
 	//CONSTRUCTOR
     public HowToPlayPanel(ShapeMatcherHome smh) {
         try {
