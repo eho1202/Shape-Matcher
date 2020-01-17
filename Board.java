@@ -328,17 +328,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				if (intDone==intBoard*4){
 					theTimer.stop(); //stop timer after game is finished
 					try{
-						//load file based on board size
-						if(strBoard.equals("0")){
-							theFile = new FileWriter("EasyScores.txt", true);
-							filewrite = new PrintWriter(theFile);
-						}else if(strBoard.equals("1")){	
-							theFile = new FileWriter("MediumScores.txt", true);
-							filewrite = new PrintWriter(theFile);
-						}else if(strBoard.equals("2")){
-							theFile = new FileWriter("HardScores.txt", true);
-							filewrite = new PrintWriter(theFile);
-						}
+						FileWriter theFile = smm.getFileWrite(strBoard);
+						PrintWriter filewrite = new PrintWriter(theFile);
 						//based on the winner, confirm their win or loss and write the winner's score to the appropriapte high scores file
 						if(intPlyr1Pts>intPlyr2Pts){
 							if(intGo==1){
@@ -358,11 +349,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							}
 
 							filewrite.println(strPlyrName);
-							if(intMode==0){
-								filewrite.println(intPlyr1Pts);
-							}else if(intMode==1){
-								filewrite.println(intPlyr1Pts);
-							}
+							filewrite.println(intPlyr1Pts);
 						}else if(intPlyr1Pts<intPlyr2Pts){
 							if(intGo==1){
 								System.out.println("You Lost...");
@@ -379,20 +366,22 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							}
 
 							filewrite.println(strPlyrName2);
-							if(intMode==0){
-								filewrite.println(intPlyr2Pts);
-							}else if(intMode==1){
-								filewrite.println(intPlyr2Pts);
-							}
+							filewrite.println(intPlyr2Pts);
 						}else if(intPlyr1Pts==intPlyr2Pts){
 							System.out.println("You Tied!");
-
-							filewrite.println("Tie");
-							if(intMode==0){
-								filewrite.println(intPlyr2Pts);
-							}else if(intMode==1){
-								filewrite.println(intPlyr2Pts);
+							if (intGo == 1) {
+								smh.pnlHostEnd.lblOutcome.setText("YOU TIED!");
+								smh.frmHome.setContentPane(smh.pnlHostEnd);
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
+							} else if (intGo == 2) {
+								smh.pnlPlayerEnd.lblOutcome.setText("YOU TIED!");
+								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
 							}
+							filewrite.println("Tie");
+							filewrite.println(intPlyr1Pts);
 						}
 						//close fileWriter and PrintWriter
 						filewrite.close();
@@ -697,7 +686,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					if (crdDeck[intIndex].blnRepeat){//if select a card in a pair
 						intj=0;
 						crdDeck[intIndex].blnRepeat = false;
-					}else if(intT2>=2&&intIndex==intCard3||intIndex==intCard4){ //prevent host from selecting a card opponent has selected on real time mode
+					}else if(intT2>=2&&intIndex==intCard3||intT2>=2&&intIndex==intCard4){ //prevent host from selecting a card opponent has selected on real time mode
 						crdDeck[intIndex].flip();
 						intj--;
 					}else if(intj == 1&&intCard1==-1){//selection of first card
@@ -718,7 +707,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					if (crdDeck[intIndex].blnRepeat){//if select a card in a pair
 						intj1=0;
 						crdDeck[intIndex].blnRepeat = false;
-					}else if(intT>=2&&intIndex==intCard1||intIndex==intCard2){//prevent client from selecting a card opponent has selected on real time mode
+					}else if(intT>=2&&intIndex==intCard1||intT>=2&&intIndex==intCard2){//prevent client from selecting a card opponent has selected on real time mode
 						crdDeck[intIndex].flip();
 						intj1--;
 					}else if(intj1 == 1&&intCard3==-1){//selection of first card
@@ -778,7 +767,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					intMode = Integer.parseInt(fileread.readLine());
 					strPlyrName = fileread.readLine();
 					intGo = 1;
-					intTime = Integer.parseInt(fileread.readLine());
+					intTime = Integer.parseInt(fileread.readLine())*1000;
 					intPort = Integer.parseInt(fileread.readLine());
 					ssm = new SuperSocketMaster(intPort,this);
 					ssm.connect();
