@@ -8,6 +8,7 @@ import java.awt.image.*;
 import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.ImageIcon.*;
+import java.util.Calendar;
 
 public class ShapeMatcherModel {
 	
@@ -255,5 +256,18 @@ public class ShapeMatcherModel {
 				intPoints++;
 			}
 			return intPoints;
+	}
+	
+	//get time
+	public static String getTime(){
+		Calendar calendar = Calendar.getInstance();
+		int intHour;
+		int intMinute;
+		String strTime;
+		intHour = calendar.get(Calendar.HOUR);
+		intMinute = calendar.get(Calendar.MINUTE);
+		strTime = intHour + ":"+intMinute;
+		
+		return strTime;
 	}
 }
