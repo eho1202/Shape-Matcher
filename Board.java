@@ -349,11 +349,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							}
 
 							filewrite.println(strPlyrName);
-							if(intMode==0){
-								filewrite.println(intPlyr1Pts);
-							}else if(intMode==1){
-								filewrite.println(intPlyr1Pts);
-							}
+							filewrite.println(intPlyr1Pts);
 						}else if(intPlyr1Pts<intPlyr2Pts){
 							if(intGo==1){
 								System.out.println("You Lost...");
@@ -370,11 +366,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							}
 
 							filewrite.println(strPlyrName2);
-							if(intMode==0){
-								filewrite.println(intPlyr2Pts);
-							}else if(intMode==1){
-								filewrite.println(intPlyr2Pts);
-							}
+							filewrite.println(intPlyr2Pts);
 						}else if(intPlyr1Pts==intPlyr2Pts){
 							System.out.println("You Tied!");
 							if (intGo == 1) {
@@ -389,11 +381,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 								smh.frmHome.setVisible(true);
 							}
 							filewrite.println("Tie");
-							if(intMode==0){
-								filewrite.println(intPlyr2Pts);
-							}else if(intMode==1){
-								filewrite.println(intPlyr2Pts);
-							}
+							filewrite.println(intPlyr1Pts);
 						}
 						//close fileWriter and PrintWriter
 						filewrite.close();
