@@ -148,7 +148,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 						board.setSelectedIndex(Integer.parseInt(readFiles.readLine()));
 						mode.setSelectedIndex(Integer.parseInt(readFiles.readLine()));
 						Plyr.setText(readFiles.readLine());
-						slide.setValue(Integer.parseInt(readFiles.readLine()));
+						slide.setValue(Integer.parseInt(readFiles.readLine())/1000);
 						Port.setText(readFiles.readLine());
 						thefile.close();
 						readFiles.close();
@@ -249,6 +249,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		slide.setSize(new Dimension(270, 50));
 		slide.setLocation(510, 520);
 		slide.setMajorTickSpacing(1);
+		slide.setSnapToTicks(true);
 		slide.setPaintTicks(true);
 		slide.setPaintLabels(true);
 		add(slide);
