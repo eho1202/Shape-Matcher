@@ -50,6 +50,8 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 	
 	Font f1 = new Font("Nunito", Font.PLAIN, 23); //Font
 	
+	int intRuns=0;
+	
 	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
@@ -78,6 +80,7 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 			
 			warning.setVisible(false);
 			warning1.setVisible(false);
+			intRuns=0;//reset variable
 			
 		}else if(evt.getSource() == start){
 			start.setCursor(Cursor.getDefaultCursor());
@@ -127,6 +130,8 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 				}catch(IOException e){
 					e.printStackTrace();
 				}
+				
+				intRuns=0;//reset variable
 				setVisible(false);
 				brd = new Board("Player_Settings.txt");
 				smh.frmHome.setContentPane(brd);
@@ -140,21 +145,38 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 	}
 	public void mouseReleased (MouseEvent evt){	
 		if (evt.getSource() == home) {
-            home.setCursor(Cursor.getDefaultCursor());
-            home.setOpaque(false);
-        } else if (evt.getSource() == start) {
-            start.setCursor(Cursor.getDefaultCursor());
-            start.setOpaque(false);
-        }
+		    home.setCursor(Cursor.getDefaultCursor());
+		    home.setOpaque(false);
+		} else if (evt.getSource() == start) {
+		    start.setCursor(Cursor.getDefaultCursor());
+		    start.setOpaque(false);
+		}
 	}
 	
 	public void mouseEntered (MouseEvent evt){
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor (more user-friendly)
-            home.setOpaque(true);
-        } else if (evt.getSource() == start) {
+			home.setOpaque(true);
+		} else if (evt.getSource() == start) {
 			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			start.setOpaque(true);
+		} else if(evt.getSource()==this){
+			if(intRuns==0){
+				try{
+					thefile = new FileReader("Player_Settings.txt");
+					readFiles = new BufferedReader(thefile);
+					try{
+						Plyr2.setText(readFiles.readLine());
+						HPort.setText(readFiles.readLine());
+						HIP.setText(readFiles.readLine());
+						thefile.close();
+						readFiles.close();
+					}catch(IOException e){
+					}
+				}catch(FileNotFoundException e){
+				}
+				intRuns++;
+			}
 		}
 	}
 	public void mouseExited (MouseEvent evt){
@@ -180,6 +202,7 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 		
 		setPreferredSize(new Dimension(1280,720));
 		setLayout(null);
+		addMouseListener(this);
 		
 		//set labels size and location
 		lblHome.setSize(291, 50);
