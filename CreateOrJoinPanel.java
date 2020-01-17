@@ -40,6 +40,7 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 			smh.frmHome.setVisible(true);
 		} else if (evt.getSource() == btnJoin) { //Join server button
 			System.out.println("Join button pressed");
+			smh.pnlPS.setVisible(true);
 			smh.frmHome.setContentPane(smh.pnlPS); //Switch to player settings panel
 			smh.frmHome.pack();
 			smh.frmHome.setVisible(true);
