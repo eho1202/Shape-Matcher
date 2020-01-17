@@ -140,7 +140,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 						board.setSelectedIndex(Integer.parseInt(readFiles.readLine()));
 						mode.setSelectedIndex(Integer.parseInt(readFiles.readLine()));
 						Plyr.setText(readFiles.readLine());
-						slide.setValue(Integer.parseInt(readFiles.readLine()));
+						slide.setValue(Integer.parseInt(readFiles.readLine())/1000);
 						Port.setText(readFiles.readLine());
 						thefile.close();
 						readFiles.close();

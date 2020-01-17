@@ -216,7 +216,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			}
 				
 			if(blnClick){
-				//pause game the second time when images have been drawn
 				if(intOrigin1==1||intMode==0){
 					if(intT==1){
 						intT++;
