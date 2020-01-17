@@ -191,14 +191,13 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 		}
 	}
 	
-	//Constructor
+	//CONSTRUCTOR
 	public PlayerSettingsPanel(ShapeMatcherHome smh){
 		this.smh = smh;
 		
 		try{
 			image = ImageIO.read(getClass().getResource("img/Player Settings.png"));
 		}catch(IOException e){
-			System.out.println("Error loading player settings image");
 			e.printStackTrace();
 		}
 		

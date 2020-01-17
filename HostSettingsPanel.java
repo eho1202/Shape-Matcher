@@ -74,7 +74,6 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	public void mouseClicked (MouseEvent evt){		
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
-			System.out.println("Back to main menu button pressed");
 			intRuns = 0; //reset to 0
 			smh.frmHome.setTitle("Shape Matcher");
 			smh.backToMain();

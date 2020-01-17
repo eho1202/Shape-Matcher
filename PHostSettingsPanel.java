@@ -75,7 +75,6 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	public void mouseClicked (MouseEvent evt){		
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
-			System.out.println("Back to main menu button pressed");
 
 			// check if toggle music button is on mute or not
 			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
@@ -159,7 +158,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		}
 	}
 
-	//Constructor
+	//CONSTRUCTOR
 	public PHostSettingsPanel (ShapeMatcherHome smh) {
 
 		try {

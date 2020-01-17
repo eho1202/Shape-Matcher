@@ -48,7 +48,6 @@ public class HostEndPanel extends JPanel implements ActionListener, MouseListene
             smh.frmHome.setTitle("Shape Matcher");
             smh.backToMain();
         } else if (evt.getSource() == btnAgain) {
-            System.out.println("Play again button pressed");
             smh.pnlHS.brd = new Board("Host_Settings.txt", smh);
             smh.frmHome.setContentPane(smh.pnlHS.brd);
             smh.frmHome.pack();
@@ -66,7 +65,6 @@ public class HostEndPanel extends JPanel implements ActionListener, MouseListene
 
     }
 
-	//Unused
     public void mousePressed(MouseEvent evt) {
     }
 

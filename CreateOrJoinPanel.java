@@ -34,18 +34,15 @@ public class CreateOrJoinPanel extends JPanel implements ActionListener, MouseLi
 
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == btnCreate) { //Create server button
-			System.out.println("Create button pressed");
 			smh.frmHome.setContentPane(smh.pnlHS); //Switch to host settings panel
 			smh.frmHome.pack();
 			smh.frmHome.setVisible(true);
 		} else if (evt.getSource() == btnJoin) { //Join server button
-			System.out.println("Join button pressed");
 			smh.pnlPS.setVisible(true);
 			smh.frmHome.setContentPane(smh.pnlPS); //Switch to player settings panel
 			smh.frmHome.pack();
 			smh.frmHome.setVisible(true);
 		} else if (evt.getSource() == btnBack) { //Back to main menu button
-			System.out.println("Back to main menu button pressed");
 			smh.backToMain(); //Consult backToMain method in ShapeMatcherHome class
 
 			// check if toggle music button is on mute or not

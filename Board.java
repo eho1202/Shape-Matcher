@@ -252,7 +252,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							crdDeck[intCard2].blnFlipped=true;
 							crdDeck[intCard2].blnPair=true;
 						}else{
-							System.out.println("Index1: "+intCard1+" Index2: "+intCard2);
 							crdDeck[intCard1].flip();
 							crdDeck[intCard2].flip();
 						}
@@ -318,37 +317,35 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			if(blnDraw){
 				if (smm.gameFinished(intBoard, crdDeck)){
 					theTimer.stop(); //stop timer after game is finished
-					ssm.disconnect();
+					ssm.disconnect(); //Disconnect from the network in case the host wants to play again w/ the same settings
 					try{
 						FileWriter theFile = smm.getFileWrite(strBoard);
 						PrintWriter filewrite = new PrintWriter(theFile);
 						//based on the winner, confirm their win or loss and write the winner's score to the appropriapte high scores file
 						if(intPlyr1Pts>intPlyr2Pts){
-							if(intGo==1){
-								System.out.println("You Won!");
+							if(intGo==1){ //Player 1 won
 								smh.frmHome.setContentPane(smh.pnlHostEnd);
 								smh.pnlHostEnd.lblOutcome.setText("YOU WON!");
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
-							}else if(intGo==2){
-								System.out.println("You Lost...");
+							}else if(intGo==2){ //Player 2 lost
 								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
 								smh.pnlPlayerEnd.lblOutcome.setText("YOU LOST...");
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
 							}
 
+							//Updating highscores file
 							filewrite.println(strPlyrName);
 							filewrite.println(intPlyr1Pts);
+							
 						}else if(intPlyr1Pts<intPlyr2Pts){
 							if(intGo==1){
-								System.out.println("You Lost...");
 								smh.pnlHostEnd.lblOutcome.setText("YOU LOST...");
 								smh.frmHome.setContentPane(smh.pnlHostEnd);
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
 							}else if(intGo==2){
-								System.out.println("You Won!");
 								smh.pnlPlayerEnd.lblOutcome.setText("YOU WON!");
 								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
 								smh.frmHome.pack();
@@ -357,8 +354,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 
 							filewrite.println(strPlyrName2);
 							filewrite.println(intPlyr2Pts);
+							
 						}else if(intPlyr1Pts==intPlyr2Pts){
-							System.out.println("You Tied!");
 							if (intGo == 1) {
 								smh.pnlHostEnd.lblOutcome.setText("YOU TIED!");
 								smh.frmHome.setContentPane(smh.pnlHostEnd);
@@ -376,6 +373,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						//close fileWriter and PrintWriter
 						filewrite.close();
 						theFile.close();
+						
 					}catch(IOException e){
 					}
 					
