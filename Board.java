@@ -707,7 +707,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					if (crdDeck[intIndex].blnRepeat){//if select a card in a pair
 						intj=0;
 						crdDeck[intIndex].blnRepeat = false;
-					}else if(intT2>=2&&intIndex==intCard3||intIndex==intCard4){ //prevent host from selecting a card opponent has selected on real time mode
+					}else if(intT2>=2&&intIndex==intCard3||intT2>=2&&intIndex==intCard4){ //prevent host from selecting a card opponent has selected on real time mode
 						crdDeck[intIndex].flip();
 						intj--;
 					}else if(intj == 1&&intCard1==-1){//selection of first card
@@ -728,7 +728,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					if (crdDeck[intIndex].blnRepeat){//if select a card in a pair
 						intj1=0;
 						crdDeck[intIndex].blnRepeat = false;
-					}else if(intT>=2&&intIndex==intCard1||intIndex==intCard2){//prevent client from selecting a card opponent has selected on real time mode
+					}else if(intT>=2&&intIndex==intCard1||intT>=2&&intIndex==intCard2){//prevent client from selecting a card opponent has selected on real time mode
 						crdDeck[intIndex].flip();
 						intj1--;
 					}else if(intj1 == 1&&intCard3==-1){//selection of first card
@@ -788,7 +788,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					intMode = Integer.parseInt(fileread.readLine());
 					strPlyrName = fileread.readLine();
 					intGo = 1;
-					intTime = Integer.parseInt(fileread.readLine());
+					intTime = Integer.parseInt(fileread.readLine())*1000;
 					intPort = Integer.parseInt(fileread.readLine());
 					ssm = new SuperSocketMaster(intPort,this);
 					ssm.connect();
