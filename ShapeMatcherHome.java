@@ -291,6 +291,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.frmHome.setResizable(false);
 		this.frmHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.frmHome.setContentPane(pnlHome);
+		this.frmHome.setIconImage(Toolkit.getDefaultToolkit().getImage("img/icon.png"));
 		this.frmHome.pack();
 		this.frmHome.setVisible(true);
 		this.frmHome.setLocationRelativeTo(null); //causes frmHome to centre on screen

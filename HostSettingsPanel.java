@@ -10,54 +10,55 @@ import javax.imageio.*;
 import java.awt.event.*;
 
 public class HostSettingsPanel extends JPanel implements ActionListener, MouseListener{
-	
+
 	//PROPERTIES
 	BufferedImage image;
-	
+
 	//String arrays for JComboBoxes
 	String[] modes = {"Traditional", "Real-Time"};
 	String[] boards = {"Easy 4x4", "Medium 6x4", "Hard 8x4"};
-	
+
 	//JComponents
 	JButton home = new JButton();
 	JButton start = new JButton();
 	JLabel warning = new JLabel("Please enter a value higher than 1000");
-	JTextField Plyr = new JTextField("Player 1"); 
+	JTextField Plyr = new JTextField("Player 1");
 	JTextField Port = new JTextField("3112");
 	JTextField IP;
 	JSlider slide = new JSlider(JSlider.HORIZONTAL,1,3,1);
 	JComboBox mode = new JComboBox<String>(modes);
 	JComboBox board = new JComboBox<String>(boards);
-	
+
+
 	//Font
 	Font f1 = new Font("Nunito", Font.PLAIN, 18);
-	
+
 	//Timer (all panels repaint at 60 fps)
 	Timer timer = new Timer(1000/60, this);
-	
+
 	//Enables networking
 	SuperSocketMaster ssm;
-	
+
 	//Default settings parameters
 	int intPort = 3112; //Port #
 	String strPlayer1; //Name of player
 	int intTime = 1; //Time that cards stay flipped up
 	int intGameMode = 0; //Traditional
 	int intBoardSize = 0; //Easy
-	
+
 	boolean blnCont = true; //If true, settings are written to a text file and panels are allowed to be swapped
-	
+
 	//Text files
 	FileWriter files;
 	PrintWriter filewrite;
 	FileReader thefile;
 	BufferedReader readFiles;
-	
+
 	ShapeMatcherHome smh; //Main menu
 	Board brd;
-	
+
 	int intRuns=0; //limits number of times if statement is entered
-	
+
 	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
@@ -71,7 +72,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		}
 	}
 
-	public void mouseClicked (MouseEvent evt){		
+	public void mouseClicked (MouseEvent evt){
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			intRuns = 0; //reset to 0
@@ -89,7 +90,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		} else if (evt.getSource()==start){
 			//Load all settings into variables
 			strPlayer1 = Plyr.getText();
-			
+
 			intPort = Integer.parseInt(Port.getText());
 			//check if user has entered a number greater than 1000. 
 			if (intPort<=1000){
@@ -99,11 +100,11 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 				warning.setVisible(false);
 				blnCont=true; //set to true to allow panels to swap
 			}
-			
+
 			intGameMode = mode.getSelectedIndex();
 			intBoardSize = board.getSelectedIndex();
 			intTime = slide.getValue();
-			
+
 			if (blnCont){
 				//write settings to a file
 				try{
@@ -124,7 +125,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		}
 	}
 
-	public void mousePressed (MouseEvent evt){	
+	public void mousePressed (MouseEvent evt){
 	}
 
 	public void mouseReleased (MouseEvent evt){
@@ -199,7 +200,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		addMouseListener(this);
 
 		ssm = new SuperSocketMaster(intPort, this); //initialize supersocketmaster (do this earlier on full program). Place here temporarily
-		
+
 		//set buttons size and location
 		home.setSize(new Dimension(291, 50));
 		home.setLocation(33, 30);
@@ -209,7 +210,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		home.setBackground(new Color(128,128,128,30));
 		home.addMouseListener(this);
 		add(home);
-		
+
 		start.setSize(new Dimension(85, 40));
 		start.setLocation(1160, 650);
 		start.setOpaque(false);
@@ -218,7 +219,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		start.setBackground(new Color(128,128,128,30));
 		start.addMouseListener(this);
 		add(start);
-		
+
 		//set label size and location
 		warning.setFont(f1);
 		warning.setSize(new Dimension(300, 50));
@@ -272,7 +273,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		slide.setPaintTicks(true);
 		slide.setPaintLabels(true);
 		add(slide);
-		
+
 		timer.start();
 
 	}
