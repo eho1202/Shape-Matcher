@@ -279,4 +279,21 @@ public class ShapeMatcherModel {
 
 		return strTime;
 	}
+	
+	//get FileWriter
+	public static FileWriter getFileWrite(String strBoard){
+		FileWriter theFile = null;
+		try{
+			if(strBoard.equals("0")){
+				theFile = new FileWriter("EasyScores.txt", true);
+			}else if(strBoard.equals("1")){	
+				theFile = new FileWriter("MediumScores.txt", true);
+			}else if(strBoard.equals("2")){
+				theFile = new FileWriter("HardScores.txt", true);
+			}
+		}catch(IOException e){	
+		}
+		
+		return theFile;
+	}
 }
