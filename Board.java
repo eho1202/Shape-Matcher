@@ -386,7 +386,17 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							}
 						}else if(intPlyr1Pts==intPlyr2Pts){
 							System.out.println("You Tied!");
-
+							if (intGo == 1) {
+								smh.pnlHostEnd.lblOutcome.setText("YOU TIED!");
+								smh.frmHome.setContentPane(smh.pnlHostEnd);
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
+							} else if (intGo == 2) {
+								smh.pnlPlayerEnd.lblOutcome.setText("YOU TIED!");
+								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
+							}
 							filewrite.println("Tie");
 							if(intMode==0){
 								filewrite.println(intPlyr2Pts);
