@@ -1,5 +1,4 @@
-# Shape-Matcher ![alt text](https://github.com/eho1202/Shape-Matcher/tree/master/img/icon.png "Icon")
-<img src="http://github.com/eho1202/Shape-Matcher/tree/master/img/icon.png" height="32" width="32">
+# Shape-Matcher <img src="img/icon.png" height="32" width="32">
 
 **St. Augustine CHS ICS4U1 Final Project**
 Created by Venice Co, Ernestine Ho, Susan Chen
