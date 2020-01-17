@@ -11,5 +11,7 @@ Please download **Nunito-Regular.ttf** inside **font folder**
 
 ### Our Github Links
 [Venice Co](https://github.com/VCo002)
+
 [Ernestine Ho](https://github.com/eho1202)
+
 [Susan Chen](https://github.com/susanxychen)
