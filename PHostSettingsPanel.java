@@ -21,6 +21,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	//JComponents
 	JButton home = new JButton();
 	JLabel warning = new JLabel("Please enter a value higher than 1000");
+	JLabel warningName = new JLabel("Please enter a name that is 10 characters or less.");
 	
 	//Timer (all panels repaint at 60 fps)
 	Timer timer = new Timer(1000/60, this);
@@ -84,15 +85,19 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 
 			//Load all settings into variables
 			strPlayer1 = Plyr.getText();
-
 			intPort = Integer.parseInt(Port.getText());
-			//check if user has entered a number greater than 1000.
-			if (intPort<=1000){
+			
+			//check if user has entered a number greater than 1000 or a name greater than 10 characters in length.
+			if (strPlayer1.length() > 10) {
+				warningName.setVisible(true);
+				blnCont = false;
+			} else if (intPort<=1000){
 				warning.setVisible(true);
-				blnCont=false; //set to false to prevent panels from swapping
-			}else{
+				blnCont = false;
+			} else {
 				warning.setVisible(false);
-				blnCont=true; //set to true to allow panels to swap
+				warningName.setVisible(false);
+				blnCont = true;
 			}
 
 			intGameMode = mode.getSelectedIndex();
@@ -196,6 +201,12 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		warning.setLocation(930, 265);
 		add(warning);
 		warning.setVisible(false);
+		
+		warningName.setFont(f1);
+		warningName.setSize(500, 50);
+		warningName.setLocation(400, 250);
+		add(warningName);
+		warningName.setVisible(false);
 
 		//set text field size and location
 		//Player name text field
