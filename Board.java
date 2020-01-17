@@ -434,11 +434,14 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			int intCount1 =0;
 			int intCount2 =0;
 			int intCount3 =0;
+			
+			//Setting scoreboard and chat to visible after client joins
 			scoreboard.setVisible(true);
 			player1.setVisible(true);
 			player2.setVisible(true);
 			scroll.setVisible(true);
 			talk.setVisible(true);
+			
 			intLength = ssm.readText().length();
 			
 			//Check for a specific data format
@@ -457,6 +460,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				intMode = Integer.parseInt(strNumbers[2]);
 				strPlyrName = strNumbers[3];
 				
+				//create timers (for real-time mode)
 				cardTimer = new Timer(intTime,this);
 				cardTimer2 = new Timer(intTime,this);
 				
@@ -530,8 +534,9 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		}
 	}
 
+	//MouseListener methods
 	public void mouseClicked(MouseEvent evt) {
-		if(evt.getSource()==this&&blnDraw&&intGo==intTurn){
+		if(evt.getSource()==this&&blnDraw&&intGo==intTurn){ //If it is the player's turn
 			intx = evt.getX();
 			inty = evt.getY();
 			//checks if a card has been clicked, changes value of intx1 and iny1, index, and crdDeck[].blnFlipped
@@ -763,21 +768,26 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			fileread = new BufferedReader(file);
 			try{
 				if(strFile.equals("Host_Settings.txt")){
+					//Load settings parameters from text file
 					strBoard = fileread.readLine();
 					intMode = Integer.parseInt(fileread.readLine());
 					strPlyrName = fileread.readLine();
 					intGo = 1;
 					intTime = Integer.parseInt(fileread.readLine())*1000;
 					intPort = Integer.parseInt(fileread.readLine());
+					
+					//Network connection(host)
 					ssm = new SuperSocketMaster(intPort,this);
 					ssm.connect();
 					
+					//Timers (for real-time mode)
 					cardTimer = new Timer(intTime,this);
 					cardTimer2 = new Timer(intTime,this);
 					
 					if(intMode==1){
 						intTurn=intGo;
 					}
+					
 					//change value of board columns and strDifficulty based on board size
 					intBoard = smm.boardColumns(strBoard);
 					
@@ -789,14 +799,18 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					for(int i=0; i<intBoard*4; i++){
 						strSend+= "&&"+crdDeck[i].intShape;
 					}
+					
 				}else if(strFile.equals("Player_Settings.txt")){
+					//Load settings parameters from text file
 					strPlyrName2 = fileread.readLine();
 					intGo=2;
 					intPort = Integer.parseInt(fileread.readLine());
 					strIP = fileread.readLine();
+					
+					//Network connection (client)
 					ssm = new SuperSocketMaster(strIP,intPort,this);
 					ssm.connect();
-					ssm.sendText("Connected,,"+strPlyrName2);
+					ssm.sendText("Connected,,"+strPlyrName2); //Signal sent to the host that a client has connected
 				}
 				file.close();
 				fileread.close();
@@ -846,6 +860,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		talk.addActionListener(this);
 		add(talk);
 		
-		theTimer.start();
+		theTimer.start(); //Start repainting the panel
 	}
 }
