@@ -98,7 +98,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 
 			intGameMode = mode.getSelectedIndex();
 			intBoardSize = board.getSelectedIndex();
-			intTime = slide.getValue()*1000;
+			intTime = slide.getValue();
 
 			if (blnCont){
 				//write settings to a file
@@ -140,7 +140,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 						board.setSelectedIndex(Integer.parseInt(readFiles.readLine()));
 						mode.setSelectedIndex(Integer.parseInt(readFiles.readLine()));
 						Plyr.setText(readFiles.readLine());
-						slide.setValue(Integer.parseInt(readFiles.readLine())/1000);
+						slide.setValue(Integer.parseInt(readFiles.readLine()));
 						Port.setText(readFiles.readLine());
 						thefile.close();
 						readFiles.close();
