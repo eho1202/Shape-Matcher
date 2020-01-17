@@ -144,7 +144,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 			smh.playHover();
 		} else if (evt.getSource() == start) {
 			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			home.setOpaque(true);
+			start.setOpaque(true);
 			smh.playHover();
 		} else if (evt.getSource() == this) {
 			//load from file when panel is entered

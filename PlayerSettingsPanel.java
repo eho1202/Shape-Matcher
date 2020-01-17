@@ -225,8 +225,8 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 		home.addMouseListener(this);
 		add(home);
 		
-		start.setSize(new Dimension(85, 40));
-		start.setLocation(1160, 650);
+		start.setSize(new Dimension(100, 40));
+		start.setLocation(1100, 650);
 		start.setOpaque(false);
 		start.setContentAreaFilled(false);
 		start.setBorderPainted(false);
