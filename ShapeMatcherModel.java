@@ -11,7 +11,7 @@ import javax.swing.ImageIcon.*;
 import java.util.Calendar;
 
 public class ShapeMatcherModel {
-	
+
 	//METHODS
 	/**
 	 * Deals a deck of cards (numbers only) based on the difficulty.
@@ -23,11 +23,11 @@ public class ShapeMatcherModel {
 	 * @param intRandom A randomly generated card number from 1-intCards.
 	 * @return A deck of cards, each with a unique number.
 	 */
-	public card[] loadCards(String strDifficulty) { 
+	public card[] loadCards(String strDifficulty) {
 		int intIncrement = 16; //Number of times the for loop runs (initial # of cards)
 		int intCards = 16; //Number of cards remaining in the deck (this number will decrease as cards are "dealt")
 		int intRandom; //Randomly generated card number
-		
+
 		if (strDifficulty.equalsIgnoreCase("0")) { //4x4 (16 cards)
 			intCards = 16;
 			intIncrement = 16;
@@ -40,23 +40,23 @@ public class ShapeMatcherModel {
 			intCards = 32;
 			intIncrement = 32;
 		}
-		
+
 		//Create new card array based on difficulty (# of cards)
 		card cards[] = new card[intIncrement];
-		
+
 		//Construct each card object
 		for (int i = 0; i < intIncrement; i++) {
 			cards[i] = new card();
 		}
-		
+
 		//Create new "unshuffled" deck based on difficulty (# of cards)
 		int intDeck[] = new int[intIncrement];
-		
+
 		//Each card in the deck will be assigned a unique number, from 1 to the # of cards in the deck (based on difficulty)
 		for (int i = 1; i <= intIncrement; i++) {
 			intDeck[i-1] = i;
 		}
-		
+
 		//Randomly "dealing" cards
 		for (int i = 0; i < intIncrement; i++) {
 			intRandom = (int)(Math.random()*intCards);
@@ -66,15 +66,15 @@ public class ShapeMatcherModel {
 		}
 		return cards;
 	}
-	
+
 	/**
 	 * Adds the corresponding shape image based on each card's shape number
 	 * @param intIncrement The number of cards in the deck.
 	 * @return A deck of cards, each with a unique number and the corresponding shape.
 	 */
-	public card[] loadImages(card[] cards) { 
+	public card[] loadImages(card[] cards) {
 		int intIncrement = cards.length; //In other words, # of cards
-		
+
 		for (int i = 0; i < intIncrement; i++) {
 			if (cards[i].intShape == 1 || cards[i].intShape == 2) {
 				try{
@@ -207,47 +207,47 @@ public class ShapeMatcherModel {
 			}
 		}
 		return cards;
-		
+
 	}
-	
+
 	/**
 	 * Removes an element from an array.
 	 * @param intArray2 The resulting array with one less element.
 	 * @return The resulting array with one less element.
 	 */
-	public static int[] removeElement(int[] intArray, int intIndex) { 
-  
-        // If the array is empty or the index is out of bounds, return the original array
-        if (intArray == null || intIndex < 0 || intIndex >= intArray.length) { 
-            return intArray; 
-        } 
-  
-        // Create another array of size one less 
-        int[] intArray2 = new int[intArray.length - 1]; 
-  
-        // Copy the elements except the index from the original array to the other array
-        for (int i = 0, k = 0; i < intArray.length; i++) { 
-  
-            // if the index is the one to be removed
-            if (i == intIndex) { 
-                continue; 
-            } 
-  
-            // if the index is not the one to be removed
-            intArray2[k++] = intArray[i]; 
-        } 
-  
-        // return the resulting array 
-        return intArray2; 
-    }
-    
-    /**
-     * Checks the data format of incoming network messages.
-     * @param strSub The substring that is used to detect the presence of strSign (either & , or @).
-     * @param intCount The number of times that strSign appears.
-     * @return The number of times that strSign appears.
-     */
-    public static int checkFormat (int intLength, String strText, String strSign){
+	public static int[] removeElement(int[] intArray, int intIndex) {
+
+		// If the array is empty or the index is out of bounds, return the original array
+		if (intArray == null || intIndex < 0 || intIndex >= intArray.length) {
+			return intArray;
+		}
+
+		// Create another array of size one less
+		int[] intArray2 = new int[intArray.length - 1];
+
+		// Copy the elements except the index from the original array to the other array
+		for (int i = 0, k = 0; i < intArray.length; i++) {
+
+			// if the index is the one to be removed
+			if (i == intIndex) {
+				continue;
+			}
+
+			// if the index is not the one to be removed
+			intArray2[k++] = intArray[i];
+		}
+
+		// return the resulting array
+		return intArray2;
+	}
+
+	/**
+	 * Checks the data format of incoming network messages.
+	 * @param strSub The substring that is used to detect the presence of strSign (either & , or @).
+	 * @param intCount The number of times that strSign appears.
+	 * @return The number of times that strSign appears.
+	 */
+	public static int checkFormat (int intLength, String strText, String strSign){
 		String strSub;
 		int intCount=0;
 		for(int i=0;i<intLength;i++){
@@ -258,7 +258,7 @@ public class ShapeMatcherModel {
 		}
 		return intCount;
 	}
-	
+
 	/**
 	 * Calculates the number of columns in the board of cards.
 	 * @param intColumns The number of columns in the board of cards.
@@ -273,10 +273,10 @@ public class ShapeMatcherModel {
 		}else if (strBoard.equals("2")){
 			intColumns = 8;
 		}
-		
+
 		return intColumns;
 	}
-	
+
 	/**
 	 * Updates a player's number of points.
 	 * @return The player's final number of points.
@@ -287,7 +287,7 @@ public class ShapeMatcherModel {
 		}
 		return intPoints;
 	}
-	
+
 	/**
 	 * Obtains the current time in mm:ss format (m - minutes, s - seconds).
 	 * @param calendar Initialized with current date and time.
@@ -305,7 +305,7 @@ public class ShapeMatcherModel {
 		String strTime;
 		intHour = calendar.get(Calendar.HOUR);
 		intMinute = calendar.get(Calendar.MINUTE);
-		
+
 		//if intMinute is a single digit, add a zero in front
 		if(intMinute<10){
 			strMinute = "0"+intMinute;
@@ -328,7 +328,7 @@ public class ShapeMatcherModel {
 		try{
 			if(strBoard.equals("0")){
 				theFile = new FileWriter("EasyScores.txt", true);
-			}else if(strBoard.equals("1")){	
+			}else if(strBoard.equals("1")){
 				theFile = new FileWriter("MediumScores.txt", true);
 			}else if(strBoard.equals("2")){
 				theFile = new FileWriter("HardScores.txt", true);
@@ -336,10 +336,10 @@ public class ShapeMatcherModel {
 		}catch(IOException e){
 			e.printStackTrace();
 		}
-		
+
 		return theFile;
 	}
-	
+
 	/**
 	 * Checks whether or not the game has finished (i.e. all card pairs have been found).
 	 * @param intDone The number of consecutive cards whose pairs have been found.
@@ -359,7 +359,7 @@ public class ShapeMatcherModel {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Sends a chat message through the network.
 	 */
