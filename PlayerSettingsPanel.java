@@ -50,7 +50,7 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 	
 	Board brd;
 	
-	Font f1 = new Font("Nunito", Font.PLAIN, 23); //Font
+	Font f1;
 	
 	int intRuns = 0;
 	
@@ -201,6 +201,14 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 		try{
 			image = ImageIO.read(getClass().getResource("img/Player Settings.png"));
 		}catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		InputStream is = getClass().getResourceAsStream("/font/Nunito-Regular.ttf");
+	
+		try {
+			Font f1 = Font.createFont(Font.TRUETYPE_FONT, is);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
