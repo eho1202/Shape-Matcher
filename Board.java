@@ -402,11 +402,11 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		}else if(evt.getSource()==talk){
 			//append chat messages sent to the text area and set text field to blank
 			if(intGo==1){
-				textArea.append(strPlyrName+": "+talk.getText()+"\n");
+				textArea.append(smm.getTime()+" - "+strPlyrName+": "+talk.getText()+"\n");
 				ssm.sendText(strPlyrName+": "+talk.getText());
 				talk.setText("");
 			}else if(intGo==2){
-				textArea.append(strPlyrName2+": "+talk.getText()+"\n");
+				textArea.append(smm.getTime()+" - "+strPlyrName2+": "+talk.getText()+"\n");
 				ssm.sendText(strPlyrName2+": "+talk.getText());
 				talk.setText("");
 			}
@@ -501,7 +501,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					intOrigin1=1;//client sent message
 				}
 			}else{//if not a data format, append it
-				textArea.append(ssm.readText()+"\n");
+				textArea.append(smm.getTime()+" - "+ssm.readText()+"\n");
 			}
 		}
 	}
