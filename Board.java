@@ -316,17 +316,9 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			repaint();
 			
 			if(blnDraw){
-				//check if game has finished 
-				int intDone = 0;
-				for(int i = 0; i< intBoard*4;i++){
-					if(crdDeck[i].blnPair==true){
-						intDone++;
-					}else{
-						intDone=0;
-					}
-				}
-				if (intDone==intBoard*4){
+				if (smm.gameFinished(intBoard, crdDeck)){
 					theTimer.stop(); //stop timer after game is finished
+					ssm.disconnect();
 					try{
 						FileWriter theFile = smm.getFileWrite(strBoard);
 						PrintWriter filewrite = new PrintWriter(theFile);
@@ -334,14 +326,12 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						if(intPlyr1Pts>intPlyr2Pts){
 							if(intGo==1){
 								System.out.println("You Won!");
-								ssm.disconnect();
 								smh.frmHome.setContentPane(smh.pnlHostEnd);
 								smh.pnlHostEnd.lblOutcome.setText("YOU WON!");
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
 							}else if(intGo==2){
 								System.out.println("You Lost...");
-								ssm.disconnect();
 								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
 								smh.pnlPlayerEnd.lblOutcome.setText("YOU LOST...");
 								smh.frmHome.pack();

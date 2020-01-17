@@ -296,4 +296,19 @@ public class ShapeMatcherModel {
 		
 		return theFile;
 	}
+	
+	public static boolean gameFinished(int intBoard, card cards[]) {
+		int intDone = 0;
+		for(int i = 0; i< intBoard*4;i++){
+			if(cards[i].blnPair==true){
+				intDone++;
+			}else{
+				intDone=0;
+			}
+		}
+		if (intDone==intBoard*4){
+			return true;
+		}
+		return false;
+	}
 }
