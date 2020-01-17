@@ -24,7 +24,9 @@ public class PlayerEndPanel extends JPanel implements ActionListener, MouseListe
     //Timer (all panels repaint at 60 fps)
     Timer timer = new Timer(1000/60, this);
 
+	//Font
 	Font f1 = new Font("Nunito", Font.PLAIN, 80);
+	
 	//METHODS
 	//Draws help panel image
     public void paintComponent(Graphics g) {

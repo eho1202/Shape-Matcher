@@ -65,7 +65,6 @@ public class HostEndPanel extends JPanel implements ActionListener, MouseListene
 
     }
 
-	//Unused
     public void mousePressed(MouseEvent evt) {
     }
 

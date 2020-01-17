@@ -158,7 +158,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		}
 	}
 
-	//Constructor
+	//CONSTRUCTOR
 	public PHostSettingsPanel (ShapeMatcherHome smh) {
 
 		try {

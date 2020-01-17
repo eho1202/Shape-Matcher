@@ -41,6 +41,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	HostEndPanel pnlHostEnd = new HostEndPanel(this); //Victory or defeat panel (for host)
 	PlayerEndPanel pnlPlayerEnd = new PlayerEndPanel(this); //Victory or defeat panel (for player)
 	
+	//METHODS
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == btnPlay) {
 			frmHome.setContentPane(pnlCreateOrJoin);
@@ -100,6 +101,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	public void mousePressed(MouseEvent evt) {
 	}
 	public void mouseReleased(MouseEvent evt) {
+		
 		// Added to prevent the light grey background to show when going back to main menu
 		if (evt.getSource() == btnPlay) {
 			btnPlay.setOpaque(false);
@@ -192,6 +194,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	    frmHome.setVisible(true);
     }
 
+	//CONSTRUCTOR
 	public ShapeMatcherHome() {
 		playMusic();
 
@@ -293,6 +296,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		this.frmHome.setLocationRelativeTo(null); //causes frmHome to centre on screen
 	}
 
+	//MAIN METHOD
 	public static void main(String[] args) {
 		ShapeMatcherHome smh = new ShapeMatcherHome();
 	}

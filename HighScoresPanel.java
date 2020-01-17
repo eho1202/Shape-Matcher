@@ -169,7 +169,7 @@ public class HighScoresPanel extends JPanel implements ActionListener, MouseList
 			e.printStackTrace();
 		}
 
-		this.smh = smh;
+		this.smh = smh; //Links to main menu
 
 		//High score panel dimensions and layout null
 		setPreferredSize(new Dimension(1280,720));

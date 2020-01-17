@@ -191,7 +191,7 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 		}
 	}
 	
-	//Constructor
+	//CONSTRUCTOR
 	public PlayerSettingsPanel(ShapeMatcherHome smh){
 		this.smh = smh;
 		

@@ -223,7 +223,8 @@ public class ShapeMatcherModel {
         // return the resulting array 
         return intArray2; 
     }
-     //Checks the data format
+    
+    //Checks the data format
     public static int checkFormat (int intLength, String strText, String strSign){
 		String strSub;
 		int intCount=0;
@@ -297,21 +298,23 @@ public class ShapeMatcherModel {
 		return theFile;
 	}
 	
+	//Checks whether or not the game has finished (all pairs have been found)
 	public static boolean gameFinished(int intBoard, card cards[]) {
 		int intDone = 0;
-		for(int i = 0; i< intBoard*4;i++){
+		for(int i = 0; i< intBoard*4;i++){ //Loop through all of the cards in the board
 			if(cards[i].blnPair==true){
 				intDone++;
 			}else{
 				intDone=0;
 			}
 		}
-		if (intDone==intBoard*4){
+		if (intDone==intBoard*4){ //If all pairs have been found
 			return true;
 		}
 		return false;
 	}
 	
+	//Sends a chat message through the network
 	public static void sendMessage(String strPlayerName, JTextArea textArea, String strMessage, SuperSocketMaster ssm) {
 		textArea.append(getTime()+" - "+strPlayerName+": "+strMessage+"\n");
 		ssm.sendText(strPlayerName+": "+strMessage);
