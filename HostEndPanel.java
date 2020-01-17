@@ -1,6 +1,6 @@
 /* SHAPE MATCHER
  * By: Venice Co, Ernestine Ho, Susan Chen
- * Panel: end screen
+ * Panel: host end screen
  */
 import java.awt.*;
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 
-public class EndPanel extends JPanel implements ActionListener, MouseListener{
+public class HostEndPanel extends JPanel implements ActionListener, MouseListener{
 
 	//PROPERTIES
     BufferedImage image; //End panel image
@@ -19,7 +19,7 @@ public class EndPanel extends JPanel implements ActionListener, MouseListener{
     JButton btnHome = new JButton(); //Back to main menu
     JButton btnAgain = new JButton(); //Play again (w/ the same settings)
     JButton btnQuit = new JButton();
-    JLabel lblOutcome = new JLabel("YOU WIN!");
+    JLabel lblOutcome = new JLabel("");
     JOptionPane optionQuit;
     
     //Timer (all panels repaint at 60 fps)
@@ -49,6 +49,10 @@ public class EndPanel extends JPanel implements ActionListener, MouseListener{
             smh.backToMain();
         } else if (evt.getSource() == btnAgain) {
             System.out.println("Play again button pressed");
+            smh.pnlHS.brd = new Board("Host_Settings.txt", smh);
+            smh.frmHome.setContentPane(smh.pnlHS.brd);
+            smh.frmHome.pack();
+            smh.frmHome.setVisible(true);
             btnAgain.setCursor(Cursor.getDefaultCursor());
         } else if (evt.getSource() == btnQuit) {
             int response = optionQuit.showConfirmDialog(null, "Are you sure you want to quit game?", "Quit Game", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
@@ -105,7 +109,7 @@ public class EndPanel extends JPanel implements ActionListener, MouseListener{
     }
 
 	//CONSTRUCTOR
-    public EndPanel(/*ShapeMatcherHome smh*/) {
+    public HostEndPanel(ShapeMatcherHome smh) {
 		//Find help panel image
         try {
             image = ImageIO.read(getClass().getResource("img/End Screen.png"));
@@ -152,7 +156,7 @@ public class EndPanel extends JPanel implements ActionListener, MouseListener{
         
         //Label that shows outcome
         lblOutcome.setSize(500, 300);
-        lblOutcome.setLocation(455, 100);
+        lblOutcome.setLocation(435, 100);
         lblOutcome.setFont(f1);
         add(lblOutcome);
     }

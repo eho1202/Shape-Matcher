@@ -51,10 +51,12 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	//Text files
 	FileWriter files;
 	PrintWriter filewrite;
+	FileReader thefile;
+	BufferedReader readFiles;
 	
 	ShapeMatcherHome smh; //Main menu
 	
-	Board brd;
+	int intRuns = 0;
 	
 	//METHODS
 	public void paintComponent (Graphics g){
@@ -74,9 +76,6 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			System.out.println("Back to main menu button pressed");
-
-			smh.frmHome.setTitle("Shape Matcher");
-			smh.backToMain();
 
 			// check if toggle music button is on mute or not
 			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
@@ -112,11 +111,9 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 				}catch(IOException e){
 					e.printStackTrace();
 				}
-				setVisible(false);
-				brd  = new Board(strPlayer1);
-				smh.frmHome.setContentPane(brd);
-				smh.frmHome.pack();
-				smh.frmHome.setVisible(true);
+				smh.frmHome.setTitle("Shape Matcher");
+				smh.backToMain();
+				intRuns=0; //set to 0
 			}
 		}
 	}
@@ -134,6 +131,25 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			home.setOpaque(true);
+		}else if(evt.getSource()==this){
+			if(intRuns==0){
+				try{
+					thefile = new FileReader("Host_Settings.txt");
+					readFiles = new BufferedReader(thefile);
+					try{
+						board.setSelectedIndex(Integer.parseInt(readFiles.readLine()));
+						mode.setSelectedIndex(Integer.parseInt(readFiles.readLine()));
+						Plyr.setText(readFiles.readLine());
+						slide.setValue(Integer.parseInt(readFiles.readLine()));
+						Port.setText(readFiles.readLine());
+						thefile.close();
+						readFiles.close();
+					}catch(IOException e){
+					}
+				}catch(FileNotFoundException e){
+				}
+				intRuns++;
+			}
 		}
 	}
 
@@ -158,6 +174,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		//Panel dimensions and layout null
 		setPreferredSize(new Dimension(1280, 720));
 		setLayout(null);
+		addMouseListener(this);
 
 		ssm = new SuperSocketMaster(intPort, this); //initialize supersocketmaster (do this earlier on full program). Place here temporarily
 

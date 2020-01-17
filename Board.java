@@ -1,62 +1,92 @@
+/* SHAPE MATCHER
+ * By: Venice Co, Ernestine Ho, Susan Chen
+ * Panel: Game view
+ */
+
+import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener{
-	//Properties
+	//PROPERTIES
+	//Timers
 	Timer theTimer = new Timer(1000/60, this);
 	Timer cardTimer;
+	Timer cardTimer2;
+	
+	//Fonts
 	Font f1 = new Font("Nunito", Font.PLAIN,30);
 	Font f2 = new Font("Nunito", Font.PLAIN,34);
 	Font f3 = new Font("Nunito", Font.PLAIN,24);
 	Font f4 = new Font("Nunito", Font.PLAIN,12);
-	JLabel playerturn = new JLabel("Player 1's Turn!",JLabel.CENTER);
+	
+	//JComponents
+	JLabel playerturn = new JLabel("Waiting for other player...",JLabel.CENTER);
 	JLabel scoreboard = new JLabel("Scoreboard");
 	JLabel player1 = new JLabel("Player 1 - 0 point(s)");
 	JLabel player2 = new JLabel("Player 2 - 0 point(s)");
+	
+	//Chat
 	JTextArea textArea = new JTextArea();
 	JScrollPane scroll = new JScrollPane(textArea);
 	JTextField talk = new JTextField();
+	
+	//X and Y coordinates of cards
 	int intx;
 	int inty;
+	
+	//File IO
 	FileReader file;
 	BufferedReader fileread; 
-	String strBoard;
-	int intBoard;
+	FileWriter theFile;
+	PrintWriter filewrite;
+	
+	String strBoard; //holds board selection as stored in the settings text file
+	int intBoard; //holds number of columns in the board 
 	String strPlyrName;
 	String strPlyrName2 ="";
 	SuperSocketMaster ssm;
-	String strFile;
+	String strFile; //settings file of the user
 	String strIP;
 	int intPort;
-	String strSub;
-	boolean blnDraw = false;
-	boolean blnCont = false;
-	int intTime;
-	boolean blnClick = false;
+	boolean blnDraw = false; //ensures sections aren't accessed until after both players have all the info loaded
 	ShapeMatcherModel smm = new ShapeMatcherModel();
+	ShapeMatcherHome smh;
 	card crdDeck[];
-	int intIndex;
-	int intCard1=-1;
-	int intCard2;
-	int intj=0;
-	int intT=1;
-	int intTurn=1;
+	boolean blnCont = false; //controls when the check if the cards flipped are the same happens
+	int intTime;
+	boolean blnClick = false;//controls loop for when cards have been selected
+	
+	int intIndex;//index of card selected
+	int intCard1=-1; //holds card index for later comparison
+	int intCard2; //holds card index for later comparison
+	int intCard3=-1; //holds card index for later comparison (Real Time mode)
+	int intCard4; //holds card index for later comparison (Real time mode)
+	int intj=0; //controls section after user initially selects a card (controls what happens with what info)
+	int intj1=0; //controls section after user initially selects a card (real time mode for client user)
+	int intT=1; //keeps track of how many times program goes into the blnClick section 
+	int intPlyr1Pts =0;
+	int intPlyr2Pts =0;
+	int intTurn=1; //controls the turns (traditional mode)
 	String strSend ="";
 	String strNumbers[];
-	int intGo;
+	int intGo; //controls which turn player goes on
 	int intMode;
 	boolean blnCheck = false;
+	int intOrigin1;//host
+	int intOrigin2;//client
+	int intT2=1;//keeps track of how many times program goes into the blnClick section (real time mode, client user)
 	
 	//Methods
-	public void paintComponent (Graphics g){			
+	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		if(blnDraw){
 			intx=80;
 			inty=100;
-
-			//loop to draw the board
+			
+			//loop to draw board
 			for(int i = 0; i<intBoard;i++){
 				for(int j =0; j<4;j++){
 					g.setColor(Color.WHITE);
@@ -69,7 +99,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				inty = 100;
 			}
 			
-			//draw cards if blnFlipped=true
+			//draw cards if blnFlipped=true 
 			if (crdDeck[0].blnFlipped){
 				g.drawImage(crdDeck[0].image,102,141,null);
 			}
@@ -172,57 +202,100 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					g.drawImage(crdDeck[31].image,767,537,null);
 				}
 			}
-			
-			//after two cards have been selected, go into if statement
+				
 			if(blnClick){
 				//pause game the second time when images have been drawn
-				if(intT==1){
-					intT++;
-					blnClick=false;
-				}else if(intT==2){
-					cardTimer.start();
-					intT++;
-					cardTimer.restart();
+				if(intOrigin1==1||intMode==0){
+					if(intT==1){
+						intT++;
+						blnClick=false;
+						blnCont=false;
+						intOrigin1=0;
+					}else if(intT==2){
+						intT++;
+						cardTimer.start();
+						cardTimer.restart();
+						intOrigin1=0;
+					}
 				}
-				
+				if(intOrigin2==1&&intMode==1){
+					if(intT2==1){
+						intT2++;
+						blnClick=false;
+						blnCont=false;
+						intOrigin2=0;
+					}else if(intT2==2){
+						intT2++;
+						cardTimer2.start();
+						cardTimer2.restart();
+						intOrigin2=0;
+					}
+				}
+					
 				if(blnCheck){
 					//if cards have the same shape, then keep blnFlipped = true. Otherwise, it equals false
-					if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
-						crdDeck[intCard1].blnFlipped=true;
-						crdDeck[intCard1].blnPair=true;
-						crdDeck[intCard2].blnFlipped=true;
-						crdDeck[intCard2].blnPair=true;
-					}else{
-						crdDeck[intCard1].flip();
-						crdDeck[intCard2].flip();
+					if(intOrigin1==1||intMode==0){
+						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
+							crdDeck[intCard1].blnFlipped=true;
+							crdDeck[intCard1].blnPair=true;
+							crdDeck[intCard2].blnFlipped=true;
+							crdDeck[intCard2].blnPair=true;
+						}else{
+							System.out.println("Index1: "+intCard1+" Index2: "+intCard2);
+							crdDeck[intCard1].flip();
+							crdDeck[intCard2].flip();
+						}
+					}
+					if(intOrigin2==1&&intMode==1){
+						if(crdDeck[intCard3].intN==crdDeck[intCard4].intN){
+							crdDeck[intCard3].blnFlipped=true;
+							crdDeck[intCard3].blnPair=true;
+							crdDeck[intCard4].blnFlipped=true;
+							crdDeck[intCard4].blnPair=true;
+						}else{
+							crdDeck[intCard3].flip();
+							crdDeck[intCard4].flip();
+						}
 					}
 					
-					//update labels and variables based on the player's turn
-					if(intTurn==1){
-						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
-							intPlyr1Pts++;
+					if(intMode==0){
+						if(intTurn==1){
+							intPlyr1Pts = smm.updatePoints(intPlyr1Pts, crdDeck[intCard1].intN, crdDeck[intCard2].intN);
+							player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//update score
+							playerturn.setText(strPlyrName2+"'s Turn!");
+							intTurn++;
+						}else if(intTurn==2){
+							intPlyr2Pts = smm.updatePoints(intPlyr2Pts, crdDeck[intCard1].intN, crdDeck[intCard2].intN);
+							player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
+							playerturn.setText(strPlyrName+"'s Turn!");
+							intTurn=1;
 						}
-						player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//update score
-						playerturn.setText(strPlyrName2+"'s Turn!");
-						intTurn++;
-					}else if(intTurn==2){
-						if(crdDeck[intCard1].intN==crdDeck[intCard2].intN){
-							intPlyr2Pts++;
+						intCard1=-1;
+						intj=0;
+						intT=1;
+					}else if(intMode==1){
+						if(intOrigin1==1){
+							intPlyr1Pts = smm.updatePoints(intPlyr1Pts, crdDeck[intCard1].intN, crdDeck[intCard2].intN);
+							player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//update score
+							intCard1=-1;
+							intj=0;
+							intT=1;
 						}
-						player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
-						playerturn.setText(strPlyrName+"'s Turn!");
-						intTurn=1;
+						if(intOrigin2==1){
+							intPlyr2Pts = smm.updatePoints(intPlyr2Pts, crdDeck[intCard3].intN, crdDeck[intCard4].intN);
+							player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");//update score
+							intCard3=-1;
+							intj1=0;
+							intT2=1;
+						}
 					}
-					
 					//reset variables
-					intT=1;
-					intCard1=-1;
-					intCard2=-1;
+					intOrigin1=0;
+					intOrigin2=0;
 					blnClick = false;
-					intj=0;
-					blnCheck= false;
+					blnCheck = false;
 				}	
-			}
+			} 	
 		}//blnDraw if statement
 	}
 	
@@ -231,51 +304,141 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		if(evt.getSource()==theTimer){
 			repaint();
 			
-			//check if game has finished 
-			int intDone = 0;
-			for(int i = 0; i< intBoard*4;i++){
-				if(crdDeck[i].blnPair==true){
-					intDone++;
-				}else{
-					intDone=0;
-				}
-			}
-			if (intDone==intBoard*4){
-				if(intPlyr1Pts>intPlyr2Pts){
-					if(intGo==1){
-						System.out.println("You Won!");
-					}else if(intGo==2){
-						System.out.println("You Lost...");
+			if(blnDraw){
+				//check if game has finished 
+				int intDone = 0;
+				for(int i = 0; i< intBoard*4;i++){
+					if(crdDeck[i].blnPair==true){
+						intDone++;
+					}else{
+						intDone=0;
 					}
-				}else if(intPlyr1Pts<intPlyr2Pts){
-					if(intGo==1){
-						System.out.println("You Lost...");
-					}else if(intGo==2){
-						System.out.println("You Won!");
-					}
-				}else if(intPlyr1Pts==intPlyr2Pts){
-					System.out.println("You Tied!");
 				}
-			}
-		} else if(evt.getSource()==talk){
-			//append chat messages sent to the text area and set text field to blank
-			if(intGo==1){
-				textArea.append(strPlyrName+": "+talk.getText()+"\n");
-				ssm.sendText(strPlyrName+": "+talk.getText());
-				talk.setText("");	
-			}else if(intGo==2){
-				textArea.append(strPlyrName2+": "+talk.getText()+"\n");
-				ssm.sendText(strPlyrName2+": "+talk.getText());
-				talk.setText("");
+				if (intDone==intBoard*4){
+					theTimer.stop(); //stop timer after game is finished
+					try{
+						//load file based on board size
+						if(strBoard.equals("0")){
+							theFile = new FileWriter("EasyScores.txt", true);
+							filewrite = new PrintWriter(theFile);
+						}else if(strBoard.equals("1")){	
+							theFile = new FileWriter("MediumScores.txt", true);
+							filewrite = new PrintWriter(theFile);
+						}else if(strBoard.equals("2")){
+							theFile = new FileWriter("HardScores.txt", true);
+							filewrite = new PrintWriter(theFile);
+						}
+						//based on the winner, confirm their win or loss and write the winner's score to the appropriapte high scores file
+						if(intPlyr1Pts>intPlyr2Pts){
+							if(intGo==1){
+								System.out.println("You Won!");
+								ssm.disconnect();
+								smh.frmHome.setContentPane(smh.pnlHostEnd);
+								smh.pnlHostEnd.lblOutcome.setText("YOU WON!");
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
+							}else if(intGo==2){
+								System.out.println("You Lost...");
+								ssm.disconnect();
+								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
+								smh.pnlPlayerEnd.lblOutcome.setText("YOU LOST...");
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
+							}
+
+							filewrite.println(strPlyrName);
+							if(intMode==0){
+								filewrite.println(intPlyr1Pts);
+							}else if(intMode==1){
+								filewrite.println(intPlyr1Pts);
+							}
+						}else if(intPlyr1Pts<intPlyr2Pts){
+							if(intGo==1){
+								System.out.println("You Lost...");
+								smh.pnlHostEnd.lblOutcome.setText("YOU LOST...");
+								smh.frmHome.setContentPane(smh.pnlHostEnd);
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
+							}else if(intGo==2){
+								System.out.println("You Won!");
+								smh.pnlPlayerEnd.lblOutcome.setText("YOU WON!");
+								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
+							}
+
+							filewrite.println(strPlyrName2);
+							if(intMode==0){
+								filewrite.println(intPlyr2Pts);
+							}else if(intMode==1){
+								filewrite.println(intPlyr2Pts);
+							}
+						}else if(intPlyr1Pts==intPlyr2Pts){
+							System.out.println("You Tied!");
+
+							filewrite.println("Tie");
+							if(intMode==0){
+								filewrite.println(intPlyr2Pts);
+							}else if(intMode==1){
+								filewrite.println(intPlyr2Pts);
+							}
+						}
+						//close fileWriter and PrintWriter
+						filewrite.close();
+						theFile.close();
+					}catch(IOException e){
+					}
+					
+					//reset variable values
+					strPlyrName2="";
+					blnCont=false;
+					blnClick=false;
+					intCard1=-1;
+					intCard3=-1;
+					intj=0;
+					intj1=0;
+					intT=1;
+					intPlyr1Pts=0;
+					intPlyr2Pts=0;
+					intTurn=1;
+					strSend="";
+					blnCheck=false;
+					intT2=1;
+					
+					setVisible(false);
+				}
 			}
 		}else if(evt.getSource()==cardTimer){
 			cardTimer.stop();
 			blnCheck=true;
+			blnClick=true;
+			intOrigin1=1;
+		}else if(evt.getSource()==cardTimer2){
+			cardTimer2.stop();
+			blnCheck=true;
+			blnClick=true;
+			intOrigin2=1;
+		}else if(evt.getSource()==talk){
+			//append chat messages sent to the text area and set text field to blank
+			if(intGo==1){
+				textArea.append(smm.getTime()+" - "+strPlyrName+": "+talk.getText()+"\n");
+				ssm.sendText(strPlyrName+": "+talk.getText());
+				talk.setText("");
+			}else if(intGo==2){
+				textArea.append(strPlyrName2+": "+talk.getText()+"\n");
+				ssm.sendText(smm.getTime()+" - "+strPlyrName2+": "+talk.getText());
+				talk.setText("");
+			}
 		}else if(evt.getSource()== ssm){
 			int intLength;
 			int intCount1 =0;
 			int intCount2 =0;
 			int intCount3 =0;
+			scoreboard.setVisible(true);
+			player1.setVisible(true);
+			player2.setVisible(true);
+			scroll.setVisible(true);
+			talk.setVisible(true);
 			intLength = ssm.readText().length();
 			
 			//Check for a specific data format
@@ -283,23 +446,31 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			
 			intCount2 = smm.checkFormat(intLength, ssm.readText(), ",");
 			
-			intCount3 = smm.checkFormat(intLength, ssm.readText(), "@");
+			intCount3 = smm.checkFormat(intLength, ssm.readText(), "@");		
 		
 			//if the data sent is the data format, store the text. Otherwise, append it only
 			if(intCount1>=38){
 				//split data and load first three into variables
 				strNumbers = ssm.readText().split("&&");
-				strBoard=strNumbers[0];
-				intTime= Integer.parseInt(strNumbers[1]);
-				intMode= Integer.parseInt(strNumbers[2]);
-				strPlyrName=strNumbers[3];
+				strBoard = strNumbers[0];
+				intTime = Integer.parseInt(strNumbers[1]);
+				intMode = Integer.parseInt(strNumbers[2]);
+				strPlyrName = strNumbers[3];
 				
-				cardTimer = new Timer(intTime*1000,this);//initialize timer
+				cardTimer = new Timer(intTime,this);
+				cardTimer2 = new Timer(intTime,this);
+				
+				if(intMode==1){
+					intTurn=intGo;
+					playerturn.setText("REAL-TIME MODE!");
+				}else if(intMode==0){
+					playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
+				}
 				
 				//determine value for intBoard and strDifficulty based on intBoard
 				intBoard = smm.boardColumns(strBoard);
 				
-				//initialize crdDeck and load values of crdDeck.intShape into it
+				//initialize crdDeck,load values of crdDeck.intShape into it, and set .blnFlipped to false
 				crdDeck = new card[intBoard*4];
 				for(int i=0;i<intBoard*4;i++){
 					crdDeck[i]=new card();
@@ -311,7 +482,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				
 				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
 				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
-				playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
 			}else if(intCount2==2){
 				ssm.sendText(strBoard+"&&"+intTime+"&&"+intMode+"&&"+strPlyrName+strSend);
 				
@@ -322,29 +492,46 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				
 				player1.setText(strPlyrName+" - "+intPlyr1Pts+" point(s)");//change from default to entered name
 				player2.setText(strPlyrName2+" - "+intPlyr2Pts+" point(s)");
-				playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
-			}else if(intCount3==6){
-				strNumbers = ssm.readText().split("@@");//split data
 				
-				//load intCard1 or intCard2 value, flip the card, set blnClick to true, and load x and y integers. Differ based on if it's the first or second card
-				if(strNumbers[0].equals("1")){
-					intCard1=Integer.parseInt(strNumbers[1]);
-					crdDeck[intCard1].flip();
-					blnClick=true;
-				}else if(strNumbers[0].equals("2")){
-					intCard2=Integer.parseInt(strNumbers[1]);
-					crdDeck[intCard2].flip();
-					blnClick=true; 
+				if(intMode==0){
+					playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
+				}else if(intMode==1){
+					playerturn.setText("REAL-TIME MODE!");
 				}
-			}else{
-				textArea.append(ssm.readText()+"\n");
+			}else if(intCount3==2){
+				strNumbers = ssm.readText().split("@@");//split data
+				//load intCard1 or intCard2 value, flip the card, set blnClick to true, and load x and y integers. Differ based on if it's the first or second card
+				if(intGo==1&&intMode==1){//if user is server or mode is traditional
+					if(strNumbers[0].equals("1")){
+						intCard3=Integer.parseInt(strNumbers[1]);
+						crdDeck[intCard3].flip();
+						blnClick=true;
+					}else if(strNumbers[0].equals("2")){
+						intCard4=Integer.parseInt(strNumbers[1]);
+						crdDeck[intCard4].flip();
+						blnClick=true;
+					}
+					intOrigin2 = 1;//server sent message
+				}else if(intMode==0||intGo==2){//if user is client
+					if(strNumbers[0].equals("1")){
+						intCard1=Integer.parseInt(strNumbers[1]);
+						crdDeck[intCard1].flip();
+						blnClick=true;
+					}else if(strNumbers[0].equals("2")){
+						intCard2=Integer.parseInt(strNumbers[1]);
+						crdDeck[intCard2].flip();
+						blnClick=true;
+					}
+					intOrigin1=1;//client sent message
+				}
+			}else{//if not a data format, append it
+				textArea.append(smm.getTime()+" - "+ssm.readText()+"\n");
 			}
 		}
 	}
-	}
 
 	public void mouseClicked(MouseEvent evt) {
-		if(evt.getSource()==this&&blnDraw&&intGo==intTurn&&cardTimer.isRunning()==false){
+		if(evt.getSource()==this&&blnDraw&&intGo==intTurn){
 			intx = evt.getX();
 			inty = evt.getY();
 			//checks if a card has been clicked, changes value of intx1 and iny1, index, and crdDeck[].blnFlipped
@@ -488,24 +675,61 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			if(blnCont){
 				//if statement to take the required values of the selected cards
 				intj++;  
-				if (crdDeck[intIndex].blnRepeat){//if select a card in a flipped over pair
+				intj1++;		
+				if(cardTimer.isRunning()&&intGo==1){
 					intj=0;
-					crdDeck[intIndex].blnRepeat = false;
-				}else if(intj == 1&&intCard1==-1){
-					intCard1=intIndex;
-					blnClick=true;
-					ssm.sendText("1@@"+intCard1+"@@"+intx2+"@@"+inty2);
-				}else if(intj == 2&&intIndex!=intCard1){
-					intCard2=intIndex;
-					blnClick = true;
-					ssm.sendText("2@@"+intCard2+"@@"+intx3+"@@"+inty3);
-				}else if(intj == 2&&intIndex==intCard1){
-					intj=1;
-					crdDeck[intCard1].flip();
+					crdDeck[intIndex].flip();
+				}else if(cardTimer2.isRunning()&&intGo==2){
+					intj1=0;
+					crdDeck[intIndex].flip();
+				}else if(intGo==1||intMode==0){	
+					if (crdDeck[intIndex].blnRepeat){//if select a card in a pair
+						intj=0;
+						crdDeck[intIndex].blnRepeat = false;
+					}else if(intT2>=2&&intIndex==intCard3||intIndex==intCard4){ //prevent host from selecting a card opponent has selected on real time mode
+						crdDeck[intIndex].flip();
+						intj--;
+					}else if(intj == 1&&intCard1==-1){//selection of first card
+						intCard1 = intIndex;
+						intOrigin1 = 1;
+						ssm.sendText("1@@"+intCard1);
+						blnClick = true;
+					}else if(intj == 2&&intIndex!=intCard1){//selection of the second card
+						intCard2 = intIndex;
+						intOrigin1 = 1;
+						ssm.sendText("2@@"+intCard2);
+						blnClick = true;
+					}else if(intj == 2&&intIndex==intCard1){ //if select first card again
+						intj=1;
+						crdDeck[intCard1].flip();
+					}
+				}else if(intGo==2&&intMode==1){
+					if (crdDeck[intIndex].blnRepeat){//if select a card in a pair
+						intj1=0;
+						crdDeck[intIndex].blnRepeat = false;
+					}else if(intT>=2&&intIndex==intCard1||intIndex==intCard2){//prevent client from selecting a card opponent has selected on real time mode
+						crdDeck[intIndex].flip();
+						intj1--;
+					}else if(intj1 == 1&&intCard3==-1){//selection of first card
+						intCard3 = intIndex;
+						intOrigin2 = 1;
+						ssm.sendText("1@@"+intCard3);
+						blnClick = true;
+					}else if(intj1 == 2&&intIndex!=intCard3){//selection of the second card
+						intCard4 = intIndex;
+						intOrigin2 = 1;
+						ssm.sendText("2@@"+intCard4);
+						blnClick = true;
+					}else if(intj1 == 2&&intIndex==intCard3){ //if select first card again
+						intj1=1;
+						crdDeck[intCard3].flip();
+					}
 				}
+				//split and add if statement for intCard3 and intCard4
 				blnCont=false;
 			}
-		}
+			
+		}//if statement
 	}
 	
 	public void mousePressed(MouseEvent evt) {
@@ -525,7 +749,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	}
 	
 	//Constructor
-	public Board (String strHorJ){
+	public Board (String strHorJ, ShapeMatcherHome smh){
+		this.smh = smh;
 		setLayout(null);
 		setPreferredSize(new Dimension(1280,720));
 		addMouseListener(this);
@@ -539,24 +764,28 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			try{
 				if(strFile.equals("Host_Settings.txt")){
 					strBoard = fileread.readLine();
-					intMode = fileread.readLine();
+					intMode = Integer.parseInt(fileread.readLine());
 					strPlyrName = fileread.readLine();
-					intGo=1;
+					intGo = 1;
 					intTime = Integer.parseInt(fileread.readLine());
 					intPort = Integer.parseInt(fileread.readLine());
 					ssm = new SuperSocketMaster(intPort,this);
 					ssm.connect();
 					
-					cardTimer = new Timer(intTime*1000,this);//initialize timer
+					cardTimer = new Timer(intTime,this);
+					cardTimer2 = new Timer(intTime,this);
 					
+					if(intMode==1){
+						intTurn=intGo;
+					}
 					//change value of board columns and strDifficulty based on board size
 					intBoard = smm.boardColumns(strBoard);
 					
 					//load the cards into the array once
-					crdDeck = smm.loadCards(strDifficulty);
+					crdDeck = smm.loadCards(strBoard);
 					crdDeck = smm.loadImages(crdDeck);
 					
-					//add intShape of the deck to variable strSend
+					//add intShape of the deck to variable strSend and set all .blnFlipped to false
 					for(int i=0; i<intBoard*4; i++){
 						strSend+= "&&"+crdDeck[i].intShape;
 					}
@@ -567,7 +796,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 					strIP = fileread.readLine();
 					ssm = new SuperSocketMaster(strIP,intPort,this);
 					ssm.connect();
-					ssm.sendText("Connected,,"+strPlyrName);
+					ssm.sendText("Connected,,"+strPlyrName2);
 				}
 				file.close();
 				fileread.close();
@@ -576,35 +805,41 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		} catch (FileNotFoundException e){
 		}
 		
-		//set label szie, font, location	
+		//set label size, font, location	
 		playerturn.setFont(f1);
 		playerturn.setSize(new Dimension(1280,60));
 		playerturn.setLocation(0,20);
 		add(playerturn);
 		
+		scoreboard.setVisible(false);
 		scoreboard.setFont(f2);
 		scoreboard.setSize(new Dimension(300,60));
 		scoreboard.setLocation(900,100);
 		add(scoreboard);
 		
+		player1.setVisible(false);
 		player1.setFont(f3);
 		player1.setSize(new Dimension(300,50));
 		player1.setLocation(900,170);
 		add(player1);
 		
+		player2.setVisible(false);
 		player2.setFont(f3);
 		player2.setSize(new Dimension(300,50));
 		player2.setLocation(900,230);
 		add(player2);
 		
-		//chat text field scroll pane
 		textArea.setEditable(false);
+		
+		//chat text field scroll pane
+		scroll.setVisible(false);
 		scroll.setFont(f4);
 		scroll.setSize(new Dimension(300,300));
 		scroll.setLocation(900,300);
 		add(scroll);
 		
 		//chat message bar
+		talk.setVisible(false);
 		talk.setFont(f4);
 		talk.setSize(new Dimension(300,30));
 		talk.setLocation(900,620);

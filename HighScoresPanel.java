@@ -147,7 +147,7 @@ public class HighScoresPanel extends JPanel implements ActionListener, MouseList
 				}
 
 				//statement to be returned
-				strContent="<html>"+strScores[0][0]+" - "+strScores[0][1]+"<br>"+strScores[1][0]+" - "+strScores[1][1]+"<br>"+strScores[2][0]+" - "+strScores[2][1]+"<br>"+strScores[3][0]+" - "+strScores[3][1]+"<br>"+strScores[4][0]+" - "+strScores[4][1]+"<br>"+strScores[5][0]+" - "+strScores[5][1]+"<br>"+strScores[6][0]+" - "+strScores[6][1]+"<br>"+strScores[7][0]+" - "+strScores[7][1]+"<br>"+strScores[8][0]+" - "+strScores[8][1]+"<br>"+strScores[9][0]+" - "+strScores[9][1]+"</html";
+				strContent="<html>1. "+strScores[0][0]+" - "+strScores[0][1]+"<br>2. "+strScores[1][0]+" - "+strScores[1][1]+"<br>3. "+strScores[2][0]+" - "+strScores[2][1]+"<br>4. "+strScores[3][0]+" - "+strScores[3][1]+"<br>5. "+strScores[4][0]+" - "+strScores[4][1]+"<br>6. "+strScores[5][0]+" - "+strScores[5][1]+"<br>7. "+strScores[6][0]+" - "+strScores[6][1]+"<br>8. "+strScores[7][0]+" - "+strScores[7][1]+"<br>9. "+strScores[8][0]+" - "+strScores[8][1]+"<br>10. "+strScores[9][0]+" - "+strScores[9][1]+"</html";
 
 				return strContent;
 

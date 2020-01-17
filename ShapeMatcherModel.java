@@ -8,6 +8,7 @@ import java.awt.image.*;
 import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.ImageIcon.*;
+import java.util.Calendar;
 
 public class ShapeMatcherModel {
 	
@@ -18,15 +19,15 @@ public class ShapeMatcherModel {
 		int intCards = 16; //Number of cards remaining in the deck (this number will decrease as cards are "dealt")
 		int intRandom; //Randomly generated card number
 		
-		if (strDifficulty.equalsIgnoreCase("easy") || strDifficulty.equalsIgnoreCase("e")) { //4x4 (16 cards)
+		if (strDifficulty.equalsIgnoreCase("0")) { //4x4 (16 cards)
 			intCards = 16;
 			intIncrement = 16;
 
-		} else if (strDifficulty.equalsIgnoreCase("medium") || strDifficulty.equalsIgnoreCase("m")) { //6x4 (24 cards)
+		} else if (strDifficulty.equalsIgnoreCase("1")) { //6x4 (24 cards)
 			intCards = 24;
 			intIncrement = 24;
 
-		} else if (strDifficulty.equalsIgnoreCase("hard") || strDifficulty.equalsIgnoreCase("h")) { //8x4 (32 cards)
+		} else if (strDifficulty.equalsIgnoreCase("2")) { //8x4 (32 cards)
 			intCards = 32;
 			intIncrement = 32;
 		}
@@ -64,7 +65,7 @@ public class ShapeMatcherModel {
 		for (int i = 0; i < intIncrement; i++) {
 			if (cards[i].intShape == 1 || cards[i].intShape == 2) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Circle.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Circle.png"));
 				}catch(IOException e){
 					System.out.println("Error loading circle");
 					e.printStackTrace();
@@ -72,7 +73,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 1;
 			} else if (cards[i].intShape == 3 || cards[i].intShape == 4) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Eq Triangle.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Eq Triangle.png"));
 				}catch(IOException e){
 					System.out.println("Error loading eq triangle");
 					e.printStackTrace();
@@ -80,7 +81,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 2;
 			} else if (cards[i].intShape == 5 || cards[i].intShape == 6) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Square.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Square.png"));
 				}catch(IOException e){
 					System.out.println("Error loading square");
 					e.printStackTrace();
@@ -88,7 +89,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 3;
 			} else if (cards[i].intShape == 7 || cards[i].intShape == 8) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Pentagon.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Pentagon.png"));
 				}catch(IOException e){
 					System.out.println("Error loading pentagon");
 					e.printStackTrace();
@@ -96,7 +97,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 4;
 			} else if (cards[i].intShape == 9 || cards[i].intShape == 10) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Hexagon.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Hexagon.png"));
 				}catch(IOException e){
 					System.out.println("Error loading hexagon");
 					e.printStackTrace();
@@ -104,7 +105,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 5;
 			} else if (cards[i].intShape == 11 || cards[i].intShape == 12) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Rhombus.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Rhombus.png"));
 				}catch(IOException e){
 					System.out.println("Error loading rhombus");
 					e.printStackTrace();
@@ -112,7 +113,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 6;
 			} else if (cards[i].intShape == 13 || cards[i].intShape == 14) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Parallelogram.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Parallelogram.png"));
 				}catch(IOException e){
 					System.out.println("Error loading parallelogram");
 					e.printStackTrace();
@@ -120,7 +121,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 7;
 			} else if (cards[i].intShape == 15 || cards[i].intShape == 16) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Trapezoid.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Trapezoid.png"));
 				}catch(IOException e){
 					System.out.println("Error loading trapezoid");
 					e.printStackTrace();
@@ -128,7 +129,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 8;
 			} else if (cards[i].intShape == 17 || cards[i].intShape == 18) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Star.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Star.png"));
 				}catch(IOException e){
 					System.out.println("Error loading star");
 					e.printStackTrace();
@@ -136,7 +137,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 9;
 			} else if (cards[i].intShape == 19 || cards[i].intShape == 20) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Heart.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Heart.png"));
 				}catch(IOException e){
 					System.out.println("Error loading heart");
 					e.printStackTrace();
@@ -144,7 +145,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 10;
 			} else if (cards[i].intShape == 21 || cards[i].intShape == 22) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Rectangle.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Rectangle.png"));
 				}catch(IOException e){
 					System.out.println("Error loading rectangle");
 					e.printStackTrace();
@@ -152,7 +153,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 11;
 			} else if (cards[i].intShape == 23 || cards[i].intShape == 24) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("RA Triangle.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/RA Triangle.png"));
 				}catch(IOException e){
 					System.out.println("Error loading right angle triangle");
 					e.printStackTrace();
@@ -160,7 +161,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 12;
 			} else if (cards[i].intShape == 25 || cards[i].intShape == 26) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Scalene.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Scalene.png"));
 				}catch(IOException e){
 					System.out.println("Error loading scalene triangle");
 					e.printStackTrace();
@@ -168,7 +169,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 13;
 			} else if (cards[i].intShape == 27 || cards[i].intShape == 28) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Semicircle.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Semicircle.png"));
 				}catch(IOException e){
 					System.out.println("Error loading semicircle");
 					e.printStackTrace();
@@ -176,7 +177,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 14;
 			} else if (cards[i].intShape == 29 || cards[i].intShape == 30) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Oval.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Oval.png"));
 				}catch(IOException e){
 					System.out.println("Error loading oval");
 					e.printStackTrace();
@@ -184,7 +185,7 @@ public class ShapeMatcherModel {
 				cards[i].intN = 15;
 			} else if (cards[i].intShape == 31 || cards[i].intShape == 32) {
 				try{
-					cards[i].image = ImageIO.read(getClass().getResource("Crescent.png"));
+					cards[i].image = ImageIO.read(getClass().getResource("shapes/Crescent.png"));
 				}catch(IOException e){
 					System.out.println("Error loading trapezoid");
 					e.printStackTrace();
@@ -237,7 +238,7 @@ public class ShapeMatcherModel {
 	
 	//returns number of columns in the board
 	public static int boardColumns (String strBoard){
-		int intColumns = 0;
+		int intColumns = 1;
 		if (strBoard.equals("0")){
 			intColumns = 4;
 		}else if (strBoard.equals("1")){
@@ -247,5 +248,26 @@ public class ShapeMatcherModel {
 		}
 		
 		return intColumns;
+	}
+	
+	//Update Player points
+	public static int updatePoints (int intPoints, int intN, int intN1 ){
+		if(intN==intN1){
+			intPoints++;
+		}
+		return intPoints;
+	}
+	
+	//get time
+	public static String getTime(){
+		Calendar calendar = Calendar.getInstance();
+		int intHour;
+		int intMinute;
+		String strTime;
+		intHour = calendar.get(Calendar.HOUR);
+		intMinute = calendar.get(Calendar.MINUTE);
+		strTime = intHour + ":"+intMinute;
+
+		return strTime;
 	}
 }
