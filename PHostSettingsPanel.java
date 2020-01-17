@@ -130,6 +130,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			home.setOpaque(true);
+			smh.playHover();
 		}else if(evt.getSource()==this){
 			if(intRuns==0){
 				try{

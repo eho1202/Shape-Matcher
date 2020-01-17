@@ -70,10 +70,13 @@ public class HostEndPanel extends JPanel implements ActionListener, MouseListene
 
     public void mouseReleased(MouseEvent evt) {
         if (evt.getSource() == btnHome) {
+            btnHome.setCursor(Cursor.getDefaultCursor());
             btnHome.setOpaque(false);
         } else if (evt.getSource() == btnAgain) {
+            btnAgain.setCursor(Cursor.getDefaultCursor());
             btnAgain.setOpaque(false);
         } else if (evt.getSource() == btnQuit) {
+            btnQuit.setCursor(Cursor.getDefaultCursor());
             btnQuit.setOpaque(false);
         }
     }

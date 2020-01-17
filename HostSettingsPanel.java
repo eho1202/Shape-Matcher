@@ -128,14 +128,23 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	}
 
 	public void mouseReleased (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setCursor(Cursor.getDefaultCursor());
+			home.setOpaque(false);
+		} else if (evt.getSource() == start) {
+			start.setCursor(Cursor.getDefaultCursor());
+			start.setOpaque(false);
+		}
 	}
 
 	public void mouseEntered (MouseEvent evt){
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			home.setOpaque(true);
 			smh.playHover();
 		} else if (evt.getSource() == start) {
 			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			home.setOpaque(true);
 			smh.playHover();
 		} else if (evt.getSource() == this) {
 			//load from file when panel is entered
@@ -163,6 +172,13 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	}
 
 	public void mouseExited (MouseEvent evt){
+		if (evt.getSource() == home) {
+			home.setCursor(Cursor.getDefaultCursor());
+			home.setOpaque(false);
+		} else if (evt.getSource() == start) {
+			start.setCursor(Cursor.getDefaultCursor());
+			start.setOpaque(false);
+		}
 	}
 
 	//CONSTRUCTOR
@@ -190,6 +206,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		home.setOpaque(false);
 		home.setContentAreaFilled(false);
 		home.setBorderPainted(false);
+		home.setBackground(new Color(128,128,128,30));
 		home.addMouseListener(this);
 		add(home);
 		
@@ -198,6 +215,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		start.setOpaque(false);
 		start.setContentAreaFilled(false);
 		start.setBorderPainted(false);
+		start.setBackground(new Color(128,128,128,30));
 		start.addMouseListener(this);
 		add(start);
 		

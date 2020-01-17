@@ -158,10 +158,12 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 	public void mouseEntered (MouseEvent evt){
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor (more user-friendly)
-            home.setOpaque(true);
+			home.setOpaque(true);
+            smh.playHover();
         } else if (evt.getSource() == start) {
 			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			start.setOpaque(true);
+			smh.playHover();
 		} else if(evt.getSource()==this){
 			if(intRuns==0){
 				try{
@@ -186,8 +188,8 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 	public void mouseExited (MouseEvent evt){
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getDefaultCursor());
-            home.setOpaque(false);
-        } else if (evt.getSource() == start) {
+			home.setOpaque(false);
+		} else if (evt.getSource() == start) {
 			start.setCursor(Cursor.getDefaultCursor());
 			start.setOpaque(false);
 		}
@@ -195,35 +197,31 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 	
 	//CONSTRUCTOR
 	public PlayerSettingsPanel(ShapeMatcherHome smh){
-		this.smh = smh;
 		
 		try{
 			image = ImageIO.read(getClass().getResource("img/Player Settings.png"));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
+
+		this.smh = smh;
 		
 		setPreferredSize(new Dimension(1280,720));
 		setLayout(null);
 		addMouseListener(this);
 		
 		//set labels size and location
-		lblHome.setSize(291, 50);
-		lblHome.setLocation(33, 30);
-		lblHome.setFont(f1);
-		add(lblHome);
 
-		lblStart.setSize(85, 40);
-		lblStart.setLocation(1160, 650);
-		lblStart.setFont(f1);
-		add(lblStart);
 
 		//set buttons size and location
 		home.setSize(new Dimension(291, 50));
-		home.setLocation(33, 30);
+		home.setLocation(15, 30);
 		home.setOpaque(false);
 		home.setContentAreaFilled(false);
 		home.setBorderPainted(false);
+		home.setText("Back to Main Menu");
+		home.setFont(f1);
+		home.setBackground(new Color(128,128,128,30));
 		home.addMouseListener(this);
 		add(home);
 		
@@ -232,6 +230,9 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 		start.setOpaque(false);
 		start.setContentAreaFilled(false);
 		start.setBorderPainted(false);
+		start.setText("Start");
+		start.setFont(f1);
+		start.setBackground(new Color(128,128,128,30));
 		start.addMouseListener(this);
 		add(start);
 		

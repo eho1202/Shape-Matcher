@@ -70,9 +70,11 @@ public class HowToPlayPanel extends JPanel implements ActionListener, MouseListe
         if (evt.getSource() == home) {
             home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor (more user-friendly)
             home.setOpaque(true);
+            smh.playHover();
         } else if (evt.getSource() == help) {
             help.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             help.setOpaque(true);
+            smh.playHover();
         }
 
     }
