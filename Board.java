@@ -47,6 +47,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	//Players
 	String strPlyrName;
 	String strPlyrName2 ="";
+	int intPlyr1Pts =0;
+	int intPlyr2Pts =0;
 	
 	//Settings parameters
 	String strBoard; //holds board selection as stored in the settings text file
@@ -54,16 +56,23 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	String strIP;
 	int intPort;
 	int intTime;
+	int intMode;
 	
 	//Networking
 	SuperSocketMaster ssm;
-	boolean blnDraw = false; //ensures sections aren't accessed until after both players have all the info loaded
-	ShapeMatcherModel smm = new ShapeMatcherModel();
-	ShapeMatcherHome smh; //Main menu
-	card crdDeck[];
-	boolean blnCont = false; //controls when the check if the cards flipped are the same happens
-	boolean blnClick = false;//controls loop for when cards have been selected
+	String strSend ="";
+	String strNumbers[];
 	
+	//Model of program
+	ShapeMatcherModel smm = new ShapeMatcherModel();
+	
+	//Main menu
+	ShapeMatcherHome smh;
+	
+	//Deck of cards
+	card crdDeck[];
+	
+	//Checking variables
 	int intIndex;//index of card selected
 	int intCard1=-1; //holds card index for later comparison
 	int intCard2; //holds card index for later comparison
@@ -72,19 +81,17 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	int intj=0; //controls section after user initially selects a card (controls what happens with what info)
 	int intj1=0; //controls section after user initially selects a card (real time mode for client user)
 	int intT=1; //keeps track of how many times program goes into the blnClick section 
-	int intPlyr1Pts =0;
-	int intPlyr2Pts =0;
 	int intTurn=1; //controls the turns (traditional mode)
-	String strSend ="";
-	String strNumbers[];
 	int intGo; //controls which turn player goes on
-	int intMode;
+	boolean blnDraw = false; //ensures sections aren't accessed until after both players have all the info loaded
 	boolean blnCheck = false;
-	int intOrigin1;//host
-	int intOrigin2;//client
+	boolean blnCont = false; //controls when the check if the cards flipped are the same happens
+	boolean blnClick = false;//controls loop for when cards have been selected
+	int intOrigin1;//to organize host code (real time mode)
+	int intOrigin2;//to organize client code (real time mode)
 	int intT2=1;//keeps track of how many times program goes into the blnClick section (real time mode, client user)
 	
-	//Methods
+	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
 		if(blnDraw){
@@ -753,7 +760,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		
 	}
 	
-	//Constructor
+	//CONSTRUCTOR
 	public Board (String strHorJ, ShapeMatcherHome smh){
 		this.smh = smh;
 		setLayout(null);
