@@ -172,7 +172,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		}
 	}
 
-	// plays the music file bgm.wav
+	// plays the music file bgm wav
 	private void playMusic() {
 		try {
 			AudioInputStream music = AudioSystem.getAudioInputStream(new File("audio/bgm.wav"));
@@ -199,8 +199,8 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 		playMusic();
 
 		// get images for mute and unmute icons
-		mute = new ImageIcon("mute.png");
-		unmute = new ImageIcon("unmute.png");
+		this.mute = new ImageIcon("img/mute.png");
+		this.unmute = new ImageIcon("img/unmute.png");
 		
 		//Home panel setup
 		this.pnlHome = new mainPanel();

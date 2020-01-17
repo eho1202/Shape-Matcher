@@ -5,6 +5,10 @@
 
 import java.io.*;
 import java.awt.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
@@ -43,32 +47,32 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	FileWriter theFile;
 	PrintWriter filewrite;
 	String strFile; //settings file of the user
-	
+
 	//Players
 	String strPlyrName;
 	String strPlyrName2 ="";
 	int intPlyr1Pts =0;
 	int intPlyr2Pts =0;
-	
+
 	//Settings parameters
 	String strBoard; //holds board selection as stored in the settings text file
-	int intBoard; //holds number of columns in the board 
+	int intBoard; //holds number of columns in the board
 	String strIP;
 	int intPort;
 	int intTime;
 	int intMode;
-	
+
 	//Networking
 	SuperSocketMaster ssm;
 	String strSend ="";
 	String strNumbers[];
-	
+
 	//Model of program
 	ShapeMatcherModel smm = new ShapeMatcherModel();
-	
+
 	//Main menu
 	ShapeMatcherHome smh;
-	
+
 	//Deck of cards
 	card crdDeck[];
 	
@@ -80,7 +84,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	int intCard4; //holds card index for later comparison (Real time mode)
 	int intj=0; //controls section after user initially selects a card (controls what happens with what info)
 	int intj1=0; //controls section after user initially selects a card (real time mode for client user)
-	int intT=1; //keeps track of how many times program goes into the blnClick section 
+	int intT=1; //keeps track of how many times program goes into the blnClick section
 	int intTurn=1; //controls the turns (traditional mode)
 	int intGo; //controls which turn player goes on
 	boolean blnDraw = false; //ensures sections aren't accessed until after both players have all the info loaded
@@ -90,7 +94,10 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	int intOrigin1;//to organize host code (real time mode)
 	int intOrigin2;//to organize client code (real time mode)
 	int intT2=1;//keeps track of how many times program goes into the blnClick section (real time mode, client user)
-	
+
+	// Music
+	Clip playMusic;
+
 	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
@@ -216,6 +223,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			}
 				
 			if(blnClick){
+				//pause game the second time when images have been drawn
 				if(intOrigin1==1||intMode==0){
 					if(intT==1){
 						intT++;
@@ -325,11 +333,15 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						if(intPlyr1Pts>intPlyr2Pts){
 							if(intGo==1){ //Player 1 won
 								smh.frmHome.setContentPane(smh.pnlHostEnd);
+								playMusic.stop();
+								congratulate();
 								smh.pnlHostEnd.lblOutcome.setText("YOU WON!");
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
 							}else if(intGo==2){ //Player 2 lost
 								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
+								playMusic.stop();
+								comfort();
 								smh.pnlPlayerEnd.lblOutcome.setText("YOU LOST...");
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
@@ -338,32 +350,40 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							//Updating highscores file
 							filewrite.println(strPlyrName);
 							filewrite.println(intPlyr1Pts);
-							
+
 						}else if(intPlyr1Pts<intPlyr2Pts){
 							if(intGo==1){
 								smh.pnlHostEnd.lblOutcome.setText("YOU LOST...");
 								smh.frmHome.setContentPane(smh.pnlHostEnd);
+								playMusic.stop();
+								comfort();
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
 							}else if(intGo==2){
 								smh.pnlPlayerEnd.lblOutcome.setText("YOU WON!");
 								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
+								playMusic.stop();
+								congratulate();
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
 							}
 
 							filewrite.println(strPlyrName2);
 							filewrite.println(intPlyr2Pts);
-							
+
 						}else if(intPlyr1Pts==intPlyr2Pts){
 							if (intGo == 1) {
 								smh.pnlHostEnd.lblOutcome.setText("YOU TIED!");
 								smh.frmHome.setContentPane(smh.pnlHostEnd);
+								playMusic.stop();
+								encourage();
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
 							} else if (intGo == 2) {
 								smh.pnlPlayerEnd.lblOutcome.setText("YOU TIED!");
 								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
+								playMusic.stop();
+								encourage();
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
 							}
@@ -373,8 +393,9 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						//close fileWriter and PrintWriter
 						filewrite.close();
 						theFile.close();
-						
+
 					}catch(IOException e){
+						e.printStackTrace();
 					}
 					
 					//reset variable values
@@ -737,9 +758,67 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	public void mouseExited(MouseEvent evt){
 		
 	}
-	
-	//CONSTRUCTOR
+
+	// plays the music file game-music.wav
+	public void playMusic() {
+		try {
+			AudioInputStream music = AudioSystem.getAudioInputStream(new File("audio/game-music.wav"));
+			playMusic = AudioSystem.getClip();
+			playMusic.open(music);
+			FloatControl gainControl = (FloatControl) playMusic.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(-30.0f);
+			playMusic.start();
+			playMusic.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// congratulates the player when they win
+	public void congratulate() {
+		try {
+			AudioInputStream music = AudioSystem.getAudioInputStream(new File("audio/applause.wav"));
+			Clip congratulate = AudioSystem.getClip();
+			congratulate.open(music);
+			FloatControl gainControl = (FloatControl) congratulate.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(-20.0f);
+			congratulate.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// comforts the player when they lose
+	public void comfort() {
+		try {
+			AudioInputStream music = AudioSystem.getAudioInputStream(new File("audio/lose.wav"));
+			Clip comfort = AudioSystem.getClip();
+			comfort.open(music);
+			FloatControl gainControl = (FloatControl) comfort.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(-25.0f);
+			comfort.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// encourages the player when they tie
+	public void encourage() {
+		try {
+			AudioInputStream music = AudioSystem.getAudioInputStream(new File("audio/tie.wav"));
+			Clip comfort = AudioSystem.getClip();
+			comfort.open(music);
+			FloatControl gainControl = (FloatControl) comfort.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(-25.0f);
+			comfort.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	//Constructor
 	public Board (String strHorJ, ShapeMatcherHome smh){
+		playMusic();
 		this.smh = smh;
 		setLayout(null);
 		setPreferredSize(new Dimension(1280,720));
@@ -800,8 +879,10 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				file.close();
 				fileread.close();
 			}catch(IOException e){
+				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e){
+			e.printStackTrace();
 		}
 		
 		//set label size, font, location	

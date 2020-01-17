@@ -5,8 +5,9 @@
 
 import java.io.*;
 import java.awt.image.*;
-import javax.imageio.*;
-import javax.swing.ImageIcon.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class card {
 	//PROPERTIES
@@ -26,6 +27,21 @@ public class card {
 			this.blnFlipped = false;
 		} else if (this.blnFlipped == false) { //flip face down card to be face up
 			this.blnFlipped = true;
+			playAudio();
+
 		}
 	}
+
+	// method for playing audio when a card is flipped
+	public void playAudio() {
+		try {
+			AudioInputStream flip = AudioSystem.getAudioInputStream(new File("audio/flip a card.wav"));
+			Clip flipping = AudioSystem.getClip();
+			flipping.open(flip);
+			flipping.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

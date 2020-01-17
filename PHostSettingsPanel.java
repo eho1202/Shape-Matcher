@@ -144,8 +144,10 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 						thefile.close();
 						readFiles.close();
 					}catch(IOException e){
+						e.printStackTrace();
 					}
 				}catch(FileNotFoundException e){
+					e.printStackTrace();
 				}
 				intRuns++;
 			}

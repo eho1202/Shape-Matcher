@@ -292,7 +292,8 @@ public class ShapeMatcherModel {
 			}else if(strBoard.equals("2")){
 				theFile = new FileWriter("HardScores.txt", true);
 			}
-		}catch(IOException e){	
+		}catch(IOException e){
+			e.printStackTrace();
 		}
 		
 		return theFile;

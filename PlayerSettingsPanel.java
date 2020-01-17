@@ -174,8 +174,10 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 						thefile.close();
 						readFiles.close();
 					}catch(IOException e){
+						e.printStackTrace();
 					}
 				}catch(FileNotFoundException e){
+					e.printStackTrace();
 				}
 				intRuns++;
 			}
