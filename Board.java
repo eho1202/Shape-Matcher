@@ -42,21 +42,26 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	BufferedReader fileread; 
 	FileWriter theFile;
 	PrintWriter filewrite;
+	String strFile; //settings file of the user
 	
-	String strBoard; //holds board selection as stored in the settings text file
-	int intBoard; //holds number of columns in the board 
+	//Players
 	String strPlyrName;
 	String strPlyrName2 ="";
-	SuperSocketMaster ssm;
-	String strFile; //settings file of the user
+	
+	//Settings parameters
+	String strBoard; //holds board selection as stored in the settings text file
+	int intBoard; //holds number of columns in the board 
 	String strIP;
 	int intPort;
+	int intTime;
+	
+	//Networking
+	SuperSocketMaster ssm;
 	boolean blnDraw = false; //ensures sections aren't accessed until after both players have all the info loaded
 	ShapeMatcherModel smm = new ShapeMatcherModel();
-	ShapeMatcherHome smh;
+	ShapeMatcherHome smh; //Main menu
 	card crdDeck[];
 	boolean blnCont = false; //controls when the check if the cards flipped are the same happens
-	int intTime;
 	boolean blnClick = false;//controls loop for when cards have been selected
 	
 	int intIndex;//index of card selected
