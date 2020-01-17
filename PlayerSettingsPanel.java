@@ -36,6 +36,8 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 	//Text files
 	FileWriter PlyrSet;// = new FileWriter("Player_Settings.txt");
 	PrintWriter PlyrWrite;// = new PrintWriter(PlyrSet);
+	FileReader thefile;
+	BufferedReader readFiles;
 	
 	//To check whether or not a real IP address has been entered
 	int intDot; //Number of periods in string
@@ -50,7 +52,7 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 	
 	Font f1 = new Font("Nunito", Font.PLAIN, 23); //Font
 	
-	int intRuns=0;
+	int intRuns = 0;
 	
 	//METHODS
 	public void paintComponent (Graphics g){
@@ -80,7 +82,7 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 			
 			warning.setVisible(false);
 			warning1.setVisible(false);
-			intRuns=0;//reset variable
+			intRuns = 0; //reset variable
 			
 		}else if(evt.getSource() == start){
 			start.setCursor(Cursor.getDefaultCursor());
@@ -131,9 +133,9 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 					e.printStackTrace();
 				}
 				
-				intRuns=0;//reset variable
+				intRuns = 0;
 				setVisible(false);
-				brd = new Board("Player_Settings.txt");
+				brd = new Board("Player_Settings.txt", smh);
 				smh.frmHome.setContentPane(brd);
 				smh.frmHome.pack();
 				smh.frmHome.setVisible(true);
@@ -145,19 +147,19 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 	}
 	public void mouseReleased (MouseEvent evt){	
 		if (evt.getSource() == home) {
-		    home.setCursor(Cursor.getDefaultCursor());
-		    home.setOpaque(false);
-		} else if (evt.getSource() == start) {
-		    start.setCursor(Cursor.getDefaultCursor());
-		    start.setOpaque(false);
-		}
+            home.setCursor(Cursor.getDefaultCursor());
+            home.setOpaque(false);
+        } else if (evt.getSource() == start) {
+            start.setCursor(Cursor.getDefaultCursor());
+            start.setOpaque(false);
+        }
 	}
 	
 	public void mouseEntered (MouseEvent evt){
 		if (evt.getSource() == home) {
 			home.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // changes the pointer to hand cursor (more user-friendly)
-			home.setOpaque(true);
-		} else if (evt.getSource() == start) {
+            home.setOpaque(true);
+        } else if (evt.getSource() == start) {
 			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			start.setOpaque(true);
 		} else if(evt.getSource()==this){

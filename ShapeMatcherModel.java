@@ -252,10 +252,10 @@ public class ShapeMatcherModel {
 	
 	//Update Player points
 	public static int updatePoints (int intPoints, int intN, int intN1 ){
-			if(intN==intN1){
-				intPoints++;
-			}
-			return intPoints;
+		if(intN==intN1){
+			intPoints++;
+		}
+		return intPoints;
 	}
 	
 	//get time
@@ -263,20 +263,11 @@ public class ShapeMatcherModel {
 		Calendar calendar = Calendar.getInstance();
 		int intHour;
 		int intMinute;
-		String strMinute;
 		String strTime;
 		intHour = calendar.get(Calendar.HOUR);
 		intMinute = calendar.get(Calendar.MINUTE);
-		
-		//if intMinute is a single digit, add a zero in front
-		if(intMinute<10){
-			strMinute = "0"+intMinute;
-		}else{
-			strMinute = Integer.toString(intMinute);
-		}
-		
-		strTime = intHour + ":"+strMinute;
-		
+		strTime = intHour + ":"+intMinute;
+
 		return strTime;
 	}
 }

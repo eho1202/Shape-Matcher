@@ -51,10 +51,12 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 	//Text files
 	FileWriter files;
 	PrintWriter filewrite;
+	FileReader thefile;
+	BufferedReader readFiles;
 	
 	ShapeMatcherHome smh; //Main menu
 	
-	int intRuns=0;
+	int intRuns = 0;
 	
 	//METHODS
 	public void paintComponent (Graphics g){
@@ -74,7 +76,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			System.out.println("Back to main menu button pressed");
-	
+
 			// check if toggle music button is on mute or not
 			if (smh.btnMusic.getIcon().equals(smh.unmute)) {
 				smh.playMusic.setMicrosecondPosition(smh.clipTimePosition); // resume music to where it was paused
@@ -109,10 +111,9 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 				}catch(IOException e){
 					e.printStackTrace();
 				}
-				setVisible(false);
 				smh.frmHome.setTitle("Shape Matcher");
 				smh.backToMain();
-				intRuns=0;//set to 0
+				intRuns=0; //set to 0
 			}
 		}
 	}

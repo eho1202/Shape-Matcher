@@ -50,11 +50,13 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	//Text files
 	FileWriter files;
 	PrintWriter filewrite;
+	FileReader thefile;
+	BufferedReader readFiles;
 	
 	ShapeMatcherHome smh; //Main menu
 	Board brd;
 	
-	int intRuns=0;//limits number of times if statement is entered
+	int intRuns=0; //limits number of times if statement is entered
 	
 	//METHODS
 	public void paintComponent (Graphics g){
@@ -73,8 +75,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			System.out.println("Back to main menu button pressed");
-			intRuns=0;//reset to 0
-			
+			intRuns = 0; //reset to 0
 			smh.frmHome.setTitle("Shape Matcher");
 			smh.backToMain();
 
@@ -115,10 +116,8 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 				}catch(IOException e){
 					e.printStackTrace();
 				}
-				setVisible(false);
-				intRuns=0;//reset to 0
-				
-				brd  = new Board("Host_Settings.txt");
+				intRuns = 0;
+				brd  = new Board("Host_Settings.txt", smh);
 				smh.frmHome.setContentPane(brd);
 				smh.frmHome.pack();
 				smh.frmHome.setVisible(true);
@@ -139,7 +138,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		} else if (evt.getSource() == start) {
 			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			smh.playHover();
-		}else if(evt.getSource()==this){
+		} else if (evt.getSource() == this) {
 			//load from file when panel is entered
 			if(intRuns==0){
 				try{

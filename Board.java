@@ -10,7 +10,7 @@ import java.awt.event.*;
 import javax.swing.event.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener{
-	//Properties
+	//PROPERTIES
 	//Timers
 	Timer theTimer = new Timer(1000/60, this);
 	Timer cardTimer;
@@ -23,19 +23,21 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	Font f4 = new Font("Nunito", Font.PLAIN,12);
 	
 	//JComponents
-	JLabel playerturn = new JLabel("",JLabel.CENTER);
+	JLabel playerturn = new JLabel("Waiting for other player...",JLabel.CENTER);
 	JLabel scoreboard = new JLabel("Scoreboard");
 	JLabel player1 = new JLabel("Player 1 - 0 point(s)");
 	JLabel player2 = new JLabel("Player 2 - 0 point(s)");
+	
+	//Chat
 	JTextArea textArea = new JTextArea();
 	JScrollPane scroll = new JScrollPane(textArea);
 	JTextField talk = new JTextField();
 	
-	//x and y coordinates of cards
+	//X and Y coordinates of cards
 	int intx;
 	int inty;
 	
-	//file io
+	//File IO
 	FileReader file;
 	BufferedReader fileread; 
 	FileWriter theFile;
@@ -52,7 +54,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	boolean blnDraw = false; //ensures sections aren't accessed until after both players have all the info loaded
 	ShapeMatcherModel smm = new ShapeMatcherModel();
 	ShapeMatcherHome smh;
-	EndPanel pnlEnd = new EndPanel();
 	card crdDeck[];
 	boolean blnCont = false; //controls when the check if the cards flipped are the same happens
 	int intTime;
@@ -331,8 +332,18 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						if(intPlyr1Pts>intPlyr2Pts){
 							if(intGo==1){
 								System.out.println("You Won!");
+								ssm.disconnect();
+								smh.frmHome.setContentPane(smh.pnlHostEnd);
+								smh.pnlHostEnd.lblOutcome.setText("YOU WON!");
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
 							}else if(intGo==2){
 								System.out.println("You Lost...");
+								ssm.disconnect();
+								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
+								smh.pnlPlayerEnd.lblOutcome.setText("YOU LOST...");
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
 							}
 
 							filewrite.println(strPlyrName);
@@ -344,8 +355,16 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						}else if(intPlyr1Pts<intPlyr2Pts){
 							if(intGo==1){
 								System.out.println("You Lost...");
+								smh.pnlHostEnd.lblOutcome.setText("YOU LOST...");
+								smh.frmHome.setContentPane(smh.pnlHostEnd);
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
 							}else if(intGo==2){
 								System.out.println("You Won!");
+								smh.pnlPlayerEnd.lblOutcome.setText("YOU WON!");
+								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
+								smh.frmHome.pack();
+								smh.frmHome.setVisible(true);
 							}
 
 							filewrite.println(strPlyrName2);
@@ -406,15 +425,20 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				ssm.sendText(strPlyrName+": "+talk.getText());
 				talk.setText("");
 			}else if(intGo==2){
-				textArea.append(smm.getTime()+" - "+strPlyrName2+": "+talk.getText()+"\n");
-				ssm.sendText(strPlyrName2+": "+talk.getText());
+				textArea.append(strPlyrName2+": "+talk.getText()+"\n");
+				ssm.sendText(smm.getTime()+" - "+strPlyrName2+": "+talk.getText());
 				talk.setText("");
 			}
 		}else if(evt.getSource()== ssm){
 			int intLength;
 			int intCount1 =0;
 			int intCount2 =0;
-			int intCount3 =0;	
+			int intCount3 =0;
+			scoreboard.setVisible(true);
+			player1.setVisible(true);
+			player2.setVisible(true);
+			scroll.setVisible(true);
+			talk.setVisible(true);
 			intLength = ssm.readText().length();
 			
 			//Check for a specific data format
@@ -438,7 +462,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				
 				if(intMode==1){
 					intTurn=intGo;
-					playerturn.setText("REAL-TIME MODE");
+					playerturn.setText("REAL-TIME MODE!");
 				}else if(intMode==0){
 					playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
 				}
@@ -472,7 +496,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				if(intMode==0){
 					playerturn.setText(strPlyrName+"'s Turn!");//update with entered name
 				}else if(intMode==1){
-					playerturn.setText("REAL-TIME MODE");
+					playerturn.setText("REAL-TIME MODE!");
 				}
 			}else if(intCount3==2){
 				strNumbers = ssm.readText().split("@@");//split data
@@ -725,7 +749,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	}
 	
 	//Constructor
-	public Board (String strHorJ){
+	public Board (String strHorJ, ShapeMatcherHome smh){
+		this.smh = smh;
 		setLayout(null);
 		setPreferredSize(new Dimension(1280,720));
 		addMouseListener(this);
@@ -786,16 +811,19 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		playerturn.setLocation(0,20);
 		add(playerturn);
 		
+		scoreboard.setVisible(false);
 		scoreboard.setFont(f2);
 		scoreboard.setSize(new Dimension(300,60));
 		scoreboard.setLocation(900,100);
 		add(scoreboard);
 		
+		player1.setVisible(false);
 		player1.setFont(f3);
 		player1.setSize(new Dimension(300,50));
 		player1.setLocation(900,170);
 		add(player1);
 		
+		player2.setVisible(false);
 		player2.setFont(f3);
 		player2.setSize(new Dimension(300,50));
 		player2.setLocation(900,230);
@@ -804,12 +832,14 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		textArea.setEditable(false);
 		
 		//chat text field scroll pane
+		scroll.setVisible(false);
 		scroll.setFont(f4);
 		scroll.setSize(new Dimension(300,300));
 		scroll.setLocation(900,300);
 		add(scroll);
 		
 		//chat message bar
+		talk.setVisible(false);
 		talk.setFont(f4);
 		talk.setSize(new Dimension(300,30));
 		talk.setLocation(900,620);
