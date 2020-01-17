@@ -311,4 +311,9 @@ public class ShapeMatcherModel {
 		}
 		return false;
 	}
+	
+	public static void sendMessage(String strPlayerName, JTextArea textArea, String strMessage, SuperSocketMaster ssm) {
+		textArea.append(getTime()+" - "+strPlayerName+": "+strMessage+"\n");
+		ssm.sendText(strPlayerName+": "+strMessage);
+	}
 }
