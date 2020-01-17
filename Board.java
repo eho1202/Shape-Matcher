@@ -425,8 +425,8 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				ssm.sendText(strPlyrName+": "+talk.getText());
 				talk.setText("");
 			}else if(intGo==2){
-				textArea.append(strPlyrName2+": "+talk.getText()+"\n");
-				ssm.sendText(smm.getTime()+" - "+strPlyrName2+": "+talk.getText());
+				textArea.append(smm.getTime()+" - "+strPlyrName2+": "+talk.getText()+"\n");
+				ssm.sendText(strPlyrName2+": "+talk.getText());
 				talk.setText("");
 			}
 		}else if(evt.getSource()== ssm){

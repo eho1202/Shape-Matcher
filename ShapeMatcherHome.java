@@ -29,7 +29,7 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	Icon mute;
 	Icon unmute;
 	
-	//All game panels
+	//All panels
 	CreateOrJoinPanel pnlCreateOrJoin = new CreateOrJoinPanel(this); //Create or join server pre-game
 	PHostSettingsPanel pnlPHS = new PHostSettingsPanel(this); //Settings --> Preferred host settings
 	HostSettingsPanel pnlHS = new HostSettingsPanel(this); //Create server --> Host settings

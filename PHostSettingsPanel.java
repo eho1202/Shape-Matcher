@@ -239,6 +239,7 @@ public class PHostSettingsPanel extends JPanel implements ActionListener, MouseL
 		slide.setMajorTickSpacing(1);
 		slide.setPaintTicks(true);
 		slide.setPaintLabels(true);
+		slide.setSnapToTicks(true);
 		add(slide);
 
 	}

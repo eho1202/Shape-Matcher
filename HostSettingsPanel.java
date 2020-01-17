@@ -249,6 +249,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		slide.setSize(new Dimension(270, 50));
 		slide.setLocation(510, 520);
 		slide.setMajorTickSpacing(1);
+		slide.setSnapToTicks(true);
 		slide.setPaintTicks(true);
 		slide.setPaintLabels(true);
 		add(slide);
