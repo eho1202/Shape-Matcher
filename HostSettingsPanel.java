@@ -54,6 +54,8 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 	ShapeMatcherHome smh; //Main menu
 	Board brd;
 	
+	int intRuns=0;//limits number of times if statement is entered
+	
 	//METHODS
 	public void paintComponent (Graphics g){
 		super.paintComponent(g);
@@ -71,6 +73,8 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		//change panels based on selection of button (temporarily make panel invisible)
 		if (evt.getSource()==home){
 			System.out.println("Back to main menu button pressed");
+			intRuns=0;//reset to 0
+			
 			smh.frmHome.setTitle("Shape Matcher");
 			smh.backToMain();
 
@@ -112,6 +116,8 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 					e.printStackTrace();
 				}
 				setVisible(false);
+				intRuns=0;//reset to 0
+				
 				brd  = new Board("Host_Settings.txt");
 				smh.frmHome.setContentPane(brd);
 				smh.frmHome.pack();
@@ -133,6 +139,26 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		} else if (evt.getSource() == start) {
 			start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			smh.playHover();
+		}else if(evt.getSource()==this){
+			//load from file when panel is entered
+			if(intRuns==0){
+				try{
+					thefile = new FileReader("Host_Settings.txt");
+					readFiles = new BufferedReader(thefile);
+					try{
+						board.setSelectedIndex(Integer.parseInt(readFiles.readLine()));
+						mode.setSelectedIndex(Integer.parseInt(readFiles.readLine()));
+						Plyr.setText(readFiles.readLine());
+						slide.setValue(Integer.parseInt(readFiles.readLine()));
+						Port.setText(readFiles.readLine());
+						thefile.close();
+						readFiles.close();
+					}catch(IOException e){
+					}
+				}catch(FileNotFoundException e){
+				}
+				intRuns++;
+			}
 		}
 	}
 
@@ -154,6 +180,7 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		//Panel dimensions and layout null
 		setPreferredSize(new Dimension(1280, 720));
 		setLayout(null);
+		addMouseListener(this);
 
 		ssm = new SuperSocketMaster(intPort, this); //initialize supersocketmaster (do this earlier on full program). Place here temporarily
 		
@@ -226,6 +253,8 @@ public class HostSettingsPanel extends JPanel implements ActionListener, MouseLi
 		slide.setPaintTicks(true);
 		slide.setPaintLabels(true);
 		add(slide);
+		
+		timer.start();
 
 	}
 
