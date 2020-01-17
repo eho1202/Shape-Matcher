@@ -252,7 +252,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							crdDeck[intCard2].blnFlipped=true;
 							crdDeck[intCard2].blnPair=true;
 						}else{
-							System.out.println("Index1: "+intCard1+" Index2: "+intCard2);
 							crdDeck[intCard1].flip();
 							crdDeck[intCard2].flip();
 						}
@@ -325,13 +324,11 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 						//based on the winner, confirm their win or loss and write the winner's score to the appropriapte high scores file
 						if(intPlyr1Pts>intPlyr2Pts){
 							if(intGo==1){
-								System.out.println("You Won!");
 								smh.frmHome.setContentPane(smh.pnlHostEnd);
 								smh.pnlHostEnd.lblOutcome.setText("YOU WON!");
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
 							}else if(intGo==2){
-								System.out.println("You Lost...");
 								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
 								smh.pnlPlayerEnd.lblOutcome.setText("YOU LOST...");
 								smh.frmHome.pack();
@@ -342,13 +339,11 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							filewrite.println(intPlyr1Pts);
 						}else if(intPlyr1Pts<intPlyr2Pts){
 							if(intGo==1){
-								System.out.println("You Lost...");
 								smh.pnlHostEnd.lblOutcome.setText("YOU LOST...");
 								smh.frmHome.setContentPane(smh.pnlHostEnd);
 								smh.frmHome.pack();
 								smh.frmHome.setVisible(true);
 							}else if(intGo==2){
-								System.out.println("You Won!");
 								smh.pnlPlayerEnd.lblOutcome.setText("YOU WON!");
 								smh.frmHome.setContentPane(smh.pnlPlayerEnd);
 								smh.frmHome.pack();
@@ -358,7 +353,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 							filewrite.println(strPlyrName2);
 							filewrite.println(intPlyr2Pts);
 						}else if(intPlyr1Pts==intPlyr2Pts){
-							System.out.println("You Tied!");
 							if (intGo == 1) {
 								smh.pnlHostEnd.lblOutcome.setText("YOU TIED!");
 								smh.frmHome.setContentPane(smh.pnlHostEnd);

@@ -198,7 +198,6 @@ public class PlayerSettingsPanel extends JPanel implements ActionListener, Mouse
 		try{
 			image = ImageIO.read(getClass().getResource("img/Player Settings.png"));
 		}catch(IOException e){
-			System.out.println("Error loading player settings image");
 			e.printStackTrace();
 		}
 		

@@ -43,14 +43,12 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 	
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == btnPlay) {
-			System.out.println("Play button pressed");
 			frmHome.setContentPane(pnlCreateOrJoin);
 			frmHome.pack();
 			frmHome.setVisible(true);
 			clipTimePosition = playMusic.getMicrosecondPosition(); // get time where music is stopped
 			playMusic.stop();
 		} else if (evt.getSource() == btnHighScores) {
-			System.out.println("High scores button pressed");
 			playMusic.stop();
 			frmHome.setContentPane(pnlHigh);
 			frmHome.setTitle("High Scores");
@@ -59,7 +57,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 			clipTimePosition = playMusic.getMicrosecondPosition();
 			playMusic.stop();
 		} else if (evt.getSource() == btnSettings) {
-			System.out.println("Settings button pressed");
 			playMusic.stop();
 			frmHome.setContentPane(pnlPHS);
 			frmHome.setTitle("Preferred Host Settings");
@@ -68,7 +65,6 @@ public class ShapeMatcherHome implements ActionListener, MouseListener {
 			clipTimePosition = playMusic.getMicrosecondPosition();
 			playMusic.stop();
 		} else if (evt.getSource() == btnHelp) {
-			System.out.println("Help button pressed");
 			playMusic.stop();
 			frmHome.setContentPane(pnlHelp);
 			frmHome.setTitle("Help");
